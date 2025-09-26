@@ -1,0 +1,20 @@
+[Unit]
+Description=Rake BME680 Sensor Data Logger
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/rake_test
+ExecStart=/usr/bin/python3 /home/pi/rake_test/main.py
+Restart=no
+StandardOutput=journal
+StandardError=journal
+
+# Environment variables
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
