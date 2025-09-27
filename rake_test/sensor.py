@@ -21,7 +21,18 @@ def initialize_sensor():
         return False
     
     try:
-        sensor = bme680.BME680(bme680.I2C_ADDR_PRIMARY)
+        # Loop through all I2C addresses to find the sensor
+        for addr in [bme680.I2C_ADDR_PRIMARY, bme680.I2C_ADDR_SECONDARY]:
+            try:
+                sensor = bme680.BME680(i2c_addr=addr)
+                print(f"Found BME680 at {hex(addr)}")
+                break
+            except IOError:
+                continue
+        else:
+            # If no sensor found at any address
+            print("No BME680 sensor found at any I2C address")
+            return False
         
         # Configure sensor settings
         sensor.set_humidity_oversample(bme680.OS_2X)
