@@ -22,16 +22,28 @@ def initialize_sensor():
     
     try:
         # Loop through all I2C addresses to find the sensor
-        for addr in [bme680.I2C_ADDR_PRIMARY, bme680.I2C_ADDR_SECONDARY]:
+        # Try 0x77 first since that's where your sensor is located
+        sensor_found = False
+        addresses_to_try = [0x77, 0x76]  # Try 0x77 first, then 0x76
+        
+        for addr in addresses_to_try:
             try:
+                print(f"Trying BME680 at address {hex(addr)}")
                 sensor = bme680.BME680(i2c_addr=addr)
                 print(f"Found BME680 at {hex(addr)}")
+                sensor_found = True
                 break
-            except IOError:
+            except IOError as e:
+                print(f"No BME680 found at {hex(addr)}: {e}")
                 continue
-        else:
+        
+        if not sensor_found:
             # If no sensor found at any address
             print("No BME680 sensor found at any I2C address")
+            print("Please check:")
+            print("1. BME680 is properly connected")
+            print("2. I2C is enabled: sudo raspi-config -> Interface Options -> I2C")
+            print("3. Check I2C devices: sudo i2cdetect -y 1")
             return False
         
         # Configure sensor settings
