@@ -1,20 +1,29 @@
 [Unit]
-Description=Rake BME680 Sensor Data Logger
-After=network.target
-Wants=network.target
+Description=Rake Env + GPS Logger GUI
+After=network-online.target graphical.target
+Wants=network-online.target graphical.target
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple
 User=pi
 Group=pi
-WorkingDirectory=/home/pi/rake_test
-ExecStart=/usr/bin/python3 /home/pi/rake_test/main.py
-Restart=no
-StandardOutput=journal
-StandardError=journal
-
-# Environment variables
+WorkingDirectory=/home/pi/tilden_test/rake_test
+# If using virtualenv uncomment next line and comment the system python line
+# ExecStart=/home/pi/tilden_test/rake_test/.venv/bin/python /home/pi/tilden_test/rake_test/main.py
+ExecStart=/usr/bin/python3 /home/pi/tilden_test/rake_test/main.py
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=10
+# --- Environment for GUI (X) ---
 Environment=PYTHONUNBUFFERED=1
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/pi/.Xauthority
+# --- Framebuffer fallback (uncomment if no X) ---
+# Environment=SDL_VIDEODRIVER=fbcon
+# Environment=SDL_FBDEV=/dev/fb0
+# Optional: reduce audio init delay
+Environment=SDL_AUDIODRIVER=dummy
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=graphical.target
