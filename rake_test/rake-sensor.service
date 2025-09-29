@@ -15,14 +15,9 @@ ExecStart=/usr/bin/python3 /home/pi/tilden_test/rake_test/main.py
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=10
-# --- Environment for GUI (X) ---
+# --- Environment for GUI display ---
 Environment=PYTHONUNBUFFERED=1
 Environment=DISPLAY=:0
-Environment=XAUTHORITY=/home/pi/.Xauthority
-# --- Framebuffer fallback (uncomment if no X) ---
-# Environment=SDL_VIDEODRIVER=fbcon
-# Environment=SDL_FBDEV=/dev/fb0
-# Optional: reduce audio init delay
 Environment=SDL_AUDIODRIVER=dummy
 
 [Install]

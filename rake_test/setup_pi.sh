@@ -38,15 +38,23 @@ sudo cp rake-sensor.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable rake-sensor.service
 
-# Update service to use virtual environment
+# Update service to use virtual environment and correct user
 echo "🔧 Configuring service to use virtual environment..."
-sudo sed -i 's|^ExecStart=/usr/bin/python3|# ExecStart=/usr/bin/python3|' /etc/systemd/system/rake-sensor.service
-sudo sed -i 's|^# ExecStart=/home/pi/tilden_test/rake_test/.venv/bin/python|ExecStart=/home/pi/tilden_test/rake_test/.venv/bin/python|' /etc/systemd/system/rake-sensor.service
+sudo sed -i 's|^ExecStart=/usr/bin/python3.*|ExecStart=/home/maggi/tilden_test/rake_test/.venv/bin/python /home/maggi/tilden_test/rake_test/main.py|' /etc/systemd/system/rake-sensor.service
+sudo sed -i 's|^# ExecStart=/home/pi/tilden_test/rake_test/.venv/bin/python.*|ExecStart=/home/maggi/tilden_test/rake_test/.venv/bin/python /home/maggi/tilden_test/rake_test/main.py|' /etc/systemd/system/rake-sensor.service
+sudo sed -i 's|User=pi|User=maggi|' /etc/systemd/system/rake-sensor.service
+sudo sed -i 's|Group=pi|Group=maggi|' /etc/systemd/system/rake-sensor.service
+sudo sed -i 's|WorkingDirectory=/home/pi/tilden_test/rake_test|WorkingDirectory=/home/maggi/tilden_test/rake_test|' /etc/systemd/system/rake-sensor.service
 sudo systemctl daemon-reload
+
+# Enable auto-login to desktop (no login prompt)
+echo "🔐 Enabling auto-login to desktop..."
+sudo raspi-config nonint do_boot_behaviour B4
 
 # Add user to required groups
 echo "👥 Adding user to I2C and GPIO groups..."
-sudo usermod -a -G i2c,spi,gpio pi
+sudo usermod -a -G i2c,spi,gpio maggi
+sudo usermod -a -G dialout maggi
 
 # Check hardware setup
 echo "🔍 Checking hardware setup..."

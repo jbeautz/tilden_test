@@ -5,6 +5,11 @@ import os
 import pygame
 from typing import Dict, Any, List
 
+# Set up environment for Pi framebuffer access
+os.environ['SDL_FBDEV'] = '/dev/fb0'
+os.environ['SDL_VIDEODRIVER'] = 'fbcon'
+os.environ['SDL_NOMOUSE'] = '1'
+
 # Initialize pygame with multiple fallbacks
 pygame.init()
 
@@ -14,11 +19,11 @@ driver_used = None
 
 # Try different display methods in order of preference
 display_methods = [
-    ("fbcon", {"SDL_VIDEODRIVER": "fbcon", "SDL_FBDEV": "/dev/fb0"}),  # Framebuffer - most reliable
-    ("kmsdrm", {"SDL_VIDEODRIVER": "kmsdrm", "SDL_KMSDRM_DEVICE_INDEX": "0"}),  # Modern DRM
+    ("fbcon", {"SDL_VIDEODRIVER": "fbcon", "SDL_FBDEV": "/dev/fb0", "SDL_NOMOUSE": "1"}),  # Framebuffer - most reliable
+    ("kmsdrm", {"SDL_VIDEODRIVER": "kmsdrm", "SDL_KMSDRM_DEVICE_INDEX": "0", "SDL_NOMOUSE": "1"}),  # Modern DRM
+    ("directfb", {"SDL_VIDEODRIVER": "directfb", "SDL_NOMOUSE": "1"}),  # DirectFB fallback
     ("x11", {"SDL_VIDEODRIVER": "x11", "DISPLAY": ":0"}),  # X11 if available  
-    ("directfb", {"SDL_VIDEODRIVER": "directfb"}),  # DirectFB fallback
-    ("auto", {}),  # Let pygame choose
+    ("auto", {"SDL_NOMOUSE": "1"}),  # Let pygame choose
     ("dummy", {"SDL_VIDEODRIVER": "dummy"}),  # Headless fallback
 ]
 
