@@ -5,9 +5,8 @@ import os
 import pygame
 from typing import Dict, Any, List
 
-# Set up environment for Pi framebuffer access
-os.environ['SDL_FBDEV'] = '/dev/fb0'
-os.environ['SDL_VIDEODRIVER'] = 'fbcon'
+# Set up environment for Pi display access - KMSDRM works!
+os.environ['SDL_VIDEODRIVER'] = 'kmsdrm'
 os.environ['SDL_NOMOUSE'] = '1'
 
 # Initialize pygame with multiple fallbacks
@@ -17,10 +16,10 @@ WIDTH, HEIGHT = 800, 480
 SCREEN = None
 driver_used = None
 
-# Try different display methods in order of preference
+# Try different display methods in order of preference - KMSDRM WORKS!
 display_methods = [
-    ("fbcon", {"SDL_VIDEODRIVER": "fbcon", "SDL_FBDEV": "/dev/fb0", "SDL_NOMOUSE": "1"}),  # Framebuffer - most reliable
-    ("kmsdrm", {"SDL_VIDEODRIVER": "kmsdrm", "SDL_KMSDRM_DEVICE_INDEX": "0", "SDL_NOMOUSE": "1"}),  # Modern DRM
+    ("kmsdrm", {"SDL_VIDEODRIVER": "kmsdrm", "SDL_NOMOUSE": "1"}),  # WORKING! Modern DRM
+    ("fbcon", {"SDL_VIDEODRIVER": "fbcon", "SDL_FBDEV": "/dev/fb0", "SDL_NOMOUSE": "1"}),  # Framebuffer fallback
     ("directfb", {"SDL_VIDEODRIVER": "directfb", "SDL_NOMOUSE": "1"}),  # DirectFB fallback
     ("x11", {"SDL_VIDEODRIVER": "x11", "DISPLAY": ":0"}),  # X11 if available  
     ("auto", {"SDL_NOMOUSE": "1"}),  # Let pygame choose
