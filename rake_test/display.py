@@ -14,9 +14,9 @@ driver_used = None
 
 # Try different display methods in order of preference
 display_methods = [
+    ("fbcon", {"SDL_VIDEODRIVER": "fbcon", "SDL_FBDEV": "/dev/fb0"}),  # Framebuffer - most reliable
     ("kmsdrm", {"SDL_VIDEODRIVER": "kmsdrm", "SDL_KMSDRM_DEVICE_INDEX": "0"}),  # Modern DRM
-    ("fbcon", {"SDL_VIDEODRIVER": "fbcon", "SDL_FBDEV": "/dev/fb0"}),  # Framebuffer
-    ("x11", {"SDL_VIDEODRIVER": "x11", "DISPLAY": ":0"}),  # X11 if available
+    ("x11", {"SDL_VIDEODRIVER": "x11", "DISPLAY": ":0"}),  # X11 if available  
     ("directfb", {"SDL_VIDEODRIVER": "directfb"}),  # DirectFB fallback
     ("auto", {}),  # Let pygame choose
     ("dummy", {"SDL_VIDEODRIVER": "dummy"}),  # Headless fallback
@@ -38,9 +38,10 @@ for method_name, env_vars in display_methods:
         print(f"Display initialized: {WIDTH}x{HEIGHT} (method: {method_name}, driver: {driver_used})")
         print(f"Display info: {pygame.display.get_surface()}")
         
-        # Special handling for dummy driver - still create screen but warn
-        if driver_used == 'dummy':
-            print("WARNING: Using dummy display driver - GUI will not be visible")
+        # Check if we got an invisible driver and reject it
+        if driver_used in ['dummy', 'offscreen']:
+            print(f"WARNING: Got invisible driver '{driver_used}', trying next method...")
+            continue
         
         break
         
