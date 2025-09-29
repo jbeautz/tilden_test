@@ -5,23 +5,56 @@ import os
 import pygame
 from typing import Dict, Any, List
 
-# Initialize pygame with Mac compatibility
+# Initialize pygame with multiple fallbacks
 pygame.init()
 
-# Try to set up display with fallbacks
 WIDTH, HEIGHT = 800, 480
-try:
-    SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
-    print(f"Display initialized: {WIDTH}x{HEIGHT}")
-except pygame.error as e:
-    print(f"Display error: {e}")
-    # Fallback for Pi framebuffer
-    if not os.environ.get("DISPLAY"):
-        os.environ["SDL_VIDEODRIVER"] = "fbcon" 
-        os.environ.setdefault("SDL_FBDEV", "/dev/fb0")
+SCREEN = None
+driver_used = None
+
+# Try different display methods in order of preference
+display_methods = [
+    ("kmsdrm", {"SDL_VIDEODRIVER": "kmsdrm", "SDL_KMSDRM_DEVICE_INDEX": "0"}),  # Modern DRM
+    ("fbcon", {"SDL_VIDEODRIVER": "fbcon", "SDL_FBDEV": "/dev/fb0"}),  # Framebuffer
+    ("x11", {"SDL_VIDEODRIVER": "x11", "DISPLAY": ":0"}),  # X11 if available
+    ("directfb", {"SDL_VIDEODRIVER": "directfb"}),  # DirectFB fallback
+    ("auto", {}),  # Let pygame choose
+    ("dummy", {"SDL_VIDEODRIVER": "dummy"}),  # Headless fallback
+]
+
+for method_name, env_vars in display_methods:
+    try:
+        # Set environment variables for this method
+        for key, value in env_vars.items():
+            os.environ[key] = value
+        
+        # Reinitialize display subsystem
+        if SCREEN:
+            pygame.display.quit()
+        pygame.display.init()
+        
         SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
-    else:
-        raise
+        driver_used = pygame.display.get_driver()
+        print(f"Display initialized: {WIDTH}x{HEIGHT} (method: {method_name}, driver: {driver_used})")
+        print(f"Display info: {pygame.display.get_surface()}")
+        
+        # Special handling for dummy driver - still create screen but warn
+        if driver_used == 'dummy':
+            print("WARNING: Using dummy display driver - GUI will not be visible")
+        
+        break
+        
+    except pygame.error as e:
+        print(f"Display method '{method_name}' failed: {e}")
+        continue
+
+if not SCREEN:
+    # Last resort - create dummy display
+    os.environ["SDL_VIDEODRIVER"] = "dummy"
+    pygame.display.quit()
+    pygame.display.init()
+    SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+    print("Using dummy display as last resort - GUI will run but not be visible")
 pygame.display.set_caption("Env + GPS Monitor")
 FONT_MAIN = pygame.font.SysFont("monospace", 26)
 FONT_BTN = pygame.font.SysFont("monospace", 30, bold=True)
