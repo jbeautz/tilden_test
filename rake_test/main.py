@@ -10,7 +10,7 @@ from datetime import datetime
 from sensor import read_sensor
 from gps import read_data as read_gps
 from logger import log_data, init_log
-import display
+import display_forest_rings as display
 
 LOOP_DELAY = 1  # update every second for smoother graphs
 HISTORY_LEN = 120

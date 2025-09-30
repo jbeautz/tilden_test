@@ -1,23 +1,64 @@
 #!/usr/bin/env python3
 """
-Direct framebuffer writing without pygame - ultimate test
+Enhanced framebuffer test - try different pixel formats and full screen fills
 """
+
 import os
 import struct
 import mmap
 import time
 
-def test_direct_framebuffer():
-    """Write directly to framebuffer device"""
-    fb_device = '/dev/fb0'
+def test_framebuffer_formats():
+    """Test framebuffer with different pixel formats"""
+    print("🧪 Testing framebuffer with different formats...")
     
-    print("🔧 Testing direct framebuffer access (no pygame)...")
+    fb_path = "/dev/fb0"
     
     try:
+        # Get framebuffer info
+        with open("/sys/class/graphics/fb0/virtual_size", "r") as f:
+            width, height = map(int, f.read().strip().split(","))
+        
+        # Get bits per pixel
+        with open("/sys/class/graphics/fb0/bits_per_pixel", "r") as f:
+            bpp = int(f.read().strip())
+        
+        print(f"Framebuffer: {width}x{height}, {bpp} bits per pixel")
+        
+        # Calculate bytes per pixel
+        bytes_per_pixel = bpp // 8
+        fb_size = width * height * bytes_per_pixel
+        
+        print(f"Framebuffer size: {fb_size} bytes ({bytes_per_pixel} bytes per pixel)")
+        
         # Open framebuffer device
-        with open(fb_device, 'r+b') as fb:
-            # Get framebuffer info (assume 800x480x32bpp for now)
-            width, height = 800, 480
+        with open(fb_path, "r+b") as fb:
+            fb_map = mmap.mmap(fb.fileno(), fb_size)
+            
+            print("✅ Framebuffer mapped successfully")
+            
+            # Try different pixel formats based on bpp
+            if bpp == 16:
+                # RGB565 format
+                print("Using RGB565 format (16-bit)")
+                red_pixel = struct.pack("H", 0xF800)  # Red in RGB565
+                green_pixel = struct.pack("H", 0x07E0)  # Green in RGB565
+                blue_pixel = struct.pack("H", 0x001F)   # Blue in RGB565
+            elif bpp == 32:
+                # RGBA format
+                print("Using RGBA format (32-bit)")
+                red_pixel = struct.pack("I", 0xFF0000FF)    # Red in RGBA
+                green_pixel = struct.pack("I", 0x00FF00FF)  # Green in RGBA
+                blue_pixel = struct.pack("I", 0x0000FFFF)   # Blue in RGBA
+            elif bpp == 24:
+                # RGB format
+                print("Using RGB format (24-bit)")  
+                red_pixel = b'\x00\x00\xFF'    # Red in RGB
+                green_pixel = b'\x00\xFF\x00'  # Green in RGB
+                blue_pixel = b'\xFF\x00\x00'   # Blue in RGB
+            else:
+                print(f"Unsupported pixel format: {bpp} bpp")
+                return False
             bytes_per_pixel = 4  # 32-bit RGBA
             screen_size = width * height * bytes_per_pixel
             

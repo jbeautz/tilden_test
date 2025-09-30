@@ -9,14 +9,34 @@ import math
 from typing import Dict, Any, List
 from collections import deque
 
-# Set up environment for Pi display
-os.environ['SDL_VIDEODRIVER'] = 'kmsdrm'
-os.environ['SDL_NOMOUSE'] = '1'
-
+# Set up display - auto-detect best driver
 pygame.init()
 
 WIDTH, HEIGHT = 800, 480
-SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# Try different display drivers for compatibility
+# Mac drivers first, then Pi drivers, then fallbacks
+display_drivers = ['cocoa', 'x11', 'kmsdrm', 'fbcon', 'dummy']
+SCREEN = None
+
+for driver in display_drivers:
+    try:
+        os.environ['SDL_VIDEODRIVER'] = driver
+        if driver in ['kmsdrm', 'fbcon']:
+            os.environ['SDL_NOMOUSE'] = '1'
+        pygame.display.quit()
+        pygame.display.init()
+        SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+        print(f"Using display driver: {driver}")
+        break
+    except pygame.error:
+        continue
+
+if SCREEN is None:
+    # Fallback - let pygame choose
+    os.environ.pop('SDL_VIDEODRIVER', None)
+    pygame.display.init()
+    SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Environmental Monitor - Light Theme")
 
 # Light Theme Color Palette
