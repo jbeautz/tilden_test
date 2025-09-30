@@ -10,28 +10,43 @@ import os
 import time
 from collections import deque
 
-# Set up display - auto-detect best driver
+# Set up display - Pi-optimized driver priority
 pygame.init()
 
 WIDTH, HEIGHT = 800, 480
-display_drivers = ['cocoa', 'x11', 'kmsdrm', 'fbcon', 'dummy']
+
+# Pi-first driver order (kmsdrm works best for DSI displays)
+display_drivers = ['kmsdrm', 'fbcon', 'directfb', 'x11', 'cocoa', 'dummy']
 SCREEN = None
 
+print("Trying display drivers for Pi...")
 for driver in display_drivers:
     try:
+        print(f"Testing {driver}...")
         os.environ['SDL_VIDEODRIVER'] = driver
-        if driver in ['kmsdrm', 'fbcon']:
+        
+        # Disable mouse for Pi drivers
+        if driver in ['kmsdrm', 'fbcon', 'directfb']:
             os.environ['SDL_NOMOUSE'] = '1'
+        else:
+            os.environ.pop('SDL_NOMOUSE', None)
+        
         pygame.display.quit()
         pygame.display.init()
         SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
-        print(f"Using display driver: {driver}")
+        
+        actual_driver = pygame.display.get_driver()
+        print(f"SUCCESS: Using display driver: {actual_driver}")
         break
-    except pygame.error:
+        
+    except pygame.error as e:
+        print(f"Failed {driver}: {e}")
         continue
 
 if SCREEN is None:
+    print("All drivers failed - using pygame default")
     os.environ.pop('SDL_VIDEODRIVER', None)
+    os.environ.pop('SDL_NOMOUSE', None)
     pygame.display.init()
     SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 
