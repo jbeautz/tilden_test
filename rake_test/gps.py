@@ -21,9 +21,26 @@ def init_gps() -> bool:
     global _ser
     if serial is None:
         return False
+    
+    # Close any existing connection first
+    if _ser is not None:
+        try:
+            _ser.close()
+        except:
+            pass
+        _ser = None
+    
     try:
         _ser = serial.Serial(PORT, BAUD, timeout=_timeout)
+        # Clear any buffered data
+        _ser.reset_input_buffer()
         return True
+    except serial.SerialException as e:
+        if "multiple access" in str(e).lower() or "device busy" in str(e).lower():
+            print(f"GPS port busy - another process may be using it. Try: sudo fuser -k {PORT}")
+        else:
+            print(f"GPS init failed: {e}")
+        return False
     except Exception as e:
         print(f"GPS init failed: {e}")
         return False
@@ -70,6 +87,9 @@ def read_data() -> Optional[Dict]:
     try:
         start = time.time()
         while time.time() - start < 1.5:  # poll briefly
+            if not _ser.is_open:
+                if not init_gps():
+                    return None
             line = _ser.readline().decode(errors='ignore').strip()
             if not line or 'GGA' not in line:
                 continue
@@ -77,6 +97,26 @@ def read_data() -> Optional[Dict]:
             if data:
                 return data
         return None
+    except serial.SerialException as e:
+        if "multiple access" in str(e).lower() or "device busy" in str(e).lower():
+            print(f"GPS read error: Port conflict - try restarting application")
+            # Try to reinitialize
+            _ser = None
+            return None
+        else:
+            print(f"GPS read error: {e}")
+            return None
     except Exception as e:
         print(f"GPS read error: {e}")
         return None
+
+
+def cleanup_gps():
+    """Close GPS serial connection"""
+    global _ser
+    if _ser is not None:
+        try:
+            _ser.close()
+        except:
+            pass
+        _ser = None
