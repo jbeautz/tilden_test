@@ -90,6 +90,11 @@ class ForestRingsDisplay:
         self.humidity_history = deque(maxlen=50)
         self.pressure_history = deque(maxlen=50)
         
+        # Initialize with some base values so rings show immediately
+        self.temp_history.append(22.0)
+        self.humidity_history.append(65.0)
+        self.pressure_history.append(1013.0)
+        
         self.time = 0
         self.recording = False
         
@@ -98,7 +103,7 @@ class ForestRingsDisplay:
     
     def draw_tree_rings(self, surface, center_x, center_y, data_history, ring_color, current_value, unit, label, max_radius=70):
         """Draw tree rings with separate current reading display"""
-        if len(data_history) < 2:
+        if len(data_history) < 1:
             return
         
         # Normalize data to ring sizes
@@ -280,12 +285,15 @@ def handle_events():
             actions['quit'] = True
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
+                print("DEBUG: SPACE key pressed")
                 actions['toggle_record'] = True
             elif event.key == pygame.K_ESCAPE:
                 actions['quit'] = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            print(f"DEBUG: Mouse clicked at {event.pos}")
             # Check if click was on button (approximate area)
             if 350 <= event.pos[0] <= 450 and 380 <= event.pos[1] <= 420:
+                print("DEBUG: Click was on button area!")
                 actions['toggle_record'] = True
     
     return actions
@@ -296,6 +304,7 @@ def toggle_recording():
     _recording = not _recording
     if _display:
         _display.recording = _recording
+    print(f"DEBUG: Recording toggled to {_recording}")
     return _recording
 
 def is_recording():

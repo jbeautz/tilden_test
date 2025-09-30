@@ -49,6 +49,7 @@ def main():
     init_log()
 
     print("Press SPACE or click START to begin recording.")
+    print(f"DEBUG: Initial recording state: {display.is_recording()}")
 
     global running
     while running:

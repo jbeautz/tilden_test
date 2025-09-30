@@ -59,13 +59,19 @@ def log_data(data: dict):
         print("Error: Log file not initialized. Call init_log() first.")
         return
         
+    # Add timestamp if not present
+    data_with_timestamp = dict(data)
+    if 'timestamp' not in data_with_timestamp or data_with_timestamp['timestamp'] is None:
+        data_with_timestamp['timestamp'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
     # Prepare row data, filling missing fields with blank string
-    row = {k: ("" if data.get(k) is None else data.get(k)) for k in FIELD_NAMES}
+    row = {k: ("" if data_with_timestamp.get(k) is None else data_with_timestamp.get(k)) for k in FIELD_NAMES}
     
     try:
         with open(LOG_FILE, 'a', newline='') as f:
             w = csv.DictWriter(f, fieldnames=FIELD_NAMES)
             w.writerow(row)
+# Removed debug output
             
     except Exception as e:
         print(f"Error logging data: {e}")
