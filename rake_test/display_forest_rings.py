@@ -212,10 +212,10 @@ class ForestRingsDisplay:
         self.screen.blit(title, title_rect)
         
         # Status
-        status = "GROWING" if self.recording else "PAUSED"
+        status = "MONITORING" if self.recording else "PAUSED"
         status_color = COLORS['accent1'] if self.recording else COLORS['accent2']
         status_surface = self.font_medium.render(status, True, status_color)
-        self.screen.blit(status_surface, (self.WIDTH - 100, 10))
+        self.screen.blit(status_surface, (self.WIDTH - 120, 10))
         
         # GPS Display (prominent and clean)
         gps_data = sensor_data
@@ -266,7 +266,7 @@ class ForestRingsDisplay:
                            current_press, " hPa", "Pressure")
         
         # Control button
-        button_text = "PAUSE" if self.recording else "START"
+        button_text = "STOP" if self.recording else "START"
         button_rect = pygame.Rect(350, 380, 100, 40)
         
         button_color = COLORS['accent2'] if self.recording else COLORS['accent1']
@@ -345,6 +345,8 @@ def toggle_recording(x=None, y=None):
     _recording = not _recording
     if _display:
         _display.recording = _recording
+        # Force immediate display update to show new status
+        pygame.display.flip()
     print(f"DEBUG: Recording toggled to {_recording}")
     return _recording
 

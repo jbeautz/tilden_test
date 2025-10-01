@@ -20,7 +20,7 @@ class TouchHandler:
         self.threads = []
         self.touch_devices = []
         self.last_touch_time = 0
-        self.touch_debounce = 0.3  # 300ms debounce
+        self.touch_debounce = 0.2  # 200ms debounce (reduced for better responsiveness)
         self.on_touch_callback = on_touch_callback
         
         # Track current touch position
@@ -84,8 +84,8 @@ class TouchHandler:
             
             while self.running:
                 try:
-                    # Use select to wait for data
-                    readable, _, _ = select.select([fd], [], [], 0.1)
+                    # Use select with shorter timeout to reduce interference
+                    readable, _, _ = select.select([fd], [], [], 0.05)
                     
                     if not readable:
                         continue
@@ -96,8 +96,8 @@ class TouchHandler:
                     
                     tv_sec, tv_usec, ev_type, code, value = struct.unpack('llHHi', data)
                     
-                    # Debug: Print all non-zero events for first 30 seconds
-                    if time.time() - start_time < 30 and ev_type != 0:
+                    # Debug: Print all non-zero events for first 10 seconds only
+                    if time.time() - start_time < 10 and ev_type != 0:
                         print(f"Touch [{device_path}]: type={ev_type}, code={code}, value={value}")
                     
                     # EV_ABS (type 3) - Absolute position events (touchscreen)
