@@ -41,34 +41,50 @@ class ForestRingsDisplay:
         pygame.init()
         
         self.WIDTH, self.HEIGHT = 800, 480
-        
-        # Pi-first driver order (kmsdrm works best for DSI displays)
-        display_drivers = ['kmsdrm', 'fbcon', 'directfb', 'x11', 'cocoa', 'dummy']
         self.screen = None
         
-        print("Forest Rings Display: Trying display drivers for Pi...")
-        for driver in display_drivers:
+        # Check if SDL driver already configured (e.g., by start_forest_rings.sh)
+        if 'SDL_VIDEODRIVER' in os.environ:
+            driver = os.environ['SDL_VIDEODRIVER']
+            print(f"Forest Rings Display: Using pre-configured driver: {driver}")
             try:
-                print(f"Testing {driver}...")
-                os.environ['SDL_VIDEODRIVER'] = driver
-                
-                # Disable mouse for Pi drivers
-                if driver in ['kmsdrm', 'fbcon', 'directfb']:
-                    os.environ['SDL_NOMOUSE'] = '1'
-                else:
-                    os.environ.pop('SDL_NOMOUSE', None)
-                
-                pygame.display.quit()
                 pygame.display.init()
                 self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
-                
                 actual_driver = pygame.display.get_driver()
-                print(f"SUCCESS: Using display driver: {actual_driver}")
-                break
-                
-            except pygame.error as e:
-                print(f"Failed {driver}: {e}")
-                continue
+                print(f"SUCCESS: Display initialized with {actual_driver}")
+            except Exception as e:
+                print(f"Failed with pre-configured driver: {e}")
+                print("Falling back to auto-detection...")
+                os.environ.pop('SDL_VIDEODRIVER', None)
+        
+        # If no pre-configured driver or it failed, try auto-detection
+        if self.screen is None:
+            # Pi-first driver order (kmsdrm works best for DSI displays)
+            display_drivers = ['kmsdrm', 'fbcon', 'directfb', 'x11', 'cocoa', 'dummy']
+            
+            print("Forest Rings Display: Trying display drivers for Pi...")
+            for driver in display_drivers:
+                try:
+                    print(f"Testing {driver}...")
+                    os.environ['SDL_VIDEODRIVER'] = driver
+                    
+                    # Disable mouse for Pi drivers
+                    if driver in ['kmsdrm', 'fbcon', 'directfb']:
+                        os.environ['SDL_NOMOUSE'] = '1'
+                    else:
+                        os.environ.pop('SDL_NOMOUSE', None)
+                    
+                    pygame.display.quit()
+                    pygame.display.init()
+                    self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+                    
+                    actual_driver = pygame.display.get_driver()
+                    print(f"SUCCESS: Using display driver: {actual_driver}")
+                    break
+                    
+                except pygame.error as e:
+                    print(f"Failed {driver}: {e}")
+                    continue
         
         if self.screen is None:
             print("All drivers failed - using pygame default")
