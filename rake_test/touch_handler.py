@@ -23,6 +23,10 @@ class TouchHandler:
         self.touch_debounce = 0.3  # 300ms debounce
         self.on_touch_callback = on_touch_callback
         
+        # Track current touch position
+        self.current_x = 0
+        self.current_y = 0
+        
         # Find all possible touch devices
         self._find_touch_devices()
     
@@ -96,26 +100,32 @@ class TouchHandler:
                     if time.time() - start_time < 30 and ev_type != 0:
                         print(f"Touch [{device_path}]: type={ev_type}, code={code}, value={value}")
                     
-                    # EV_KEY (type 1) - Button/key events
                     # EV_ABS (type 3) - Absolute position events (touchscreen)
-                    # Look for ANY button press or touch event
-                    if (ev_type == 1 and value == 1) or (ev_type == 3 and code in [53, 54]):  # BTN press or ABS_MT_POSITION
+                    if ev_type == 3:
+                        if code == 53:  # ABS_MT_POSITION_X
+                            self.current_x = value
+                        elif code == 54:  # ABS_MT_POSITION_Y
+                            self.current_y = value
+                    
+                    # EV_KEY (type 1) - Button/key events (BTN_TOUCH)
+                    # Trigger on button press (value==1)
+                    if ev_type == 1 and code == 330 and value == 1:  # BTN_TOUCH pressed
                         current_time = time.time()
                         if current_time - self.last_touch_time > self.touch_debounce:
                             self.last_touch_time = current_time
-                            print(f"✅ TOUCH DETECTED on {device_path}! (type={ev_type}, code={code})")
+                            print(f"✅ TOUCH DETECTED on {device_path} at ({self.current_x}, {self.current_y})")
                             
-                            # Call the callback directly
+                            # Call the callback with position
                             if self.on_touch_callback:
-                                self.on_touch_callback()
+                                self.on_touch_callback(self.current_x, self.current_y)
                             
-                            # Also inject SPACE key press into pygame as backup
+                            # Also inject mouse click into pygame at the touch position
                             try:
-                                key_event = pygame.event.Event(
-                                    pygame.KEYDOWN,
-                                    {'key': pygame.K_SPACE, 'mod': 0, 'unicode': ' '}
+                                mouse_event = pygame.event.Event(
+                                    pygame.MOUSEBUTTONDOWN,
+                                    {'pos': (self.current_x, self.current_y), 'button': 1}
                                 )
-                                pygame.event.post(key_event)
+                                pygame.event.post(mouse_event)
                             except:
                                 pass  # Ignore if pygame event queue is full
                     

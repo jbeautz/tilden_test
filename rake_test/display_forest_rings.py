@@ -331,9 +331,17 @@ def handle_events():
     
     return actions
 
-def toggle_recording():
-    """Toggle recording state and return new state"""
-    global _recording
+def toggle_recording(x=None, y=None):
+    """Toggle recording state (optionally check if touch is on button)"""
+    global _recording, _button_rect
+    
+    # If position provided, check if it's on the button
+    if x is not None and y is not None:
+        if _button_rect and not _button_rect.collidepoint(x, y):
+            print(f"DEBUG: Touch at ({x}, {y}) outside button {_button_rect}")
+            return _recording  # Don't toggle if not on button
+        print(f"DEBUG: Touch at ({x}, {y}) ON button!")
+    
     _recording = not _recording
     if _display:
         _display.recording = _recording
