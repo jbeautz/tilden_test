@@ -335,7 +335,7 @@ def handle_events():
 
 def toggle_recording(x=None, y=None):
     """Toggle recording state (optionally check if touch is on button)"""
-    global _recording, _button_rect, _display, _last_sensor_data, _last_history_data
+    global _recording, _button_rect, _display
     
     # If position provided, check if it's on the button
     if x is not None and y is not None:
@@ -347,15 +347,7 @@ def toggle_recording(x=None, y=None):
     _recording = not _recording
     if _display:
         _display.recording = _recording
-    print(f"DEBUG: Recording toggled to {_recording}")
-    
-    # Force immediate re-render with last known sensor data to show new state
-    # This will update button text and status immediately
-    if _display:
-        print(f"DEBUG: Re-rendering frame with recording={_recording}")
-        _button_rect = _display.render_frame(_last_sensor_data, _last_history_data)
-        pygame.display.flip()
-        print(f"DEBUG: Display updated - button should show {'STOP' if _recording else 'START'}")
+    print(f"DEBUG: Recording toggled to {_recording} - display will update on next frame")
     
     return _recording
 

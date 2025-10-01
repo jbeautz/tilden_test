@@ -12,7 +12,7 @@ from gps import read_data as read_gps
 from logger import log_data, init_log
 import display_forest_rings as display
 
-LOOP_DELAY = 1  # update every second for smoother graphs
+LOOP_DELAY = 0.1  # update 10x per second for responsive UI
 HISTORY_LEN = 120
 
 history = {
