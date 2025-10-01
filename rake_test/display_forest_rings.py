@@ -11,6 +11,13 @@ import os
 import time
 from collections import deque
 
+# Try to import touch handler for dummy driver
+try:
+    import touch_handler
+    TOUCH_HANDLER_AVAILABLE = True
+except ImportError:
+    TOUCH_HANDLER_AVAILABLE = False
+
 # Global variables for display state
 _screen = None
 _gui = None
@@ -291,7 +298,13 @@ def init():
     """Initialize the forest rings display"""
     global _display
     _display = ForestRingsDisplay()
-    print("Forest Rings Display initialized")
+    
+    # Initialize touch handler if using dummy driver
+    if TOUCH_HANDLER_AVAILABLE and pygame.display.get_driver() == 'dummy':
+        touch_handler.init()
+        print("Forest Rings Display initialized with touch handler")
+    else:
+        print("Forest Rings Display initialized")
 
 def handle_events():
     """Handle pygame events and return actions for main.py"""
