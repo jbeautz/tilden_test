@@ -268,6 +268,7 @@ class ForestRingsDisplay:
 
 # Global display instance
 _display = None
+_button_rect = None  # Store button rect for hit detection
 
 # Interface functions for main.py compatibility
 def init():
@@ -278,6 +279,7 @@ def init():
 
 def handle_events():
     """Handle pygame events and return actions for main.py"""
+    global _button_rect
     actions = {'quit': False, 'toggle_record': False}
     
     for event in pygame.event.get():
@@ -290,11 +292,13 @@ def handle_events():
             elif event.key == pygame.K_ESCAPE:
                 actions['quit'] = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            print(f"DEBUG: Mouse clicked at {event.pos}")
-            # Check if click was on button (approximate area)
-            if 350 <= event.pos[0] <= 450 and 380 <= event.pos[1] <= 420:
-                print("DEBUG: Click was on button area!")
+            print(f"DEBUG: Mouse/touch event at {event.pos}")
+            # Check if click was on button using actual button rect
+            if _button_rect and _button_rect.collidepoint(event.pos):
+                print("DEBUG: Touch detected on button!")
                 actions['toggle_record'] = True
+            else:
+                print(f"DEBUG: Touch outside button area (button rect: {_button_rect})")
     
     return actions
 
@@ -313,8 +317,9 @@ def is_recording():
 
 def render(sensor_data, history_data):
     """Render the display with current data"""
+    global _button_rect
     if _display:
-        _display.render_frame(sensor_data, history_data)
+        _button_rect = _display.render_frame(sensor_data, history_data)
 
 # Auto-initialize when imported
 if _display is None:
