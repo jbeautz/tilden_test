@@ -75,7 +75,7 @@ class TouchHandler:
         
         try:
             with open(self.touch_device, 'rb') as device:
-                print(f"Touch handler: Monitoring {self.touch_device}")
+                print(f"Touch handler: Monitoring {self.touch_device} - Touch screen now!")
                 
                 # Event format: (time_sec, time_usec, type, code, value)
                 event_size = struct.calcsize('llHHi')
@@ -89,13 +89,19 @@ class TouchHandler:
                         
                         tv_sec, tv_usec, ev_type, code, value = struct.unpack('llHHi', data)
                         
-                        # EV_KEY (type 1) or EV_ABS (type 3) for touch
-                        # BTN_TOUCH (code 330) or ABS_X/ABS_Y for coordinates
-                        if (ev_type == 1 and code == 330 and value == 1):  # Touch press
+                        # Debug: Print all events for first 10 seconds
+                        if time.time() - self.last_touch_time < 10:
+                            if ev_type != 0:  # Ignore sync events
+                                print(f"Touch handler: Event type={ev_type}, code={code}, value={value}")
+                        
+                        # EV_KEY (type 1) - Button/key events
+                        # EV_ABS (type 3) - Absolute position events (touchscreen)
+                        # BTN_TOUCH (code 330), BTN_LEFT (code 272)
+                        if (ev_type == 1 and value == 1):  # Any button press
                             current_time = time.time()
                             if current_time - self.last_touch_time > self.touch_debounce:
                                 self.last_touch_time = current_time
-                                print(f"Touch handler: Touch detected!")
+                                print(f"Touch handler: Touch/Click detected! (code={code})")
                                 
                                 # Inject SPACE key press into pygame
                                 key_event = pygame.event.Event(

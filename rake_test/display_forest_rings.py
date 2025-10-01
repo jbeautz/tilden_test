@@ -100,7 +100,7 @@ class ForestRingsDisplay:
             pygame.display.init()
             self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         
-        pygame.display.set_caption("Forest Monitor - Tree Rings")
+        pygame.display.set_caption("Soil Monitor - Growth Rings")
         
         # Initialize fonts
         self.font_title = pygame.font.Font(None, 36)
@@ -207,7 +207,7 @@ class ForestRingsDisplay:
             pygame.draw.line(self.screen, bg_color, (0, y), (self.WIDTH, y))
         
         # Title
-        title = self.font_title.render("Forest Growth Monitor", True, COLORS['accent1'])
+        title = self.font_title.render("Soil Monitor", True, COLORS['accent1'])
         title_rect = title.get_rect(center=(self.WIDTH // 2, 30))
         self.screen.blit(title, title_rect)
         
