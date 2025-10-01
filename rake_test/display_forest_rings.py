@@ -292,6 +292,8 @@ class ForestRingsDisplay:
 # Global display instance
 _display = None
 _button_rect = None  # Store button rect for hit detection
+_last_sensor_data = {}  # Store last sensor data for immediate re-render
+_last_history_data = {}  # Store last history data for immediate re-render
 
 # Interface functions for main.py compatibility
 def init():
@@ -333,7 +335,7 @@ def handle_events():
 
 def toggle_recording(x=None, y=None):
     """Toggle recording state (optionally check if touch is on button)"""
-    global _recording, _button_rect
+    global _recording, _button_rect, _display, _last_sensor_data, _last_history_data
     
     # If position provided, check if it's on the button
     if x is not None and y is not None:
@@ -345,9 +347,14 @@ def toggle_recording(x=None, y=None):
     _recording = not _recording
     if _display:
         _display.recording = _recording
-        # Force immediate display update to show new status
-        pygame.display.flip()
     print(f"DEBUG: Recording toggled to {_recording}")
+    
+    # Force immediate re-render with last known sensor data to show new state
+    # This will update button text and status immediately
+    if _display:
+        _button_rect = _display.render_frame(_last_sensor_data, _last_history_data)
+        pygame.display.flip()
+    
     return _recording
 
 def is_recording():
@@ -356,7 +363,10 @@ def is_recording():
 
 def render(sensor_data, history_data):
     """Render the display with current data"""
-    global _button_rect
+    global _button_rect, _last_sensor_data, _last_history_data
+    # Store data for potential immediate re-render
+    _last_sensor_data = sensor_data
+    _last_history_data = history_data
     if _display:
         _button_rect = _display.render_frame(sensor_data, history_data)
 
