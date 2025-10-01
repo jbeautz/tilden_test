@@ -118,16 +118,6 @@ class TouchHandler:
                             # Call the callback with position
                             if self.on_touch_callback:
                                 self.on_touch_callback(self.current_x, self.current_y)
-                            
-                            # Also inject mouse click into pygame at the touch position
-                            try:
-                                mouse_event = pygame.event.Event(
-                                    pygame.MOUSEBUTTONDOWN,
-                                    {'pos': (self.current_x, self.current_y), 'button': 1}
-                                )
-                                pygame.event.post(mouse_event)
-                            except:
-                                pass  # Ignore if pygame event queue is full
                     
                 except (IOError, OSError) as e:
                     # Device might be temporarily unavailable

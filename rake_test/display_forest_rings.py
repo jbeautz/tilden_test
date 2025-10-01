@@ -352,8 +352,10 @@ def toggle_recording(x=None, y=None):
     # Force immediate re-render with last known sensor data to show new state
     # This will update button text and status immediately
     if _display:
+        print(f"DEBUG: Re-rendering frame with recording={_recording}")
         _button_rect = _display.render_frame(_last_sensor_data, _last_history_data)
         pygame.display.flip()
+        print(f"DEBUG: Display updated - button should show {'STOP' if _recording else 'START'}")
     
     return _recording
 
