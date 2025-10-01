@@ -301,8 +301,8 @@ def init():
     
     # Initialize touch handler if using dummy driver
     if TOUCH_HANDLER_AVAILABLE and pygame.display.get_driver() == 'dummy':
-        touch_handler.init()
-        print("Forest Rings Display initialized with touch handler")
+        touch_handler.init(on_touch_callback=toggle_recording)
+        print("Forest Rings Display initialized with touch handler and callback")
     else:
         print("Forest Rings Display initialized")
 

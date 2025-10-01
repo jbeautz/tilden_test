@@ -15,12 +15,13 @@ import select
 class TouchHandler:
     """Handles touch input by reading directly from input devices"""
     
-    def __init__(self):
+    def __init__(self, on_touch_callback=None):
         self.running = False
         self.threads = []
         self.touch_devices = []
         self.last_touch_time = 0
         self.touch_debounce = 0.3  # 300ms debounce
+        self.on_touch_callback = on_touch_callback
         
         # Find all possible touch devices
         self._find_touch_devices()
@@ -104,12 +105,19 @@ class TouchHandler:
                             self.last_touch_time = current_time
                             print(f"✅ TOUCH DETECTED on {device_path}! (type={ev_type}, code={code})")
                             
-                            # Inject SPACE key press into pygame
-                            key_event = pygame.event.Event(
-                                pygame.KEYDOWN,
-                                {'key': pygame.K_SPACE, 'mod': 0, 'unicode': ' '}
-                            )
-                            pygame.event.post(key_event)
+                            # Call the callback directly
+                            if self.on_touch_callback:
+                                self.on_touch_callback()
+                            
+                            # Also inject SPACE key press into pygame as backup
+                            try:
+                                key_event = pygame.event.Event(
+                                    pygame.KEYDOWN,
+                                    {'key': pygame.K_SPACE, 'mod': 0, 'unicode': ' '}
+                                )
+                                pygame.event.post(key_event)
+                            except:
+                                pass  # Ignore if pygame event queue is full
                     
                 except (IOError, OSError) as e:
                     # Device might be temporarily unavailable
@@ -129,11 +137,11 @@ class TouchHandler:
 # Global instance
 _touch_handler = None
 
-def init():
-    """Initialize touch handler"""
+def init(on_touch_callback=None):
+    """Initialize touch handler with optional callback"""
     global _touch_handler
     if _touch_handler is None:
-        _touch_handler = TouchHandler()
+        _touch_handler = TouchHandler(on_touch_callback=on_touch_callback)
         _touch_handler.start()
 
 def cleanup():
