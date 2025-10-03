@@ -8,11 +8,16 @@ from datetime import datetime
 # Field names for CSV (extended with GPS)
 FIELD_NAMES = ['timestamp', 'temperature', 'humidity', 'pressure', 'gas', 'latitude', 'longitude', 'altitude']
 
+# Get the directory where this script is located
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Generate unique log file name based on boot time
 def generate_log_filename():
-    """Generate a unique log filename based on current timestamp."""
+    """Generate a unique log filename with absolute path based on current timestamp."""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    return f"rake_log_{timestamp}.csv"
+    filename = f"rake_log_{timestamp}.csv"
+    # Return absolute path in the same directory as this script
+    return os.path.join(SCRIPT_DIR, filename)
 
 # Log file will be set when init_log() is called
 LOG_FILE = None
@@ -71,7 +76,7 @@ def log_data(data: dict):
         with open(LOG_FILE, 'a', newline='') as f:
             w = csv.DictWriter(f, fieldnames=FIELD_NAMES)
             w.writerow(row)
-# Removed debug output
+            print(f"✓ Logged: T={row.get('temperature', 'N/A')}°C H={row.get('humidity', 'N/A')}% P={row.get('pressure', 'N/A')}hPa")
             
     except Exception as e:
         print(f"Error logging data: {e}")

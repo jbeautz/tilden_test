@@ -99,6 +99,7 @@ def main():
 
             # Log data at 1 Hz
             if current_time - last_log_time >= LOOP_DELAY:
+                print(f"DEBUG: Logging data at {datetime.now().strftime('%H:%M:%S')}")
                 log_data(merged)
                 last_log_time = current_time
             
