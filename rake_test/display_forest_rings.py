@@ -119,7 +119,7 @@ class ForestRingsDisplay:
         self.pressure_history.append(1013.0)
         
         self.time = 0
-        self.recording = False
+        self.recording = True  # Always recording in continuous mode
         
         # Clock for frame rate
         self.clock = pygame.time.Clock()
