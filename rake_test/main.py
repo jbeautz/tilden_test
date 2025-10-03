@@ -70,10 +70,11 @@ def main():
     while running:
         current_time = time.time()
         
-        # Handle display events (quit, etc)
-        actions = display.handle_events()
-        if actions.get('quit'):
-            break
+        # Handle display events (but ignore quit - system runs until powered off)
+        try:
+            display.handle_events()
+        except Exception as e:
+            print(f"Display event error (ignoring): {e}")
 
         # Read sensors and GPS only once per second (at logging time)
         if current_time - last_sensor_read >= LOOP_DELAY:
@@ -106,12 +107,24 @@ def main():
             last_sensor_read = current_time
 
         # Update display (uses cached data)
-        display.render(cached_merged, {k: list(v) for k, v in history.items()})
+        try:
+            display.render(cached_merged, {k: list(v) for k, v in history.items()})
+        except Exception as e:
+            print(f"Display render error (ignoring): {e}")
 
         time.sleep(DISPLAY_UPDATE_RATE)
 
-    print("Exiting.")
+    print("Exiting - this should never happen (system runs until powered off)")
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nStopped by user (Ctrl+C)")
+    except Exception as e:
+        print(f"Fatal error: {e}")
+        import traceback
+        traceback.print_exc()
+        # Exit with error code so systemd can restart if needed
+        exit(1)
