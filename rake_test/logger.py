@@ -21,17 +21,25 @@ def generate_log_filename():
 
 # Log file will be set when init_log() is called
 LOG_FILE = None
+_initialized = False
 
 def init_log():
     """
     Initialize a new log file for this boot session.
     - Creates a new CSV file with timestamp in filename
     - Writes header row and session marker
+    - Only initializes once per process (prevents multiple file creation)
     """
-    global LOG_FILE
+    global LOG_FILE, _initialized
+    
+    # Prevent multiple initializations
+    if _initialized:
+        print(f"Log already initialized: {LOG_FILE}")
+        return
     
     # Generate unique filename for this session
     LOG_FILE = generate_log_filename()
+    _initialized = True
     
     try:
         with open(LOG_FILE, 'w', newline='') as f:
