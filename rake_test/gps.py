@@ -99,15 +99,14 @@ def read_data() -> Optional[Dict]:
         return None
     except serial.SerialException as e:
         if "multiple access" in str(e).lower() or "device busy" in str(e).lower():
-            print(f"GPS read error: Port conflict - try restarting application")
-            # Try to reinitialize
+            # Port conflict - just return None silently and try again next time
             _ser = None
             return None
         else:
             print(f"GPS read error: {e}")
             return None
     except Exception as e:
-        print(f"GPS read error: {e}")
+        # Silent failure - GPS will retry on next call
         return None
 
 

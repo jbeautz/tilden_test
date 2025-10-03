@@ -55,6 +55,17 @@ def main():
 
     global running
     last_log_time = 0
+    last_sensor_read = 0
+    
+    # Cache for sensor data between reads
+    cached_merged = {
+        'temperature': None,
+        'humidity': None,
+        'pressure': None,
+        'latitude': None,
+        'longitude': None,
+        'altitude': None
+    }
     
     while running:
         current_time = time.time()
@@ -64,30 +75,37 @@ def main():
         if actions.get('quit'):
             break
 
-        # Read sensor data
-        sensor_data = read_sensor() or {}
-        gps_data = read_gps() or {}
+        # Read sensors and GPS only once per second (at logging time)
+        if current_time - last_sensor_read >= LOOP_DELAY:
+            sensor_data = read_sensor() or {}
+            gps_data = read_gps() or {}
 
-        merged = {**sensor_data}
-        for k in ['latitude', 'longitude', 'altitude']:
-            if k in gps_data:
-                merged[k] = gps_data[k]
-        merged.setdefault('latitude', None)
-        merged.setdefault('longitude', None)
-        merged.setdefault('altitude', None)
-        merged = _simulate_if_missing(merged)
+            merged = {**sensor_data}
+            for k in ['latitude', 'longitude', 'altitude']:
+                if k in gps_data:
+                    merged[k] = gps_data[k]
+            merged.setdefault('latitude', None)
+            merged.setdefault('longitude', None)
+            merged.setdefault('altitude', None)
+            merged = _simulate_if_missing(merged)
+            
+            # Update cache
+            cached_merged = merged
+            
+            # Update history for display
+            for k in history.keys():
+                if k in merged:
+                    history[k].append(merged.get(k))
 
-        # Update history for display
-        for k in history.keys():
-            history[k].append(merged.get(k))
+            # Log data at 1 Hz
+            if current_time - last_log_time >= LOOP_DELAY:
+                log_data(merged)
+                last_log_time = current_time
+            
+            last_sensor_read = current_time
 
-        # Log data at 1 Hz
-        if current_time - last_log_time >= LOOP_DELAY:
-            log_data(merged)
-            last_log_time = current_time
-
-        # Update display
-        display.render(merged, {k: list(v) for k, v in history.items()})
+        # Update display (uses cached data)
+        display.render(cached_merged, {k: list(v) for k, v in history.items()})
 
         time.sleep(DISPLAY_UPDATE_RATE)
 
