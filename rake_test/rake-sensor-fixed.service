@@ -10,7 +10,7 @@ Group=maggi
 WorkingDirectory=/home/maggi/tilden_test/rake_test
 Environment=HOME=/home/maggi
 Environment=XDG_RUNTIME_DIR=/run/user/1000
-Environment=SDL_VIDEODRIVER=dummy
+Environment=SDL_VIDEODRIVER=kmsdrm
 Environment=SDL_FBDEV=/dev/fb0
 Environment=SDL_NOMOUSE=1
 
