@@ -190,8 +190,8 @@ class ForestRingsDisplay:
         """Render the complete forest rings interface"""
         self.time += 0.05
         
-        # Update data if recording
-        if self.recording and sensor_data:
+        # Always update data (continuous monitoring)
+        if sensor_data:
             # Only update occasionally to see ring growth
             if int(self.time * 10) % 30 == 0:  # Every 3 seconds
                 self.update_data(sensor_data)
@@ -211,11 +211,11 @@ class ForestRingsDisplay:
         title_rect = title.get_rect(center=(self.WIDTH // 2, 30))
         self.screen.blit(title, title_rect)
         
-        # Status
-        status = "MONITORING" if self.recording else "PAUSED"
-        status_color = COLORS['accent1'] if self.recording else COLORS['accent2']
+        # Status - Always monitoring
+        status = "MONITORING"
+        status_color = COLORS['accent1']
         status_surface = self.font_medium.render(status, True, status_color)
-        self.screen.blit(status_surface, (self.WIDTH - 120, 10))
+        self.screen.blit(status_surface, (self.WIDTH - 130, 10))
         
         # GPS Display (prominent and clean)
         gps_data = sensor_data
@@ -265,104 +265,58 @@ class ForestRingsDisplay:
         self.draw_tree_rings(self.screen, 650, rings_y + 40, self.pressure_history, COLORS['ring_press'],
                            current_press, " hPa", "Pressure")
         
-        # Control button
-        button_text = "STOP" if self.recording else "START"
-        button_rect = pygame.Rect(350, 380, 100, 40)
-        
-        button_color = COLORS['accent2'] if self.recording else COLORS['accent1']
-        pygame.draw.rect(self.screen, button_color, button_rect, border_radius=10)
-        
-        text_surface = self.font_medium.render(button_text, True, COLORS['bg'])
-        text_rect = text_surface.get_rect(center=button_rect.center)
-        self.screen.blit(text_surface, text_rect)
-        
-        # Instructions
+        # Instructions at bottom
         inst1 = self.font_small.render("Tree rings grow as sensor data changes over time", True, COLORS['text_dim'])
-        inst2 = self.font_small.render("Touch screen or press SPACE to toggle recording", True, COLORS['text_dim'])
+        inst2 = self.font_small.render("Continuously logging at 1 Hz until powered off", True, COLORS['text_dim'])
         
-        self.screen.blit(inst1, (50, 450))
-        self.screen.blit(inst2, (50, 465))
+        inst1_rect = inst1.get_rect(center=(self.WIDTH // 2, 420))
+        inst2_rect = inst2.get_rect(center=(self.WIDTH // 2, 445))
+        
+        self.screen.blit(inst1, inst1_rect)
+        self.screen.blit(inst2, inst2_rect)
         
         # Update display
         pygame.display.flip()
         self.clock.tick(30)
         
-        return button_rect
+        return None  # No button anymore
 
 # Global display instance
 _display = None
-_button_rect = None  # Store button rect for hit detection
-_last_sensor_data = {}  # Store last sensor data for immediate re-render
-_last_history_data = {}  # Store last history data for immediate re-render
+_recording = True  # Always recording in continuous mode
 
 # Interface functions for main.py compatibility
 def init():
     """Initialize the forest rings display"""
     global _display
     _display = ForestRingsDisplay()
-    
-    # Initialize touch handler if using dummy driver
-    if TOUCH_HANDLER_AVAILABLE and pygame.display.get_driver() == 'dummy':
-        touch_handler.init(on_touch_callback=toggle_recording)
-        print("Forest Rings Display initialized with touch handler and callback")
-    else:
-        print("Forest Rings Display initialized")
+    print("Forest Rings Display initialized in continuous monitoring mode")
+
+def set_continuous_mode():
+    """Set display to continuous monitoring mode (always recording)"""
+    global _recording, _display
+    _recording = True
+    if _display:
+        _display.recording = True
+    print("Continuous monitoring mode enabled")
 
 def handle_events():
     """Handle pygame events and return actions for main.py"""
-    global _button_rect
-    actions = {'quit': False, 'toggle_record': False}
+    actions = {'quit': False}
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             actions['quit'] = True
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                print("DEBUG: SPACE key pressed")
-                actions['toggle_record'] = True
-            elif event.key == pygame.K_ESCAPE:
+            if event.key == pygame.K_ESCAPE:
                 actions['quit'] = True
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            print(f"DEBUG: Mouse/touch event at {event.pos}")
-            # Check if click was on button using actual button rect
-            if _button_rect and _button_rect.collidepoint(event.pos):
-                print("DEBUG: Touch detected on button!")
-                actions['toggle_record'] = True
-            else:
-                print(f"DEBUG: Touch outside button area (button rect: {_button_rect})")
     
     return actions
 
-def toggle_recording(x=None, y=None):
-    """Toggle recording state (optionally check if touch is on button)"""
-    global _recording, _button_rect, _display
-    
-    # If position provided, check if it's on the button
-    if x is not None and y is not None:
-        if _button_rect and not _button_rect.collidepoint(x, y):
-            print(f"DEBUG: Touch at ({x}, {y}) outside button {_button_rect}")
-            return _recording  # Don't toggle if not on button
-        print(f"DEBUG: Touch at ({x}, {y}) ON button!")
-    
-    _recording = not _recording
-    if _display:
-        _display.recording = _recording
-    print(f"DEBUG: Recording toggled to {_recording} - display will update on next frame")
-    
-    return _recording
-
-def is_recording():
-    """Return current recording state"""
-    return _recording
-
 def render(sensor_data, history_data):
     """Render the display with current data"""
-    global _button_rect, _last_sensor_data, _last_history_data
-    # Store data for potential immediate re-render
-    _last_sensor_data = sensor_data
-    _last_history_data = history_data
     if _display:
-        _button_rect = _display.render_frame(sensor_data, history_data)
+        _display.render_frame(sensor_data, history_data)
 
 # Auto-initialize when imported
 if _display is None:

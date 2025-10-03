@@ -1,6 +1,6 @@
 """
-Interactive main loop with start/stop recording and live graphs.
-Run on Mac for GUI testing, then deploy to Pi.
+Continuous data logger with live display.
+Logs sensor data at 1 Hz from power-on until power-off.
 """
 import time
 import signal
@@ -12,7 +12,8 @@ from gps import read_data as read_gps
 from logger import log_data, init_log
 import display_forest_rings as display
 
-LOOP_DELAY = 0.1  # update 10x per second for responsive UI
+LOOP_DELAY = 1.0  # Log data at 1 Hz (once per second)
+DISPLAY_UPDATE_RATE = 0.1  # Update display 10x per second for smooth UI
 HISTORY_LEN = 120
 
 history = {
@@ -42,24 +43,28 @@ def _simulate_if_missing(data):
 
 
 def main():
-    print("Starting interactive environment monitor...")
+    print("Starting continuous soil monitor...")
+    print("Logging data at 1 Hz until powered off.")
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
 
     init_log()
-
-    print("Press SPACE or click START to begin recording.")
-    print(f"DEBUG: Initial recording state: {display.is_recording()}")
+    
+    # Set display to always be in monitoring mode
+    display.set_continuous_mode()
 
     global running
+    last_log_time = 0
+    
     while running:
+        current_time = time.time()
+        
+        # Handle display events (quit, etc)
         actions = display.handle_events()
         if actions.get('quit'):
             break
-        if actions.get('toggle_record'):
-            state = display.toggle_recording()
-            print(f"Recording {'ENABLED' if state else 'PAUSED'}")
 
+        # Read sensor data
         sensor_data = read_sensor() or {}
         gps_data = read_gps() or {}
 
@@ -72,16 +77,19 @@ def main():
         merged.setdefault('altitude', None)
         merged = _simulate_if_missing(merged)
 
-        # Update history
+        # Update history for display
         for k in history.keys():
             history[k].append(merged.get(k))
 
-        if display.is_recording():
+        # Log data at 1 Hz
+        if current_time - last_log_time >= LOOP_DELAY:
             log_data(merged)
+            last_log_time = current_time
 
+        # Update display
         display.render(merged, {k: list(v) for k, v in history.items()})
 
-        time.sleep(LOOP_DELAY)
+        time.sleep(DISPLAY_UPDATE_RATE)
 
     print("Exiting.")
 
