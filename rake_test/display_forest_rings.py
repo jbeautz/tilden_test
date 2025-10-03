@@ -304,20 +304,26 @@ def handle_events():
     """Handle pygame events and return actions for main.py"""
     actions = {'quit': False}
     
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            actions['quit'] = True
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
+    if _display and _display != "DISABLED":
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 actions['quit'] = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    actions['quit'] = True
     
     return actions
 
 def render(sensor_data, history_data):
     """Render the display with current data"""
-    if _display:
+    if _display and _display != "DISABLED":
         _display.render_frame(sensor_data, history_data)
 
-# Auto-initialize when imported
+# Auto-initialize when imported (with error handling)
 if _display is None:
-    init()
+    try:
+        init()
+    except Exception as e:
+        print(f"WARNING: Display initialization failed: {e}")
+        print("Continuing without display (logging will still work)")
+        _display = "DISABLED"  # Set to non-None to prevent re-init attempts
