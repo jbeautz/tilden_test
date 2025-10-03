@@ -1,0 +1,35 @@
+[Unit]
+Description=Soil Monitor - Continuous Environmental Sensor Logger
+After=multi-user.target
+Wants=multi-user.target
+
+[Service]
+Type=simple
+User=maggi
+Group=maggi
+WorkingDirectory=/home/maggi/tilden_test/rake_test
+Environment=HOME=/home/maggi
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+Environment=SDL_VIDEODRIVER=dummy
+Environment=SDL_FBDEV=/dev/fb0
+Environment=SDL_NOMOUSE=1
+
+# Wait for system to be fully ready
+ExecStartPre=/bin/sleep 15
+
+# Use the start script instead of calling python directly
+ExecStart=/home/maggi/tilden_test/rake_test/start_forest_rings.sh
+
+# Only restart on failure, not on clean exit
+Restart=on-failure
+RestartSec=10
+StartLimitBurst=3
+StartLimitIntervalSec=300
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=soil-monitor
+
+[Install]
+WantedBy=multi-user.target
