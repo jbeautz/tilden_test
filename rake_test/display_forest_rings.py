@@ -164,10 +164,11 @@ class ForestRingsDisplay:
                 # Blit ring
                 surface.blit(ring_surface, (center_x - ring_radius - 2, center_y - ring_radius - 2))
         
-        # Draw current reading in a separate box below - positioned based on actual ring size
-        reading_width, reading_height = 100, 45
+        # Draw current reading in a separate box below - FIXED position at max_radius
+        # This ensures labels don't move as rings grow
+        reading_width, reading_height = 110, 50
         reading_x = center_x - reading_width // 2
-        reading_y = center_y + actual_max_radius + 15
+        reading_y = center_y + max_radius + 10  # Fixed position using max_radius parameter
         
         # Reading background
         reading_rect = pygame.Rect(reading_x, reading_y, reading_width, reading_height)
@@ -176,13 +177,13 @@ class ForestRingsDisplay:
         
         # Label
         label_surface = self.font_small.render(label, True, COLORS['text_dim'])
-        label_rect = label_surface.get_rect(center=(center_x, reading_y + 12))
+        label_rect = label_surface.get_rect(center=(center_x, reading_y + 14))
         surface.blit(label_surface, label_rect)
         
         # Current value (large and clear)
         value_text = f"{current_value:.1f}{unit}"
         value_surface = self.font_medium.render(value_text, True, COLORS['text'])
-        value_rect = value_surface.get_rect(center=(center_x, reading_y + 28))
+        value_rect = value_surface.get_rect(center=(center_x, reading_y + 32))
         surface.blit(value_surface, value_rect)
     
     def update_data(self, sensor_data):
@@ -272,7 +273,7 @@ class ForestRingsDisplay:
             self.screen.blit(alt_surface, (350, gps_y + 35))
         
         # Tree Rings section
-        rings_y = 180
+        rings_y = 185
         
         # Section title
         rings_title = self.font_large.render("Environmental Data Tree Rings", True, COLORS['text'])
@@ -287,17 +288,17 @@ class ForestRingsDisplay:
         if current_gas is None:
             current_gas = 50000.0
         
-        # Draw tree rings in 2x2 grid layout
+        # Draw tree rings in 2x2 grid layout - spread out more horizontally
         # Top row: Temperature and Humidity
-        self.draw_tree_rings(self.screen, 200, rings_y + 40, self.temp_history, COLORS['ring_temp'], 
-                           current_temp, "°C", "Temperature")
-        self.draw_tree_rings(self.screen, 600, rings_y + 40, self.humidity_history, COLORS['ring_hum'],
-                           current_hum, "%", "Humidity")
+        self.draw_tree_rings(self.screen, 170, rings_y + 30, self.temp_history, COLORS['ring_temp'], 
+                           current_temp, "°C", "Temperature", max_radius=65)
+        self.draw_tree_rings(self.screen, 630, rings_y + 30, self.humidity_history, COLORS['ring_hum'],
+                           current_hum, "%", "Humidity", max_radius=65)
         # Bottom row: Pressure and VOC (Gas)
-        self.draw_tree_rings(self.screen, 200, rings_y + 160, self.pressure_history, COLORS['ring_press'],
-                           current_press, " hPa", "Pressure")
-        self.draw_tree_rings(self.screen, 600, rings_y + 160, self.gas_history, COLORS['ring_gps'],
-                           current_gas/1000, " kΩ", "Air Quality")
+        self.draw_tree_rings(self.screen, 170, rings_y + 165, self.pressure_history, COLORS['ring_press'],
+                           current_press, " hPa", "Pressure", max_radius=65)
+        self.draw_tree_rings(self.screen, 630, rings_y + 165, self.gas_history, COLORS['ring_gps'],
+                           current_gas/1000, " kΩ", "Air Quality", max_radius=65)
         
         # Instructions at bottom
         inst1 = self.font_small.render("Tree rings grow as sensor data changes over time", True, COLORS['text_dim'])
