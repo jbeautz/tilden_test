@@ -33,15 +33,23 @@ def init_log():
     global LOG_FILE, _initialized
     
     # Prevent multiple initializations
-    if _initialized:
+    if _initialized and LOG_FILE and os.path.exists(LOG_FILE):
         print(f"Log already initialized: {LOG_FILE}")
         return
+    
+    # Force re-initialization if file doesn't exist
+    if _initialized and LOG_FILE and not os.path.exists(LOG_FILE):
+        print(f"Warning: Previous log file {LOG_FILE} not found, reinitializing...")
+        _initialized = False
     
     # Generate unique filename for this session
     LOG_FILE = generate_log_filename()
     _initialized = True
     
     try:
+        # Ensure directory exists
+        os.makedirs(SCRIPT_DIR, exist_ok=True)
+        
         with open(LOG_FILE, 'w', newline='') as f:
             w = csv.writer(f)
             
@@ -52,12 +60,16 @@ def init_log():
             # Session marker row (first cell only, rest blank)
             w.writerow([f"# New session {session_time}"] + ["" for _ in FIELD_NAMES[1:]])
             
-        print(f"Created new log file: {LOG_FILE}")
-        print(f"Session started at {session_time}")
+        print(f"✓ Created new log file: {LOG_FILE}")
+        print(f"✓ Session started at {session_time}")
+        print(f"✓ Logging to: {os.path.abspath(LOG_FILE)}")
         
     except Exception as e:
-        print(f"Error initializing log file: {e}")
+        print(f"ERROR initializing log file: {e}")
+        import traceback
+        traceback.print_exc()
         LOG_FILE = None
+        _initialized = False
 
 def log_data(data: dict):
     """
@@ -69,8 +81,22 @@ def log_data(data: dict):
     global LOG_FILE
     
     if LOG_FILE is None:
-        print("Error: Log file not initialized. Call init_log() first.")
-        return
+        print("ERROR: Log file not initialized. Call init_log() first.")
+        print("Attempting to initialize now...")
+        init_log()
+        if LOG_FILE is None:
+            print("ERROR: Failed to initialize log file")
+            return
+        
+    # Check if log file still exists
+    if not os.path.exists(LOG_FILE):
+        print(f"WARNING: Log file {LOG_FILE} disappeared, reinitializing...")
+        global _initialized
+        _initialized = False
+        init_log()
+        if LOG_FILE is None:
+            print("ERROR: Failed to reinitialize log file")
+            return
         
     # Add timestamp if not present
     data_with_timestamp = dict(data)
@@ -87,4 +113,6 @@ def log_data(data: dict):
             print(f"✓ Logged: T={row.get('temperature', 'N/A')}°C H={row.get('humidity', 'N/A')}% P={row.get('pressure', 'N/A')}hPa")
             
     except Exception as e:
-        print(f"Error logging data: {e}")
+        print(f"ERROR logging data to {LOG_FILE}: {e}")
+        import traceback
+        traceback.print_exc()
