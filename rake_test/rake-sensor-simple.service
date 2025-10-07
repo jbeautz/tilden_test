@@ -1,0 +1,31 @@
+[Unit]
+Description=Soil Monitor - SIMPLE LOGGING ONLY (No Display)
+After=multi-user.target
+Wants=multi-user.target
+
+[Service]
+Type=simple
+User=maggi
+Group=maggi
+WorkingDirectory=/home/maggi/tilden_test/rake_test
+Environment=HOME=/home/maggi
+
+# Wait for system to be ready
+ExecStartPre=/bin/sleep 10
+
+# Run the simple logging-only script
+ExecStart=/home/maggi/tilden_test/rake_test/myproject-venv/bin/python3 /home/maggi/tilden_test/rake_test/main_logging_only.py
+
+# Only restart on actual failure
+Restart=on-failure
+RestartSec=10
+StartLimitBurst=3
+StartLimitIntervalSec=300
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=soil-monitor-simple
+
+[Install]
+WantedBy=multi-user.target
