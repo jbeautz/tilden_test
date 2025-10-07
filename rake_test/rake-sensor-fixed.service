@@ -14,10 +14,7 @@ Environment=SDL_VIDEODRIVER=kmsdrm
 Environment=SDL_FBDEV=/dev/fb0
 Environment=SDL_NOMOUSE=1
 
-# Wait for system to be fully ready
-ExecStartPre=/bin/sleep 15
-
-# Use the start script instead of calling python directly
+# The start script will wait for graphics subsystem to be ready
 ExecStart=/home/maggi/tilden_test/rake_test/start_forest_rings.sh
 
 # Only restart on failure, not on clean exit
