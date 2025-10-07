@@ -22,7 +22,7 @@ else
     exit 1
 fi
 
-if grep -q "always return gas_resistance" sensor.py; then
+if grep -q "Always return gas_resistance" sensor.py; then
     echo "   ✓ sensor.py updated to always return gas values"
 else
     echo "   ✗ sensor.py needs to be updated"

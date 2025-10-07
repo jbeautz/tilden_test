@@ -26,7 +26,7 @@ else
     exit 1
 fi
 
-if grep -q "always return gas_resistance" sensor.py; then
+if grep -q "Always return gas_resistance" sensor.py; then
     echo "   ✓ sensor.py configured for VOC readings"
 else
     echo "   ✗ sensor.py not updated - please pull again"
