@@ -243,33 +243,48 @@ class CyberpunkGUI:
         header_width = self.draw_glow_text(SCREEN, "ENVIRONMENTAL", self.font_large, COLORS['neon_cyan'], 30, 20, 4)
         self.draw_glow_text(SCREEN, " MONITOR", self.font_large, COLORS['neon_pink'], 30 + header_width, 20, 4)
         
-        # System status
-        status_y = 60
-        self.draw_glow_text(SCREEN, "BME680:", self.font_small, COLORS['text_secondary'], 600, status_y)
-        status_color = COLORS['neon_green'] if sensor_data else COLORS['error']
-        self.draw_glow_text(SCREEN, "ONLINE" if sensor_data else "OFFLINE", self.font_small, status_color, 670, status_y)
+        # Current time display (top right)
+        import datetime
+        current_time = datetime.datetime.now().strftime("%H:%M:%S")
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+        self.draw_glow_text(SCREEN, current_time, self.font_medium, COLORS['neon_cyan'], 630, 20, 3)
+        self.draw_glow_text(SCREEN, current_date, self.font_tiny, COLORS['text_secondary'], 640, 50)
         
-        self.draw_glow_text(SCREEN, "GPS:", self.font_small, COLORS['text_secondary'], 600, status_y + 20)
-        gps_color = COLORS['neon_green'] if gps_data else COLORS['error']
-        self.draw_glow_text(SCREEN, "LOCKED" if gps_data else "SEARCHING", self.font_small, gps_color, 640, status_y + 20)
+        # System status
+        status_y = 70
+        self.draw_glow_text(SCREEN, "BME680:", self.font_small, COLORS['text_secondary'], 30, status_y)
+        status_color = COLORS['neon_green'] if sensor_data and sensor_data.get('temperature') else COLORS['error']
+        self.draw_glow_text(SCREEN, "ONLINE" if sensor_data and sensor_data.get('temperature') else "OFFLINE", self.font_small, status_color, 100, status_y)
+        
+        # GPS status
+        has_gps = gps_data and gps_data.get('latitude') and gps_data.get('longitude')
+        gps_color = COLORS['neon_green'] if has_gps else COLORS['error']
+        self.draw_glow_text(SCREEN, "GPS:", self.font_small, COLORS['text_secondary'], 200, status_y)
+        self.draw_glow_text(SCREEN, "LOCKED" if has_gps else "SEARCHING", self.font_small, gps_color, 240, status_y)
         
         # Sensor data cards
         if sensor_data:
-            self.draw_cyber_card(SCREEN, 30, 100, 120, 80, "TEMP", f"{sensor_data.get('temperature', 0):.1f}", "°C", COLORS['neon_orange'])
-            self.draw_cyber_card(SCREEN, 160, 100, 120, 80, "HUMID", f"{sensor_data.get('humidity', 0):.0f}", "%", COLORS['neon_cyan'])
-            self.draw_cyber_card(SCREEN, 290, 100, 120, 80, "PRESS", f"{sensor_data.get('pressure', 0):.0f}", "hPa", COLORS['neon_purple'])
-            self.draw_cyber_card(SCREEN, 420, 100, 120, 80, "GAS", f"{sensor_data.get('gas', 0):.0f}", "Ω", COLORS['neon_green'])
+            temp_val = sensor_data.get('temperature', 0) if sensor_data.get('temperature') is not None else 0
+            hum_val = sensor_data.get('humidity', 0) if sensor_data.get('humidity') is not None else 0
+            press_val = sensor_data.get('pressure', 0) if sensor_data.get('pressure') is not None else 0
+            gas_val = sensor_data.get('gas', 0) if sensor_data.get('gas') is not None else 0
+            
+            self.draw_cyber_card(SCREEN, 30, 100, 120, 80, "TEMP", f"{temp_val:.1f}", "°C", COLORS['neon_orange'])
+            self.draw_cyber_card(SCREEN, 160, 100, 120, 80, "HUMID", f"{hum_val:.0f}", "%", COLORS['neon_cyan'])
+            self.draw_cyber_card(SCREEN, 290, 100, 120, 80, "PRESS", f"{press_val:.0f}", "hPa", COLORS['neon_purple'])
+            self.draw_cyber_card(SCREEN, 420, 100, 120, 80, "VOC", f"{gas_val/1000:.1f}", "kΩ", COLORS['neon_green'])
         
         # GPS display
-        if gps_data:
+        if sensor_data and sensor_data.get('latitude') and sensor_data.get('longitude'):
             gps_rect = pygame.Rect(550, 100, 220, 80)
             pygame.draw.rect(SCREEN, COLORS['panel'], gps_rect)
             self.draw_neon_rect(SCREEN, COLORS['neon_pink'], gps_rect, 2)
             
             self.draw_glow_text(SCREEN, "COORDINATES", self.font_small, COLORS['neon_pink'], 560, 110)
-            self.draw_glow_text(SCREEN, f"{gps_data.get('latitude', 0):.3f}°", self.font_small, COLORS['text_primary'], 560, 130)
-            self.draw_glow_text(SCREEN, f"{gps_data.get('longitude', 0):.3f}°", self.font_small, COLORS['text_primary'], 560, 145)
-            self.draw_glow_text(SCREEN, f"ALT: {gps_data.get('altitude', 0):.0f}m", self.font_small, COLORS['text_secondary'], 560, 160)
+            self.draw_glow_text(SCREEN, f"{sensor_data['latitude']:.5f}°", self.font_small, COLORS['text_primary'], 560, 130)
+            self.draw_glow_text(SCREEN, f"{sensor_data['longitude']:.5f}°", self.font_small, COLORS['text_primary'], 560, 145)
+            alt_val = sensor_data.get('altitude', 0) if sensor_data.get('altitude') is not None else 0
+            self.draw_glow_text(SCREEN, f"ALT: {alt_val:.0f}m", self.font_small, COLORS['text_secondary'], 560, 160)
         
         # Graph section
         if sensor_data and 'temperature' in sensor_data:
@@ -290,12 +305,60 @@ class CyberpunkGUI:
             self.draw_glow_text(SCREEN, "● REC", self.font_medium, rec_color, 550, 290, 5)
         
         # Data stream effect
-        stream_y = 370
+        stream_y = 390
         self.draw_glow_text(SCREEN, "> DATA_STREAM_ACTIVE", self.font_tiny, COLORS['neon_green'], 30, stream_y)
-        self.draw_glow_text(SCREEN, "> LOGGING_ENABLED", self.font_tiny, COLORS['neon_cyan'], 30, stream_y + 15)
-        self.draw_glow_text(SCREEN, "> GPS_COORDINATE_TRACKING", self.font_tiny, COLORS['neon_pink'], 30, stream_y + 30)
+        self.draw_glow_text(SCREEN, "> LOGGING_1HZ_CONTINUOUS", self.font_tiny, COLORS['neon_cyan'], 30, stream_y + 15)
+        self.draw_glow_text(SCREEN, "> SENSORS_MONITORING", self.font_tiny, COLORS['neon_pink'], 30, stream_y + 30)
+        
+        # Update display
+        pygame.display.flip()
         
         return button_rect
+
+# Global display instance and compatibility interface for main.py
+_gui = None
+_recording = True
+
+def init():
+    """Initialize the cyberpunk display"""
+    global _gui
+    _gui = CyberpunkGUI()
+    print("Cyberpunk Display initialized in continuous monitoring mode")
+
+def set_continuous_mode():
+    """Set display to continuous monitoring mode (always recording)"""
+    global _recording
+    _recording = True
+    print("Continuous monitoring mode enabled")
+
+def handle_events():
+    """Handle pygame events"""
+    actions = {'quit': False}
+    
+    if _gui and _gui != "DISABLED":
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                actions['quit'] = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    actions['quit'] = True
+    
+    return actions
+
+def render(sensor_data, history_data):
+    """Render the display with current data - compatible with main.py"""
+    if _gui and _gui != "DISABLED":
+        # Merge sensor and GPS data (main.py passes them combined)
+        _gui.render(sensor_data, sensor_data, _recording)
+
+# Auto-initialize when imported (with error handling)
+if _gui is None:
+    try:
+        init()
+    except Exception as e:
+        print(f"WARNING: Display initialization failed: {e}")
+        print("Continuing without display (logging will still work)")
+        _gui = "DISABLED"
 
 # Test the cyberpunk theme
 if __name__ == "__main__":
