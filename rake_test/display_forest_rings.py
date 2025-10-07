@@ -115,11 +115,10 @@ class ForestRingsDisplay:
         self.pressure_history = deque(maxlen=50)
         self.gas_history = deque(maxlen=50)
         
-        # Initialize with some base values so rings show immediately
-        self.temp_history.append(22.0)
-        self.humidity_history.append(65.0)
-        self.pressure_history.append(1013.0)
-        self.gas_history.append(50000.0)  # Typical VOC resistance in Ohms
+        # GPS caching to prevent flashing
+        self.last_valid_gps = None
+        self.last_gps_time = 0
+        self.GPS_HOLD_TIME = 60  # Hold GPS display for 60 seconds
         
         self.time = 0
         self.recording = True  # Always recording in continuous mode
@@ -195,6 +194,16 @@ class ForestRingsDisplay:
     def render_frame(self, sensor_data, history_data):
         """Render the complete forest rings interface"""
         self.time += 0.05
+        current_time = time.time()
+        
+        # Update GPS cache if we have valid GPS data
+        if sensor_data and sensor_data.get('latitude') and sensor_data.get('longitude'):
+            self.last_valid_gps = {
+                'latitude': sensor_data['latitude'],
+                'longitude': sensor_data['longitude'],
+                'altitude': sensor_data.get('altitude', 0)
+            }
+            self.last_gps_time = current_time
         
         # Always update data (continuous monitoring)
         if sensor_data:
@@ -223,18 +232,25 @@ class ForestRingsDisplay:
         status_surface = self.font_medium.render(status, True, status_color)
         self.screen.blit(status_surface, (self.WIDTH - 130, 10))
         
-        # GPS Display (prominent and clean)
-        gps_data = sensor_data
-        if gps_data and gps_data.get('latitude') and gps_data.get('longitude'):
+        # GPS Display - Use cached GPS if recent (within last 60 seconds)
+        time_since_gps = current_time - self.last_gps_time
+        show_gps = self.last_valid_gps and time_since_gps < self.GPS_HOLD_TIME
+        
+        if show_gps:
+            gps_data = self.last_valid_gps
             gps_y = 70
             
-            # GPS container
+            # GPS container - slightly dimmed if stale
+            is_stale = time_since_gps > 5  # Consider stale after 5 seconds
+            border_color = COLORS['text_dim'] if is_stale else COLORS['gps']
+            
             gps_rect = pygame.Rect(40, gps_y - 5, 420, 80)
             pygame.draw.rect(self.screen, COLORS['card'], gps_rect, border_radius=10)
-            pygame.draw.rect(self.screen, COLORS['gps'], gps_rect, 2, border_radius=10)
+            pygame.draw.rect(self.screen, border_color, gps_rect, 2, border_radius=10)
             
-            # GPS Header
-            gps_header = self.font_large.render("LOCATION", True, COLORS['gps'])
+            # GPS Header with age indicator
+            header_text = "LOCATION" if not is_stale else f"LOCATION ({int(time_since_gps)}s ago)"
+            gps_header = self.font_large.render(header_text, True, border_color)
             self.screen.blit(gps_header, (50, gps_y + 5))
             
             # Coordinates (large and clear)
@@ -242,8 +258,9 @@ class ForestRingsDisplay:
             lon_text = f"Lon: {gps_data['longitude']:.7f}°"
             alt_text = f"Alt: {gps_data.get('altitude', 0):.1f}m"
             
-            lat_surface = self.font_medium.render(lat_text, True, COLORS['text'])
-            lon_surface = self.font_medium.render(lon_text, True, COLORS['text'])
+            text_color = COLORS['text_dim'] if is_stale else COLORS['text']
+            lat_surface = self.font_medium.render(lat_text, True, text_color)
+            lon_surface = self.font_medium.render(lon_text, True, text_color)
             alt_surface = self.font_small.render(alt_text, True, COLORS['accent3'])
             
             self.screen.blit(lat_surface, (50, gps_y + 25))
