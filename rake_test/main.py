@@ -19,7 +19,8 @@ HISTORY_LEN = 120
 history = {
     'temperature': deque(maxlen=HISTORY_LEN),
     'humidity': deque(maxlen=HISTORY_LEN),
-    'pressure': deque(maxlen=HISTORY_LEN)
+    'pressure': deque(maxlen=HISTORY_LEN),
+    'gas': deque(maxlen=HISTORY_LEN)
 }
 
 running = True
@@ -39,6 +40,8 @@ def _simulate_if_missing(data):
         data['humidity'] = 45.0 + 5 * __import__('math').sin(base_t / 25)
     if data.get('pressure') is None:
         data['pressure'] = 1013 + 2 * __import__('math').sin(base_t / 40)
+    if data.get('gas') is None:
+        data['gas'] = 50000 + 10000 * __import__('math').sin(base_t / 35)
     return data
 
 
@@ -62,6 +65,7 @@ def main():
         'temperature': None,
         'humidity': None,
         'pressure': None,
+        'gas': None,
         'latitude': None,
         'longitude': None,
         'altitude': None
@@ -100,7 +104,6 @@ def main():
 
             # Log data at 1 Hz
             if current_time - last_log_time >= LOOP_DELAY:
-                print(f"DEBUG: Logging data at {datetime.now().strftime('%H:%M:%S')}")
                 log_data(merged)
                 last_log_time = current_time
             

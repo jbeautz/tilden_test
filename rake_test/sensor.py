@@ -106,11 +106,15 @@ def read_sensor():
                 'gas': gas_value
             }
             
-            # Log gas sensor status (only occasionally to avoid spam)
-            if gas_value is None:
-                print("Gas sensor: No reading available")
-            elif not heat_stable:
-                print(f"Gas sensor: {gas_value:.0f} Ω (warming up, not stable yet)")
+            # Log gas sensor status occasionally (every 10th reading to avoid spam)
+            import random
+            if random.randint(1, 10) == 1:  # Log 10% of the time
+                if gas_value is None:
+                    print("Gas sensor: No reading available")
+                elif not heat_stable:
+                    print(f"Gas sensor: {gas_value:.0f} Ω (warming up)")
+                else:
+                    print(f"Gas sensor: {gas_value:.0f} Ω (stable)")
             
             return data
         else:
