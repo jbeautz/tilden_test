@@ -136,15 +136,19 @@ class ForestRingsDisplay:
         min_val = min(data_list)
         max_val = max(data_list)
         
+        actual_max_radius = 25  # Default for single value
+        
         if max_val == min_val:
             # Single value - draw a simple ring
             ring_radius = 25
+            actual_max_radius = ring_radius
             pygame.draw.circle(surface, ring_color, (center_x, center_y), ring_radius, 2)
         else:
             # Draw rings from oldest to newest (inside out)
             for i, value in enumerate(data_list):
                 normalized = (value - min_val) / (max_val - min_val)
                 ring_radius = int(10 + normalized * max_radius)
+                actual_max_radius = max(actual_max_radius, ring_radius)
                 
                 # Ring opacity based on age (newer = more opaque)
                 age_factor = i / len(data_list)
@@ -160,10 +164,10 @@ class ForestRingsDisplay:
                 # Blit ring
                 surface.blit(ring_surface, (center_x - ring_radius - 2, center_y - ring_radius - 2))
         
-        # Draw current reading in a separate box below
+        # Draw current reading in a separate box below - positioned based on actual ring size
         reading_width, reading_height = 100, 45
         reading_x = center_x - reading_width // 2
-        reading_y = center_y + max_radius + 25
+        reading_y = center_y + actual_max_radius + 15
         
         # Reading background
         reading_rect = pygame.Rect(reading_x, reading_y, reading_width, reading_height)
