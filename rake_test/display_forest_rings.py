@@ -38,6 +38,7 @@ COLORS = {
     'ring_temp': (220, 100, 100), # Warm red rings
     'ring_hum': (100, 150, 220),  # Cool blue rings
     'ring_press': (120, 200, 120), # Green rings
+    'ring_gps': (200, 150, 220),  # Purple/violet rings for air quality
     'reading_bg': (45, 60, 50),   # Reading background
     'reading_border': (150, 180, 150), # Reading border
 }
