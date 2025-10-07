@@ -112,11 +112,13 @@ class ForestRingsDisplay:
         self.temp_history = deque(maxlen=50)
         self.humidity_history = deque(maxlen=50)
         self.pressure_history = deque(maxlen=50)
+        self.gas_history = deque(maxlen=50)
         
         # Initialize with some base values so rings show immediately
         self.temp_history.append(22.0)
         self.humidity_history.append(65.0)
         self.pressure_history.append(1013.0)
+        self.gas_history.append(50000.0)  # Typical VOC resistance in Ohms
         
         self.time = 0
         self.recording = True  # Always recording in continuous mode
@@ -185,6 +187,9 @@ class ForestRingsDisplay:
             self.temp_history.append(sensor_data.get('temperature', 22.0))
             self.humidity_history.append(sensor_data.get('humidity', 65.0))
             self.pressure_history.append(sensor_data.get('pressure', 1013.0))
+            # Gas resistance: typical range 10k-200k Ohms (lower = more VOCs detected)
+            gas_val = sensor_data.get('gas', 50000.0)
+            self.gas_history.append(gas_val if gas_val is not None else 50000.0)
     
     def render_frame(self, sensor_data, history_data):
         """Render the complete forest rings interface"""
@@ -248,7 +253,7 @@ class ForestRingsDisplay:
         rings_y = 180
         
         # Section title
-        rings_title = self.font_large.render("Data Tree Rings", True, COLORS['text'])
+        rings_title = self.font_large.render("Environmental Data Tree Rings", True, COLORS['text'])
         rings_title_rect = rings_title.get_rect(center=(self.WIDTH // 2, rings_y - 20))
         self.screen.blit(rings_title, rings_title_rect)
         
@@ -256,14 +261,21 @@ class ForestRingsDisplay:
         current_temp = sensor_data.get('temperature', 22.0) if sensor_data else 22.0
         current_hum = sensor_data.get('humidity', 65.0) if sensor_data else 65.0
         current_press = sensor_data.get('pressure', 1013.0) if sensor_data else 1013.0
+        current_gas = sensor_data.get('gas', 50000.0) if sensor_data else 50000.0
+        if current_gas is None:
+            current_gas = 50000.0
         
-        # Draw tree rings with separate readings
-        self.draw_tree_rings(self.screen, 150, rings_y + 40, self.temp_history, COLORS['ring_temp'], 
+        # Draw tree rings in 2x2 grid layout
+        # Top row: Temperature and Humidity
+        self.draw_tree_rings(self.screen, 200, rings_y + 40, self.temp_history, COLORS['ring_temp'], 
                            current_temp, "°C", "Temperature")
-        self.draw_tree_rings(self.screen, 400, rings_y + 40, self.humidity_history, COLORS['ring_hum'],
+        self.draw_tree_rings(self.screen, 600, rings_y + 40, self.humidity_history, COLORS['ring_hum'],
                            current_hum, "%", "Humidity")
-        self.draw_tree_rings(self.screen, 650, rings_y + 40, self.pressure_history, COLORS['ring_press'],
+        # Bottom row: Pressure and VOC (Gas)
+        self.draw_tree_rings(self.screen, 200, rings_y + 160, self.pressure_history, COLORS['ring_press'],
                            current_press, " hPa", "Pressure")
+        self.draw_tree_rings(self.screen, 600, rings_y + 160, self.gas_history, COLORS['ring_gps'],
+                           current_gas/1000, " kΩ", "Air Quality")
         
         # Instructions at bottom
         inst1 = self.font_small.render("Tree rings grow as sensor data changes over time", True, COLORS['text_dim'])

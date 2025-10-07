@@ -1,22 +1,58 @@
-# BME680 Sensor Logger
+# Soil Monitor - Automated Environmental Logger
 
-This project logs environmental data from a BME680 sensor to CSV files. Each boot session creates a new CSV file with a unique timestamp in the filename.
+Raspberry Pi-based continuous environmental monitoring system with touchscreen display.
 
-## Files
+## 🎯 Features
 
-- `sensor.py`: BME680 sensor interface module
-- `logger.py`: CSV logging functionality (creates unique files per boot)
-- `main.py`: Main application loop
-- `requirements.txt`: Python dependencies
-- `rake-sensor.service`: Systemd service file for auto-start on boot
+- **Continuous Logging**: Automatic sensor data logging at 1 Hz from boot to power-off
+- **Visual Display**: Tree rings visualization showing environmental changes over time
+- **Sensors**: BME680 (temperature, humidity, pressure) + GPS module
+- **Auto-Start**: Boots automatically, no user interaction required
+- **Touchscreen Support**: 5" 800x480 DSI display with touch capability
+
+## 📋 Quick Reference
+
+### System Status
+```bash
+sudo systemctl status rake-sensor.service
+```
+
+### View Live Data
+```bash
+sudo journalctl -u rake-sensor.service -f
+```
+
+### Check Log Files
+```bash
+ls -lht rake_log_*.csv | head -5
+```
+
+## 🔧 Apply Fixes
+
+Clean up old log files and enable BME680 sensor:
+```bash
+cd ~/tilden_test/rake_test
+./apply_fixes.sh
+```
+
+## 📚 Documentation
+
+- **[FINAL_CONFIG.md](FINAL_CONFIG.md)** - Complete configuration guide and troubleshooting
+- **[SYSTEMD_FIX.md](SYSTEMD_FIX.md)** - Original systemd configuration fixes
+
+## ✅ System Working
+
+- ✅ Single log file per boot
+- ✅ Continuous logging at 1 Hz  
+- ✅ Auto-start on boot
+- ✅ Stable operation (no restart loops)
+- ✅ Graphics display with kmsdrm driver
 
 ## Logging Behavior
 
-- Each time the system boots and the service starts, a new CSV file is created
-- Files are named with timestamp: `rake_log_YYYYMMDD_HHMMSS.csv`
-- Each file contains its own header row and session marker
+- Each boot creates ONE new CSV file with timestamp: `rake_log_YYYYMMDD_HHMMSS.csv`
 - Data is continuously logged until power-off or service stop
-- Upon reboot, a new file is automatically created for the new session
+- Log files contain temperature, humidity, pressure, and GPS data
 
 ## Setup
 

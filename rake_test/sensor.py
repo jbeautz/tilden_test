@@ -54,11 +54,14 @@ def initialize_sensor():
         sensor.set_gas_status(bme680.ENABLE_GAS_MEAS)
         
         # Set gas sensor settings
+        # Temperature in Celsius (320°C is good for air quality sensing)
         sensor.set_gas_heater_temperature(320)
+        # Duration in milliseconds (150ms per reading)
         sensor.set_gas_heater_duration(150)
         sensor.select_gas_heater_profile(0)
         
         print("BME680 sensor initialized successfully")
+        print("Note: Gas sensor needs 5-10 minutes to stabilize for accurate readings")
         return True
         
     except Exception as e:
@@ -90,13 +93,24 @@ def read_sensor():
         if sensor.get_sensor_data():
             timestamp = datetime.now().isoformat()
             
+            # Always return gas_resistance value, even if heater not stable yet
+            # Gas readings stabilize after 5-10 minutes of continuous operation
+            gas_value = sensor.data.gas_resistance if hasattr(sensor.data, 'gas_resistance') else None
+            heat_stable = sensor.data.heat_stable if hasattr(sensor.data, 'heat_stable') else False
+            
             data = {
                 'timestamp': timestamp,
                 'temperature': sensor.data.temperature,
                 'humidity': sensor.data.humidity,
                 'pressure': sensor.data.pressure,
-                'gas': sensor.data.gas_resistance if sensor.data.heat_stable else None
+                'gas': gas_value
             }
+            
+            # Log gas sensor status (only occasionally to avoid spam)
+            if gas_value is None:
+                print("Gas sensor: No reading available")
+            elif not heat_stable:
+                print(f"Gas sensor: {gas_value:.0f} Ω (warming up, not stable yet)")
             
             return data
         else:

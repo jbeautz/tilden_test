@@ -45,4 +45,13 @@ export SDL_NOMOUSE=1
 echo "🎮 Starting Soil Monitor (kmsdrm driver for graphics)"
 
 cd ~/tilden_test/rake_test
+
+# Activate virtual environment to get BME680 library
+if [ -d "myproject-venv" ]; then
+    echo "✓ Activating virtual environment"
+    source myproject-venv/bin/activate
+else
+    echo "⚠ Virtual environment not found, using system python"
+fi
+
 exec python3 main.py "$@"
