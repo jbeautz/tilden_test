@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_f9db644f2a57dad366c01e7f4b556fbc {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_f9db644f2a57dad366c01e7f4b556fbc" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_f9db644f2a57dad366c01e7f4b556fbc = L.map(
+                "map_f9db644f2a57dad366c01e7f4b556fbc",
+                {
+                    center: [37.8985377676351, -122.24254745382056],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 16,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+
+            
+
+        
+    
+            var tile_layer_287a3341d960066ca67103af71298271 = L.tileLayer(
+                "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 17,
+  "maxNativeZoom": 17,
+  "noWrap": false,
+  "attribution": "Map data: \u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors, \u003ca href=\"http://viewfinderpanoramas.org\"\u003eSRTM\u003c/a\u003e | Map style: \u0026copy; \u003ca href=\"https://opentopomap.org\"\u003eOpenTopoMap\u003c/a\u003e (\u003ca href=\"https://creativecommons.org/licenses/by-sa/3.0/\"\u003eCC-BY-SA\u003c/a\u003e)",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_287a3341d960066ca67103af71298271.addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+            var tile_layer_d230954f744b501ba264eb645c6cc7db = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_d230954f744b501ba264eb645c6cc7db.addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+            var circle_marker_81bdc1c9ab6c60f9f41db3797de3a565 = L.circleMarker(
+                [37.89641986856612, -122.24432395871189],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_8f563435c97d56a75d3316fcc46280ee = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_9ba4c7fe5e943478254243214d0b0af8 = $(`<div id="html_9ba4c7fe5e943478254243214d0b0af8" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:00<br>     <b>Altitude:</b> 231.2 m<br>     <hr>     <b>Humidity:</b> 81.0% 💧<br>     <b>Temp:</b> 19.2°C<br>     <b>Pressure:</b> 1012.7 hPa<br>     <b>VOC/Gas:</b> 65260 Ω     </div>`)[0];
+                popup_8f563435c97d56a75d3316fcc46280ee.setContent(html_9ba4c7fe5e943478254243214d0b0af8);
+            
+        
+
+        circle_marker_81bdc1c9ab6c60f9f41db3797de3a565.bindPopup(popup_8f563435c97d56a75d3316fcc46280ee)
+        ;
+
+        
+    
+    
+            var circle_marker_9eddde46185d8b878f46d71890ea66fc = L.circleMarker(
+                [37.89647900528247, -122.24424435220578],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_2e18ff34cb75633922415ba0bd734fff = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_f929ef572bb7d451be5df5469d546f62 = $(`<div id="html_f929ef572bb7d451be5df5469d546f62" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:01<br>     <b>Altitude:</b> 229.9 m<br>     <hr>     <b>Humidity:</b> 81.8% 💧<br>     <b>Temp:</b> 18.8°C<br>     <b>Pressure:</b> 1012.8 hPa<br>     <b>VOC/Gas:</b> 65895 Ω     </div>`)[0];
+                popup_2e18ff34cb75633922415ba0bd734fff.setContent(html_f929ef572bb7d451be5df5469d546f62);
+            
+        
+
+        circle_marker_9eddde46185d8b878f46d71890ea66fc.bindPopup(popup_2e18ff34cb75633922415ba0bd734fff)
+        ;
+
+        
+    
+    
+            var circle_marker_42b7e236d78c59ddcab24618c58c2fb1 = L.circleMarker(
+                [37.89659373019173, -122.2442311048649],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_10ee67ad951938b537f8d3ae3be2328d = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_2cdcb9f03f25aff2f92756ba122f8fda = $(`<div id="html_2cdcb9f03f25aff2f92756ba122f8fda" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:02<br>     <b>Altitude:</b> 234.6 m<br>     <hr>     <b>Humidity:</b> 82.4% 💧<br>     <b>Temp:</b> 18.7°C<br>     <b>Pressure:</b> 1013.3 hPa<br>     <b>VOC/Gas:</b> 65165 Ω     </div>`)[0];
+                popup_10ee67ad951938b537f8d3ae3be2328d.setContent(html_2cdcb9f03f25aff2f92756ba122f8fda);
+            
+        
+
+        circle_marker_42b7e236d78c59ddcab24618c58c2fb1.bindPopup(popup_10ee67ad951938b537f8d3ae3be2328d)
+        ;
+
+        
+    
+    
+            var circle_marker_533b7b77452a21afc906c69edfd589bb = L.circleMarker(
+                [37.89670958401495, -122.24418172286688],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_715ef9c8bc8de708a89c449593dc579d = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_19ee18d2c1c2a62fedb2d694934262b5 = $(`<div id="html_19ee18d2c1c2a62fedb2d694934262b5" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:03<br>     <b>Altitude:</b> 231.6 m<br>     <hr>     <b>Humidity:</b> 82.7% 💧<br>     <b>Temp:</b> 19.2°C<br>     <b>Pressure:</b> 1013.3 hPa<br>     <b>VOC/Gas:</b> 65490 Ω     </div>`)[0];
+                popup_715ef9c8bc8de708a89c449593dc579d.setContent(html_19ee18d2c1c2a62fedb2d694934262b5);
+            
+        
+
+        circle_marker_533b7b77452a21afc906c69edfd589bb.bindPopup(popup_715ef9c8bc8de708a89c449593dc579d)
+        ;
+
+        
+    
+    
+            var circle_marker_4501ee13516eb51c3a57a3c2eab5f211 = L.circleMarker(
+                [37.89671659352679, -122.24403241726607],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_d95aa48a82c08972999a9eb44ec982bb = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_de96ed43367cf011fa8dea2a4f8d1e37 = $(`<div id="html_de96ed43367cf011fa8dea2a4f8d1e37" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:04<br>     <b>Altitude:</b> 235.8 m<br>     <hr>     <b>Humidity:</b> 80.1% 💧<br>     <b>Temp:</b> 19.0°C<br>     <b>Pressure:</b> 1013.1 hPa<br>     <b>VOC/Gas:</b> 65683 Ω     </div>`)[0];
+                popup_d95aa48a82c08972999a9eb44ec982bb.setContent(html_de96ed43367cf011fa8dea2a4f8d1e37);
+            
+        
+
+        circle_marker_4501ee13516eb51c3a57a3c2eab5f211.bindPopup(popup_d95aa48a82c08972999a9eb44ec982bb)
+        ;
+
+        
+    
+    
+            var circle_marker_f9864758e63b7afc471e94db98316096 = L.circleMarker(
+                [37.89678939706478, -122.24396082673856],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_9c66a56ce082f7d62498f10fcf117a99 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_d521e707a6ee43fabf87ac1a00627770 = $(`<div id="html_d521e707a6ee43fabf87ac1a00627770" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:05<br>     <b>Altitude:</b> 239.4 m<br>     <hr>     <b>Humidity:</b> 81.1% 💧<br>     <b>Temp:</b> 19.3°C<br>     <b>Pressure:</b> 1013.1 hPa<br>     <b>VOC/Gas:</b> 65167 Ω     </div>`)[0];
+                popup_9c66a56ce082f7d62498f10fcf117a99.setContent(html_d521e707a6ee43fabf87ac1a00627770);
+            
+        
+
+        circle_marker_f9864758e63b7afc471e94db98316096.bindPopup(popup_9c66a56ce082f7d62498f10fcf117a99)
+        ;
+
+        
+    
+    
+            var circle_marker_547e284d0d79fabf68395bec87d9df9a = L.circleMarker(
+                [37.896929474610296, -122.24399162821243],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_4acbb97753e5f39065a7306e0e5a540a = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_ef6d27757acafe6f48d60ef1469a391d = $(`<div id="html_ef6d27757acafe6f48d60ef1469a391d" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:06<br>     <b>Altitude:</b> 235.8 m<br>     <hr>     <b>Humidity:</b> 80.8% 💧<br>     <b>Temp:</b> 19.2°C<br>     <b>Pressure:</b> 1013.6 hPa<br>     <b>VOC/Gas:</b> 65490 Ω     </div>`)[0];
+                popup_4acbb97753e5f39065a7306e0e5a540a.setContent(html_ef6d27757acafe6f48d60ef1469a391d);
+            
+        
+
+        circle_marker_547e284d0d79fabf68395bec87d9df9a.bindPopup(popup_4acbb97753e5f39065a7306e0e5a540a)
+        ;
+
+        
+    
+    
+            var circle_marker_5775f85fc3e1f583e43b45c9377bf34e = L.circleMarker(
+                [37.89695873916379, -122.24390025470889],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_c4cebec485be9a261401676c696970e6 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_c15a7cdfe98a0dff837f2881f35c438e = $(`<div id="html_c15a7cdfe98a0dff837f2881f35c438e" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:07<br>     <b>Altitude:</b> 237.5 m<br>     <hr>     <b>Humidity:</b> 80.4% 💧<br>     <b>Temp:</b> 19.1°C<br>     <b>Pressure:</b> 1012.9 hPa<br>     <b>VOC/Gas:</b> 65374 Ω     </div>`)[0];
+                popup_c4cebec485be9a261401676c696970e6.setContent(html_c15a7cdfe98a0dff837f2881f35c438e);
+            
+        
+
+        circle_marker_5775f85fc3e1f583e43b45c9377bf34e.bindPopup(popup_c4cebec485be9a261401676c696970e6)
+        ;
+
+        
+    
+    
+            var circle_marker_392b9fb0106fe55b81a8bf10a94edb0f = L.circleMarker(
+                [37.896964881477274, -122.24389690238178],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_0b05ce573998b1c9aa06d2fd3984daf7 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_b7ef49ccf93282e310e2602713ab1346 = $(`<div id="html_b7ef49ccf93282e310e2602713ab1346" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:08<br>     <b>Altitude:</b> 239.6 m<br>     <hr>     <b>Humidity:</b> 83.2% 💧<br>     <b>Temp:</b> 18.9°C<br>     <b>Pressure:</b> 1013.3 hPa<br>     <b>VOC/Gas:</b> 65385 Ω     </div>`)[0];
+                popup_0b05ce573998b1c9aa06d2fd3984daf7.setContent(html_b7ef49ccf93282e310e2602713ab1346);
+            
+        
+
+        circle_marker_392b9fb0106fe55b81a8bf10a94edb0f.bindPopup(popup_0b05ce573998b1c9aa06d2fd3984daf7)
+        ;
+
+        
+    
+    
+            var circle_marker_394e3fe4730d712dcdfc6580d15b2e23 = L.circleMarker(
+                [37.89705480758586, -122.24391301508987],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_3bd2c3595a5ba3191622abd9c83d223e = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_00cde54ae0da75772947df5b49bbbdc4 = $(`<div id="html_00cde54ae0da75772947df5b49bbbdc4" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:09<br>     <b>Altitude:</b> 239.7 m<br>     <hr>     <b>Humidity:</b> 81.4% 💧<br>     <b>Temp:</b> 18.7°C<br>     <b>Pressure:</b> 1013.0 hPa<br>     <b>VOC/Gas:</b> 64897 Ω     </div>`)[0];
+                popup_3bd2c3595a5ba3191622abd9c83d223e.setContent(html_00cde54ae0da75772947df5b49bbbdc4);
+            
+        
+
+        circle_marker_394e3fe4730d712dcdfc6580d15b2e23.bindPopup(popup_3bd2c3595a5ba3191622abd9c83d223e)
+        ;
+
+        
+    
+    
+            var circle_marker_a55734631a13bd84063ef3b8e0615b6f = L.circleMarker(
+                [37.89705803683434, -122.24382872421542],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_dee87bd797ebfe34dad6f349e8dfa5da = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_6eda8e527a4cd8c1395fbefe54fed9da = $(`<div id="html_6eda8e527a4cd8c1395fbefe54fed9da" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:10<br>     <b>Altitude:</b> 239.1 m<br>     <hr>     <b>Humidity:</b> 79.2% 💧<br>     <b>Temp:</b> 19.0°C<br>     <b>Pressure:</b> 1013.0 hPa<br>     <b>VOC/Gas:</b> 65221 Ω     </div>`)[0];
+                popup_dee87bd797ebfe34dad6f349e8dfa5da.setContent(html_6eda8e527a4cd8c1395fbefe54fed9da);
+            
+        
+
+        circle_marker_a55734631a13bd84063ef3b8e0615b6f.bindPopup(popup_dee87bd797ebfe34dad6f349e8dfa5da)
+        ;
+
+        
+    
+    
+            var circle_marker_74f2f41e50f82c7c77e5622623d26575 = L.circleMarker(
+                [37.89709588028568, -122.24373521746945],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_c43422fa009d031712ee23ebf4cb9500 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_015225b100efa356824479082921c346 = $(`<div id="html_015225b100efa356824479082921c346" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:11<br>     <b>Altitude:</b> 242.4 m<br>     <hr>     <b>Humidity:</b> 81.6% 💧<br>     <b>Temp:</b> 19.4°C<br>     <b>Pressure:</b> 1013.6 hPa<br>     <b>VOC/Gas:</b> 65358 Ω     </div>`)[0];
+                popup_c43422fa009d031712ee23ebf4cb9500.setContent(html_015225b100efa356824479082921c346);
+            
+        
+
+        circle_marker_74f2f41e50f82c7c77e5622623d26575.bindPopup(popup_c43422fa009d031712ee23ebf4cb9500)
+        ;
+
+        
+    
+    
+            var circle_marker_ed9790ac234d7464df75c70901523eb3 = L.circleMarker(
+                [37.89715726349987, -122.24377757708032],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_938e8385acf0520cc9722b2ca696f153 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_526ee441cda263659bff63eac4f5d0a7 = $(`<div id="html_526ee441cda263659bff63eac4f5d0a7" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:12<br>     <b>Altitude:</b> 241.6 m<br>     <hr>     <b>Humidity:</b> 82.9% 💧<br>     <b>Temp:</b> 19.2°C<br>     <b>Pressure:</b> 1013.5 hPa<br>     <b>VOC/Gas:</b> 65712 Ω     </div>`)[0];
+                popup_938e8385acf0520cc9722b2ca696f153.setContent(html_526ee441cda263659bff63eac4f5d0a7);
+            
+        
+
+        circle_marker_ed9790ac234d7464df75c70901523eb3.bindPopup(popup_938e8385acf0520cc9722b2ca696f153)
+        ;
+
+        
+    
+    
+            var circle_marker_244889d1151412a5a02ca4e44afe953a = L.circleMarker(
+                [37.89710014132546, -122.24365865956432],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_b325bcefbcf9fce428781d2741abcb74 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_86c50f3d612b969abf1c6d7d37bad8e7 = $(`<div id="html_86c50f3d612b969abf1c6d7d37bad8e7" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:13<br>     <b>Altitude:</b> 244.7 m<br>     <hr>     <b>Humidity:</b> 81.4% 💧<br>     <b>Temp:</b> 18.7°C<br>     <b>Pressure:</b> 1013.5 hPa<br>     <b>VOC/Gas:</b> 65319 Ω     </div>`)[0];
+                popup_b325bcefbcf9fce428781d2741abcb74.setContent(html_86c50f3d612b969abf1c6d7d37bad8e7);
+            
+        
+
+        circle_marker_244889d1151412a5a02ca4e44afe953a.bindPopup(popup_b325bcefbcf9fce428781d2741abcb74)
+        ;
+
+        
+    
+    
+            var circle_marker_9fa4d1917dd1303d1d4d2a3cae376258 = L.circleMarker(
+                [37.89713381214053, -122.2438255961497],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_3bdebcc78f31716e5eca03a11eddf5ba = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_640c0bb9932c8c9030484cdfc95dd28d = $(`<div id="html_640c0bb9932c8c9030484cdfc95dd28d" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:14<br>     <b>Altitude:</b> 243.3 m<br>     <hr>     <b>Humidity:</b> 78.2% 💧<br>     <b>Temp:</b> 19.2°C<br>     <b>Pressure:</b> 1013.7 hPa<br>     <b>VOC/Gas:</b> 65743 Ω     </div>`)[0];
+                popup_3bdebcc78f31716e5eca03a11eddf5ba.setContent(html_640c0bb9932c8c9030484cdfc95dd28d);
+            
+        
+
+        circle_marker_9fa4d1917dd1303d1d4d2a3cae376258.bindPopup(popup_3bdebcc78f31716e5eca03a11eddf5ba)
+        ;
+
+        
+    
+    
+            var circle_marker_7245bf002d3c66206acc92bb10cfc028 = L.circleMarker(
+                [37.8972137004745, -122.24360993576367],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_946cbee6ef8846ab1eabddf0b7abfb89 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_20fd1961b09d9d0f5787351136fb1c8e = $(`<div id="html_20fd1961b09d9d0f5787351136fb1c8e" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:15<br>     <b>Altitude:</b> 247.7 m<br>     <hr>     <b>Humidity:</b> 79.2% 💧<br>     <b>Temp:</b> 19.2°C<br>     <b>Pressure:</b> 1013.2 hPa<br>     <b>VOC/Gas:</b> 64086 Ω     </div>`)[0];
+                popup_946cbee6ef8846ab1eabddf0b7abfb89.setContent(html_20fd1961b09d9d0f5787351136fb1c8e);
+            
+        
+
+        circle_marker_7245bf002d3c66206acc92bb10cfc028.bindPopup(popup_946cbee6ef8846ab1eabddf0b7abfb89)
+        ;
+
+        
+    
+    
+            var circle_marker_7c10aaf60222fed860ee732d4be7fe71 = L.circleMarker(
+                [37.89725562012079, -122.24360684197808],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_66b954c69bcd50d9241457666121bf10 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_282b402626c9d5f4d08f77bf06a27755 = $(`<div id="html_282b402626c9d5f4d08f77bf06a27755" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:16<br>     <b>Altitude:</b> 244.9 m<br>     <hr>     <b>Humidity:</b> 81.1% 💧<br>     <b>Temp:</b> 18.8°C<br>     <b>Pressure:</b> 1013.4 hPa<br>     <b>VOC/Gas:</b> 64683 Ω     </div>`)[0];
+                popup_66b954c69bcd50d9241457666121bf10.setContent(html_282b402626c9d5f4d08f77bf06a27755);
+            
+        
+
+        circle_marker_7c10aaf60222fed860ee732d4be7fe71.bindPopup(popup_66b954c69bcd50d9241457666121bf10)
+        ;
+
+        
+    
+    
+            var circle_marker_c77ab872c49594f4a9f4506b41d02264 = L.circleMarker(
+                [37.89736933974318, -122.24358109754236],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_168ed0af9cc500bb409ecfa72a9c2eeb = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_576a5ec5033713483a5591a31a1f1adb = $(`<div id="html_576a5ec5033713483a5591a31a1f1adb" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:17<br>     <b>Altitude:</b> 246.2 m<br>     <hr>     <b>Humidity:</b> 78.5% 💧<br>     <b>Temp:</b> 19.1°C<br>     <b>Pressure:</b> 1013.1 hPa<br>     <b>VOC/Gas:</b> 64091 Ω     </div>`)[0];
+                popup_168ed0af9cc500bb409ecfa72a9c2eeb.setContent(html_576a5ec5033713483a5591a31a1f1adb);
+            
+        
+
+        circle_marker_c77ab872c49594f4a9f4506b41d02264.bindPopup(popup_168ed0af9cc500bb409ecfa72a9c2eeb)
+        ;
+
+        
+    
+    
+            var circle_marker_b245c09f9cda6fd0a96bea0981a5e513 = L.circleMarker(
+                [37.89738300728049, -122.24351097323783],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_12d5a0a36a6a9a60deac46e93c6b99b4 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_cbb453a42586a7df183bf9592a786194 = $(`<div id="html_cbb453a42586a7df183bf9592a786194" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:18<br>     <b>Altitude:</b> 248.4 m<br>     <hr>     <b>Humidity:</b> 76.1% 💧<br>     <b>Temp:</b> 19.1°C<br>     <b>Pressure:</b> 1013.3 hPa<br>     <b>VOC/Gas:</b> 64823 Ω     </div>`)[0];
+                popup_12d5a0a36a6a9a60deac46e93c6b99b4.setContent(html_cbb453a42586a7df183bf9592a786194);
+            
+        
+
+        circle_marker_b245c09f9cda6fd0a96bea0981a5e513.bindPopup(popup_12d5a0a36a6a9a60deac46e93c6b99b4)
+        ;
+
+        
+    
+    
+            var circle_marker_07f0e970005afcd4ca39b2fff04658e6 = L.circleMarker(
+                [37.89742846398275, -122.2435586456733],
+                {"bubblingMouseEvents": true, "color": "#0066FF", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0066FF", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_a2e93ea108866d803bf6f95f309e683e = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_521f14817d02cb57c65511ca91743ff1 = $(`<div id="html_521f14817d02cb57c65511ca91743ff1" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:19<br>     <b>Altitude:</b> 245.9 m<br>     <hr>     <b>Humidity:</b> 75.9% 💧<br>     <b>Temp:</b> 18.7°C<br>     <b>Pressure:</b> 1013.1 hPa<br>     <b>VOC/Gas:</b> 63028 Ω     </div>`)[0];
+                popup_a2e93ea108866d803bf6f95f309e683e.setContent(html_521f14817d02cb57c65511ca91743ff1);
+            
+        
+
+        circle_marker_07f0e970005afcd4ca39b2fff04658e6.bindPopup(popup_a2e93ea108866d803bf6f95f309e683e)
+        ;
+
+        
+    
+    
+            var circle_marker_62ecb3ef6d0cd74ec186c1afb1323213 = L.circleMarker(
+                [37.897613300506904, -122.24340824280065],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_bcae982cd29cebbaac9d30b29051d5b1 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_44550d7f46c8d9b24519237921a9f30e = $(`<div id="html_44550d7f46c8d9b24519237921a9f30e" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:20<br>     <b>Altitude:</b> 248.5 m<br>     <hr>     <b>Humidity:</b> 73.2% 💧<br>     <b>Temp:</b> 19.1°C<br>     <b>Pressure:</b> 1013.2 hPa<br>     <b>VOC/Gas:</b> 62694 Ω     </div>`)[0];
+                popup_bcae982cd29cebbaac9d30b29051d5b1.setContent(html_44550d7f46c8d9b24519237921a9f30e);
+            
+        
+
+        circle_marker_62ecb3ef6d0cd74ec186c1afb1323213.bindPopup(popup_bcae982cd29cebbaac9d30b29051d5b1)
+        ;
+
+        
+    
+    
+            var circle_marker_0c3d1b2538ded2f36f59208b57deb56d = L.circleMarker(
+                [37.89762030487939, -122.2433118395177],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_81ee57d0cf8ffa88338a441642f19f93 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_290590a3c7af544001c22e8eb8716a5c = $(`<div id="html_290590a3c7af544001c22e8eb8716a5c" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:21<br>     <b>Altitude:</b> 250.6 m<br>     <hr>     <b>Humidity:</b> 73.6% 💧<br>     <b>Temp:</b> 19.1°C<br>     <b>Pressure:</b> 1013.4 hPa<br>     <b>VOC/Gas:</b> 62473 Ω     </div>`)[0];
+                popup_81ee57d0cf8ffa88338a441642f19f93.setContent(html_290590a3c7af544001c22e8eb8716a5c);
+            
+        
+
+        circle_marker_0c3d1b2538ded2f36f59208b57deb56d.bindPopup(popup_81ee57d0cf8ffa88338a441642f19f93)
+        ;
+
+        
+    
+    
+            var circle_marker_12f719b4e2c8df0d1ee9b4c8d2fc3e94 = L.circleMarker(
+                [37.897712290023485, -122.24318299750759],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_7538e4e8acfcf1fb6c8c33bfb7db8b60 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_1f0764ccaabe28d0d3e95d7356839d78 = $(`<div id="html_1f0764ccaabe28d0d3e95d7356839d78" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:22<br>     <b>Altitude:</b> 246.7 m<br>     <hr>     <b>Humidity:</b> 69.2% 💧<br>     <b>Temp:</b> 19.2°C<br>     <b>Pressure:</b> 1012.8 hPa<br>     <b>VOC/Gas:</b> 61350 Ω     </div>`)[0];
+                popup_7538e4e8acfcf1fb6c8c33bfb7db8b60.setContent(html_1f0764ccaabe28d0d3e95d7356839d78);
+            
+        
+
+        circle_marker_12f719b4e2c8df0d1ee9b4c8d2fc3e94.bindPopup(popup_7538e4e8acfcf1fb6c8c33bfb7db8b60)
+        ;
+
+        
+    
+    
+            var circle_marker_63aa401782262fbb81a07cfa1fd19cea = L.circleMarker(
+                [37.89773886164574, -122.24320523120926],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_e8168c500e37e4fa12ea7250b8f32d7b = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_eaed36e5b5c8dd1f862b90966e9c0a9a = $(`<div id="html_eaed36e5b5c8dd1f862b90966e9c0a9a" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:23<br>     <b>Altitude:</b> 249.8 m<br>     <hr>     <b>Humidity:</b> 71.2% 💧<br>     <b>Temp:</b> 19.2°C<br>     <b>Pressure:</b> 1014.0 hPa<br>     <b>VOC/Gas:</b> 61768 Ω     </div>`)[0];
+                popup_e8168c500e37e4fa12ea7250b8f32d7b.setContent(html_eaed36e5b5c8dd1f862b90966e9c0a9a);
+            
+        
+
+        circle_marker_63aa401782262fbb81a07cfa1fd19cea.bindPopup(popup_e8168c500e37e4fa12ea7250b8f32d7b)
+        ;
+
+        
+    
+    
+            var circle_marker_e4e70ecdb83f1f5de982cf94f5d76759 = L.circleMarker(
+                [37.89786425914393, -122.24313235062291],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_93851b748a3b459c8a1b2bd3e0c50a75 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_2e3f3aa3b0e819a499454be6b9378e9b = $(`<div id="html_2e3f3aa3b0e819a499454be6b9378e9b" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:24<br>     <b>Altitude:</b> 251.2 m<br>     <hr>     <b>Humidity:</b> 71.5% 💧<br>     <b>Temp:</b> 18.4°C<br>     <b>Pressure:</b> 1012.7 hPa<br>     <b>VOC/Gas:</b> 61252 Ω     </div>`)[0];
+                popup_93851b748a3b459c8a1b2bd3e0c50a75.setContent(html_2e3f3aa3b0e819a499454be6b9378e9b);
+            
+        
+
+        circle_marker_e4e70ecdb83f1f5de982cf94f5d76759.bindPopup(popup_93851b748a3b459c8a1b2bd3e0c50a75)
+        ;
+
+        
+    
+    
+            var circle_marker_fbc14d95a6fad747b076503f7eacce18 = L.circleMarker(
+                [37.89798336009515, -122.24301770342076],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_fa8fd445a18ed54fecce2f617ac8c75f = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_3a75341bd365a1edcdcee539477a3c2d = $(`<div id="html_3a75341bd365a1edcdcee539477a3c2d" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:25<br>     <b>Altitude:</b> 254.4 m<br>     <hr>     <b>Humidity:</b> 69.7% 💧<br>     <b>Temp:</b> 18.5°C<br>     <b>Pressure:</b> 1012.6 hPa<br>     <b>VOC/Gas:</b> 61291 Ω     </div>`)[0];
+                popup_fa8fd445a18ed54fecce2f617ac8c75f.setContent(html_3a75341bd365a1edcdcee539477a3c2d);
+            
+        
+
+        circle_marker_fbc14d95a6fad747b076503f7eacce18.bindPopup(popup_fa8fd445a18ed54fecce2f617ac8c75f)
+        ;
+
+        
+    
+    
+            var circle_marker_c6319c788d29656b45cb4f1194300187 = L.circleMarker(
+                [37.89803153218224, -122.24284491323205],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_844851210cd674be163a18b751120373 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_7e4664f172434ef0ce85e9ebaa8b8d4d = $(`<div id="html_7e4664f172434ef0ce85e9ebaa8b8d4d" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Lake Anza Beach/Shoreline<br>     <b>Time:</b> 2025-10-07 10:00:26<br>     <b>Altitude:</b> 253.8 m<br>     <hr>     <b>Humidity:</b> 72.6% 💧<br>     <b>Temp:</b> 18.9°C<br>     <b>Pressure:</b> 1013.6 hPa<br>     <b>VOC/Gas:</b> 60956 Ω     </div>`)[0];
+                popup_844851210cd674be163a18b751120373.setContent(html_7e4664f172434ef0ce85e9ebaa8b8d4d);
+            
+        
+
+        circle_marker_c6319c788d29656b45cb4f1194300187.bindPopup(popup_844851210cd674be163a18b751120373)
+        ;
+
+        
+    
+    
+            var circle_marker_3abd4dca3ef3f6556dc7a9f06724a0e2 = L.circleMarker(
+                [37.898196435424786, -122.24277058902021],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_13b8bb5af68e173df31d3c0982aca438 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_d3221c8b92bd1a359891a19dadaa278c = $(`<div id="html_d3221c8b92bd1a359891a19dadaa278c" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:27<br>     <b>Altitude:</b> 256.1 m<br>     <hr>     <b>Humidity:</b> 68.3% 💧<br>     <b>Temp:</b> 18.8°C<br>     <b>Pressure:</b> 1013.4 hPa<br>     <b>VOC/Gas:</b> 61280 Ω     </div>`)[0];
+                popup_13b8bb5af68e173df31d3c0982aca438.setContent(html_d3221c8b92bd1a359891a19dadaa278c);
+            
+        
+
+        circle_marker_3abd4dca3ef3f6556dc7a9f06724a0e2.bindPopup(popup_13b8bb5af68e173df31d3c0982aca438)
+        ;
+
+        
+    
+    
+            var circle_marker_dcdd4cbc37a2a17dfc93f38f40711204 = L.circleMarker(
+                [37.898265617402174, -122.24270908003962],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_065360556cc0f2fe3a87230c7d5bdd3c = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_d0971eaa0469a7b5ed24e296069b4455 = $(`<div id="html_d0971eaa0469a7b5ed24e296069b4455" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:28<br>     <b>Altitude:</b> 261.4 m<br>     <hr>     <b>Humidity:</b> 68.8% 💧<br>     <b>Temp:</b> 18.8°C<br>     <b>Pressure:</b> 1013.3 hPa<br>     <b>VOC/Gas:</b> 60363 Ω     </div>`)[0];
+                popup_065360556cc0f2fe3a87230c7d5bdd3c.setContent(html_d0971eaa0469a7b5ed24e296069b4455);
+            
+        
+
+        circle_marker_dcdd4cbc37a2a17dfc93f38f40711204.bindPopup(popup_065360556cc0f2fe3a87230c7d5bdd3c)
+        ;
+
+        
+    
+    
+            var circle_marker_7bb7263542fd6948f479b18d57fa4f5f = L.circleMarker(
+                [37.89838964214999, -122.24255268536534],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_46a55f14f5e550f45f766b5906c988e3 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_b1cd768728d799a94089c0f846ec5645 = $(`<div id="html_b1cd768728d799a94089c0f846ec5645" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:29<br>     <b>Altitude:</b> 263.6 m<br>     <hr>     <b>Humidity:</b> 68.9% 💧<br>     <b>Temp:</b> 19.7°C<br>     <b>Pressure:</b> 1013.3 hPa<br>     <b>VOC/Gas:</b> 59136 Ω     </div>`)[0];
+                popup_46a55f14f5e550f45f766b5906c988e3.setContent(html_b1cd768728d799a94089c0f846ec5645);
+            
+        
+
+        circle_marker_7bb7263542fd6948f479b18d57fa4f5f.bindPopup(popup_46a55f14f5e550f45f766b5906c988e3)
+        ;
+
+        
+    
+    
+            var circle_marker_7ea0678c7a21e42c4fdff5458f409007 = L.circleMarker(
+                [37.89849123026386, -122.24247040637775],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_de239a5e9c3d5cce0259ff409616dc50 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_cfc48376b4f6954759cc896b7f02fb5e = $(`<div id="html_cfc48376b4f6954759cc896b7f02fb5e" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:30<br>     <b>Altitude:</b> 266.1 m<br>     <hr>     <b>Humidity:</b> 69.9% 💧<br>     <b>Temp:</b> 18.7°C<br>     <b>Pressure:</b> 1013.0 hPa<br>     <b>VOC/Gas:</b> 58506 Ω     </div>`)[0];
+                popup_de239a5e9c3d5cce0259ff409616dc50.setContent(html_cfc48376b4f6954759cc896b7f02fb5e);
+            
+        
+
+        circle_marker_7ea0678c7a21e42c4fdff5458f409007.bindPopup(popup_de239a5e9c3d5cce0259ff409616dc50)
+        ;
+
+        
+    
+    
+            var circle_marker_74b08705ca848cd853001160847e382e = L.circleMarker(
+                [37.89870449442468, -122.24232582479597],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_6f5ac118f1e215d17bd1c05b4447fd32 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_72f3ce6b2518c906051cdf725f01ada3 = $(`<div id="html_72f3ce6b2518c906051cdf725f01ada3" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:31<br>     <b>Altitude:</b> 268.8 m<br>     <hr>     <b>Humidity:</b> 65.8% 💧<br>     <b>Temp:</b> 18.8°C<br>     <b>Pressure:</b> 1012.7 hPa<br>     <b>VOC/Gas:</b> 58726 Ω     </div>`)[0];
+                popup_6f5ac118f1e215d17bd1c05b4447fd32.setContent(html_72f3ce6b2518c906051cdf725f01ada3);
+            
+        
+
+        circle_marker_74b08705ca848cd853001160847e382e.bindPopup(popup_6f5ac118f1e215d17bd1c05b4447fd32)
+        ;
+
+        
+    
+    
+            var circle_marker_3a203d12519e9e80a1ca21711e46523f = L.circleMarker(
+                [37.898744832767385, -122.24231131246289],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_0267a01d13880bb2efd744170f18b8a8 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_da06a1fd2d2c0acc49a61cb5e445607c = $(`<div id="html_da06a1fd2d2c0acc49a61cb5e445607c" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:32<br>     <b>Altitude:</b> 269.9 m<br>     <hr>     <b>Humidity:</b> 68.3% 💧<br>     <b>Temp:</b> 18.7°C<br>     <b>Pressure:</b> 1013.0 hPa<br>     <b>VOC/Gas:</b> 57344 Ω     </div>`)[0];
+                popup_0267a01d13880bb2efd744170f18b8a8.setContent(html_da06a1fd2d2c0acc49a61cb5e445607c);
+            
+        
+
+        circle_marker_3a203d12519e9e80a1ca21711e46523f.bindPopup(popup_0267a01d13880bb2efd744170f18b8a8)
+        ;
+
+        
+    
+    
+            var circle_marker_829b9f551a778a4b9be8d2195a23e093 = L.circleMarker(
+                [37.898816652200225, -122.24219828763671],
+                {"bubblingMouseEvents": true, "color": "#FFAA00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFAA00", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_2e5d6ce37a87b7cca3775732ef48ba52 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_93a797e2066678d09918f8516262489e = $(`<div id="html_93a797e2066678d09918f8516262489e" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:33<br>     <b>Altitude:</b> 274.0 m<br>     <hr>     <b>Humidity:</b> 66.4% 💧<br>     <b>Temp:</b> 18.5°C<br>     <b>Pressure:</b> 1012.7 hPa<br>     <b>VOC/Gas:</b> 58443 Ω     </div>`)[0];
+                popup_2e5d6ce37a87b7cca3775732ef48ba52.setContent(html_93a797e2066678d09918f8516262489e);
+            
+        
+
+        circle_marker_829b9f551a778a4b9be8d2195a23e093.bindPopup(popup_2e5d6ce37a87b7cca3775732ef48ba52)
+        ;
+
+        
+    
+    
+            var circle_marker_e1777b06e73f05cce40ba41b540f174a = L.circleMarker(
+                [37.89900288001593, -122.24211162536318],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_50ce20a4701ce2ad7c093498cdca17cb = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_ff0a1000bca14d07b7dd0bbc854004a7 = $(`<div id="html_ff0a1000bca14d07b7dd0bbc854004a7" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:34<br>     <b>Altitude:</b> 276.8 m<br>     <hr>     <b>Humidity:</b> 64.6% 🌤️<br>     <b>Temp:</b> 18.2°C<br>     <b>Pressure:</b> 1013.3 hPa<br>     <b>VOC/Gas:</b> 57641 Ω     </div>`)[0];
+                popup_50ce20a4701ce2ad7c093498cdca17cb.setContent(html_ff0a1000bca14d07b7dd0bbc854004a7);
+            
+        
+
+        circle_marker_e1777b06e73f05cce40ba41b540f174a.bindPopup(popup_50ce20a4701ce2ad7c093498cdca17cb)
+        ;
+
+        
+    
+    
+            var circle_marker_f2b87885bf795548d9a2948258994bbe = L.circleMarker(
+                [37.89902850860046, -122.2420802838891],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_a73a8c9b6282727e137b03ad03efeca9 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_64a5e12cf64f3ae1d3e46c2bd1f728b3 = $(`<div id="html_64a5e12cf64f3ae1d3e46c2bd1f728b3" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:35<br>     <b>Altitude:</b> 278.1 m<br>     <hr>     <b>Humidity:</b> 65.7% 💧<br>     <b>Temp:</b> 18.4°C<br>     <b>Pressure:</b> 1012.8 hPa<br>     <b>VOC/Gas:</b> 56346 Ω     </div>`)[0];
+                popup_a73a8c9b6282727e137b03ad03efeca9.setContent(html_64a5e12cf64f3ae1d3e46c2bd1f728b3);
+            
+        
+
+        circle_marker_f2b87885bf795548d9a2948258994bbe.bindPopup(popup_a73a8c9b6282727e137b03ad03efeca9)
+        ;
+
+        
+    
+    
+            var circle_marker_5934cf6231e6bb6f1f03c8eca19a7cd1 = L.circleMarker(
+                [37.899188475119814, -122.24191277261626],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_bb632b78cbe6b8fc7983d493448105a1 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_44220478b2721f2867f8a10636c2b835 = $(`<div id="html_44220478b2721f2867f8a10636c2b835" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:36<br>     <b>Altitude:</b> 284.9 m<br>     <hr>     <b>Humidity:</b> 64.8% 🌤️<br>     <b>Temp:</b> 17.9°C<br>     <b>Pressure:</b> 1012.5 hPa<br>     <b>VOC/Gas:</b> 55259 Ω     </div>`)[0];
+                popup_bb632b78cbe6b8fc7983d493448105a1.setContent(html_44220478b2721f2867f8a10636c2b835);
+            
+        
+
+        circle_marker_5934cf6231e6bb6f1f03c8eca19a7cd1.bindPopup(popup_bb632b78cbe6b8fc7983d493448105a1)
+        ;
+
+        
+    
+    
+            var circle_marker_6c2f96c608661aab53f25cc32238afa1 = L.circleMarker(
+                [37.899199182714455, -122.24184063394988],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_2a6d53b74a891768c7df343ea6267070 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_c04287f992098b803b95ddf472090d3a = $(`<div id="html_c04287f992098b803b95ddf472090d3a" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:37<br>     <b>Altitude:</b> 285.7 m<br>     <hr>     <b>Humidity:</b> 63.3% 🌤️<br>     <b>Temp:</b> 18.0°C<br>     <b>Pressure:</b> 1012.7 hPa<br>     <b>VOC/Gas:</b> 56335 Ω     </div>`)[0];
+                popup_2a6d53b74a891768c7df343ea6267070.setContent(html_c04287f992098b803b95ddf472090d3a);
+            
+        
+
+        circle_marker_6c2f96c608661aab53f25cc32238afa1.bindPopup(popup_2a6d53b74a891768c7df343ea6267070)
+        ;
+
+        
+    
+    
+            var circle_marker_52a180022e5a4b86c41f860cdee5a52d = L.circleMarker(
+                [37.89931603804588, -122.24178527044566],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_bc5c23fdf26779eb363bd444d8b19448 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_1e2ad8dc81cbe6761bf79f43af1c6098 = $(`<div id="html_1e2ad8dc81cbe6761bf79f43af1c6098" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:38<br>     <b>Altitude:</b> 286.2 m<br>     <hr>     <b>Humidity:</b> 63.6% 🌤️<br>     <b>Temp:</b> 17.8°C<br>     <b>Pressure:</b> 1012.9 hPa<br>     <b>VOC/Gas:</b> 55153 Ω     </div>`)[0];
+                popup_bc5c23fdf26779eb363bd444d8b19448.setContent(html_1e2ad8dc81cbe6761bf79f43af1c6098);
+            
+        
+
+        circle_marker_52a180022e5a4b86c41f860cdee5a52d.bindPopup(popup_bc5c23fdf26779eb363bd444d8b19448)
+        ;
+
+        
+    
+    
+            var circle_marker_743946ff4fa352d7689abe3b1cef56fe = L.circleMarker(
+                [37.89946250053091, -122.24173475567642],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_52fdead1f745a7b934543b6cea6d43d1 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_5389528d3534c7e0794e09b6419175d9 = $(`<div id="html_5389528d3534c7e0794e09b6419175d9" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:39<br>     <b>Altitude:</b> 292.0 m<br>     <hr>     <b>Humidity:</b> 62.5% 🌤️<br>     <b>Temp:</b> 18.0°C<br>     <b>Pressure:</b> 1012.5 hPa<br>     <b>VOC/Gas:</b> 55393 Ω     </div>`)[0];
+                popup_52fdead1f745a7b934543b6cea6d43d1.setContent(html_5389528d3534c7e0794e09b6419175d9);
+            
+        
+
+        circle_marker_743946ff4fa352d7689abe3b1cef56fe.bindPopup(popup_52fdead1f745a7b934543b6cea6d43d1)
+        ;
+
+        
+    
+    
+            var circle_marker_ec7e386e8a7f120cea50b20a1d99c9d8 = L.circleMarker(
+                [37.8995634604946, -122.24173672309809],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_22a52a01d07292a2c81fa746a4068478 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_07c164d6b4abf4c0679109c31979135c = $(`<div id="html_07c164d6b4abf4c0679109c31979135c" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:40<br>     <b>Altitude:</b> 292.6 m<br>     <hr>     <b>Humidity:</b> 62.5% 🌤️<br>     <b>Temp:</b> 18.6°C<br>     <b>Pressure:</b> 1012.4 hPa<br>     <b>VOC/Gas:</b> 53554 Ω     </div>`)[0];
+                popup_22a52a01d07292a2c81fa746a4068478.setContent(html_07c164d6b4abf4c0679109c31979135c);
+            
+        
+
+        circle_marker_ec7e386e8a7f120cea50b20a1d99c9d8.bindPopup(popup_22a52a01d07292a2c81fa746a4068478)
+        ;
+
+        
+    
+    
+            var circle_marker_63c2c5a48af84ba5fb6750e2f235195b = L.circleMarker(
+                [37.89961413214572, -122.24163495479165],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_5ea636a5dc03c09a3064fa018987fc6e = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_08267ddc27f3f45fc656b5d92c3680e0 = $(`<div id="html_08267ddc27f3f45fc656b5d92c3680e0" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:41<br>     <b>Altitude:</b> 298.3 m<br>     <hr>     <b>Humidity:</b> 62.6% 🌤️<br>     <b>Temp:</b> 17.2°C<br>     <b>Pressure:</b> 1012.8 hPa<br>     <b>VOC/Gas:</b> 53642 Ω     </div>`)[0];
+                popup_5ea636a5dc03c09a3064fa018987fc6e.setContent(html_08267ddc27f3f45fc656b5d92c3680e0);
+            
+        
+
+        circle_marker_63c2c5a48af84ba5fb6750e2f235195b.bindPopup(popup_5ea636a5dc03c09a3064fa018987fc6e)
+        ;
+
+        
+    
+    
+            var circle_marker_d6c6b8b59300d670fc1490df9ff97dd9 = L.circleMarker(
+                [37.899670536459716, -122.24158353319069],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_1ec0ef5841a6800cccd025eb43205794 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_cce858c7e45c30ede0df817d7c5b93d3 = $(`<div id="html_cce858c7e45c30ede0df817d7c5b93d3" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:42<br>     <b>Altitude:</b> 302.1 m<br>     <hr>     <b>Humidity:</b> 63.2% 🌤️<br>     <b>Temp:</b> 17.9°C<br>     <b>Pressure:</b> 1012.7 hPa<br>     <b>VOC/Gas:</b> 53551 Ω     </div>`)[0];
+                popup_1ec0ef5841a6800cccd025eb43205794.setContent(html_cce858c7e45c30ede0df817d7c5b93d3);
+            
+        
+
+        circle_marker_d6c6b8b59300d670fc1490df9ff97dd9.bindPopup(popup_1ec0ef5841a6800cccd025eb43205794)
+        ;
+
+        
+    
+    
+            var circle_marker_132438c85a21e30794e3ed887b1891b2 = L.circleMarker(
+                [37.89972622769934, -122.24156283133014],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_262ada8212a95ecac79cc06976b30474 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_1cf2565a2bb36fe70efcec0dc4742671 = $(`<div id="html_1cf2565a2bb36fe70efcec0dc4742671" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:43<br>     <b>Altitude:</b> 302.3 m<br>     <hr>     <b>Humidity:</b> 59.3% 🌤️<br>     <b>Temp:</b> 17.2°C<br>     <b>Pressure:</b> 1012.4 hPa<br>     <b>VOC/Gas:</b> 53195 Ω     </div>`)[0];
+                popup_262ada8212a95ecac79cc06976b30474.setContent(html_1cf2565a2bb36fe70efcec0dc4742671);
+            
+        
+
+        circle_marker_132438c85a21e30794e3ed887b1891b2.bindPopup(popup_262ada8212a95ecac79cc06976b30474)
+        ;
+
+        
+    
+    
+            var circle_marker_1c1d85dc2a4abd7dcb5f80414e159092 = L.circleMarker(
+                [37.899738356860375, -122.2414901747098],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_9320dd8f000b5cae0dbd2c28c5da695b = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_37ae9dc21f422749db76ba18e96b5646 = $(`<div id="html_37ae9dc21f422749db76ba18e96b5646" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trailhead<br>     <b>Time:</b> 2025-10-07 10:00:44<br>     <b>Altitude:</b> 308.1 m<br>     <hr>     <b>Humidity:</b> 62.8% 🌤️<br>     <b>Temp:</b> 17.5°C<br>     <b>Pressure:</b> 1012.3 hPa<br>     <b>VOC/Gas:</b> 52587 Ω     </div>`)[0];
+                popup_9320dd8f000b5cae0dbd2c28c5da695b.setContent(html_37ae9dc21f422749db76ba18e96b5646);
+            
+        
+
+        circle_marker_1c1d85dc2a4abd7dcb5f80414e159092.bindPopup(popup_9320dd8f000b5cae0dbd2c28c5da695b)
+        ;
+
+        
+    
+    
+            var circle_marker_f2c98f5311ebae8a2be7eac59285c202 = L.circleMarker(
+                [37.899825098358136, -122.24142351362103],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_93f56c4b8e8140207f5d386a86351bf9 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_8d9d370e0b83f0260e26a1f42cf59664 = $(`<div id="html_8d9d370e0b83f0260e26a1f42cf59664" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:45<br>     <b>Altitude:</b> 310.5 m<br>     <hr>     <b>Humidity:</b> 57.4% 🌤️<br>     <b>Temp:</b> 17.9°C<br>     <b>Pressure:</b> 1012.6 hPa<br>     <b>VOC/Gas:</b> 52782 Ω     </div>`)[0];
+                popup_93f56c4b8e8140207f5d386a86351bf9.setContent(html_8d9d370e0b83f0260e26a1f42cf59664);
+            
+        
+
+        circle_marker_f2c98f5311ebae8a2be7eac59285c202.bindPopup(popup_93f56c4b8e8140207f5d386a86351bf9)
+        ;
+
+        
+    
+    
+            var circle_marker_250929be0cb9ac7411e0bb2f2ff710e9 = L.circleMarker(
+                [37.89989019824168, -122.24131230180161],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_413feb940a6a8b7f0edc509405bffc0c = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_a9b1219a32065e6097916983725411af = $(`<div id="html_a9b1219a32065e6097916983725411af" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:46<br>     <b>Altitude:</b> 314.4 m<br>     <hr>     <b>Humidity:</b> 59.1% 🌤️<br>     <b>Temp:</b> 17.5°C<br>     <b>Pressure:</b> 1011.8 hPa<br>     <b>VOC/Gas:</b> 51614 Ω     </div>`)[0];
+                popup_413feb940a6a8b7f0edc509405bffc0c.setContent(html_a9b1219a32065e6097916983725411af);
+            
+        
+
+        circle_marker_250929be0cb9ac7411e0bb2f2ff710e9.bindPopup(popup_413feb940a6a8b7f0edc509405bffc0c)
+        ;
+
+        
+    
+    
+            var circle_marker_ae2bf4cb952affcfd480529fb3d44cb3 = L.circleMarker(
+                [37.90000521495873, -122.24136110579649],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_7b17e3ed44806724575f7c72835ecde6 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_c38e255c7bb89d4ebfcb5737ddea320a = $(`<div id="html_c38e255c7bb89d4ebfcb5737ddea320a" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:47<br>     <b>Altitude:</b> 319.2 m<br>     <hr>     <b>Humidity:</b> 59.5% 🌤️<br>     <b>Temp:</b> 17.1°C<br>     <b>Pressure:</b> 1011.8 hPa<br>     <b>VOC/Gas:</b> 51772 Ω     </div>`)[0];
+                popup_7b17e3ed44806724575f7c72835ecde6.setContent(html_c38e255c7bb89d4ebfcb5737ddea320a);
+            
+        
+
+        circle_marker_ae2bf4cb952affcfd480529fb3d44cb3.bindPopup(popup_7b17e3ed44806724575f7c72835ecde6)
+        ;
+
+        
+    
+    
+            var circle_marker_c9878cd8d19881ddd720a86882687f30 = L.circleMarker(
+                [37.90003181055779, -122.24131953946123],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_b3cde3b9124c2c7fe2f3d162c1e82122 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_0a5e2791fe5938d32a263f62c6d7ff75 = $(`<div id="html_0a5e2791fe5938d32a263f62c6d7ff75" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:48<br>     <b>Altitude:</b> 319.2 m<br>     <hr>     <b>Humidity:</b> 58.7% 🌤️<br>     <b>Temp:</b> 17.2°C<br>     <b>Pressure:</b> 1012.0 hPa<br>     <b>VOC/Gas:</b> 51618 Ω     </div>`)[0];
+                popup_b3cde3b9124c2c7fe2f3d162c1e82122.setContent(html_0a5e2791fe5938d32a263f62c6d7ff75);
+            
+        
+
+        circle_marker_c9878cd8d19881ddd720a86882687f30.bindPopup(popup_b3cde3b9124c2c7fe2f3d162c1e82122)
+        ;
+
+        
+    
+    
+            var circle_marker_907e1c3a486a33b405efd1770b064e7f = L.circleMarker(
+                [37.9000047301288, -122.24129712869767],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_3ea7a3ec963b4ffa907dddf94592289b = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_5e2d2db4588657e1b2c271e258f0b9f4 = $(`<div id="html_5e2d2db4588657e1b2c271e258f0b9f4" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:49<br>     <b>Altitude:</b> 321.7 m<br>     <hr>     <b>Humidity:</b> 57.1% 🌤️<br>     <b>Temp:</b> 17.5°C<br>     <b>Pressure:</b> 1012.2 hPa<br>     <b>VOC/Gas:</b> 51548 Ω     </div>`)[0];
+                popup_3ea7a3ec963b4ffa907dddf94592289b.setContent(html_5e2d2db4588657e1b2c271e258f0b9f4);
+            
+        
+
+        circle_marker_907e1c3a486a33b405efd1770b064e7f.bindPopup(popup_3ea7a3ec963b4ffa907dddf94592289b)
+        ;
+
+        
+    
+    
+            var circle_marker_464668d2124fc58f88901650bc178303 = L.circleMarker(
+                [37.900148587310255, -122.24134783558515],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_9fd70888d79b71e5ea7f5e4b4fc4544b = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_08aa73d1374503996e11f26a99e3e7d7 = $(`<div id="html_08aa73d1374503996e11f26a99e3e7d7" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:50<br>     <b>Altitude:</b> 324.7 m<br>     <hr>     <b>Humidity:</b> 57.2% 🌤️<br>     <b>Temp:</b> 17.1°C<br>     <b>Pressure:</b> 1012.3 hPa<br>     <b>VOC/Gas:</b> 51397 Ω     </div>`)[0];
+                popup_9fd70888d79b71e5ea7f5e4b4fc4544b.setContent(html_08aa73d1374503996e11f26a99e3e7d7);
+            
+        
+
+        circle_marker_464668d2124fc58f88901650bc178303.bindPopup(popup_9fd70888d79b71e5ea7f5e4b4fc4544b)
+        ;
+
+        
+    
+    
+            var circle_marker_66c6b308047cebc97ef4ca668ee20cb4 = L.circleMarker(
+                [37.90018478398416, -122.24120838022817],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_19222b3fc7958839b5349ef0c4ea5ce8 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_9e4636088dc677319a7c2e9af761630f = $(`<div id="html_9e4636088dc677319a7c2e9af761630f" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:51<br>     <b>Altitude:</b> 327.9 m<br>     <hr>     <b>Humidity:</b> 56.4% 🌤️<br>     <b>Temp:</b> 17.3°C<br>     <b>Pressure:</b> 1012.7 hPa<br>     <b>VOC/Gas:</b> 50247 Ω     </div>`)[0];
+                popup_19222b3fc7958839b5349ef0c4ea5ce8.setContent(html_9e4636088dc677319a7c2e9af761630f);
+            
+        
+
+        circle_marker_66c6b308047cebc97ef4ca668ee20cb4.bindPopup(popup_19222b3fc7958839b5349ef0c4ea5ce8)
+        ;
+
+        
+    
+    
+            var circle_marker_ab71d4e5245aced41223cac9d4d0e9a6 = L.circleMarker(
+                [37.90024269684805, -122.24115512863017],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_9c42a9e4d7bf5cf355c396f8d6602e4c = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_e58e57c1c6dd5fa1440b1c1a8e51911e = $(`<div id="html_e58e57c1c6dd5fa1440b1c1a8e51911e" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:52<br>     <b>Altitude:</b> 332.2 m<br>     <hr>     <b>Humidity:</b> 55.8% 🌤️<br>     <b>Temp:</b> 17.2°C<br>     <b>Pressure:</b> 1012.4 hPa<br>     <b>VOC/Gas:</b> 49827 Ω     </div>`)[0];
+                popup_9c42a9e4d7bf5cf355c396f8d6602e4c.setContent(html_e58e57c1c6dd5fa1440b1c1a8e51911e);
+            
+        
+
+        circle_marker_ab71d4e5245aced41223cac9d4d0e9a6.bindPopup(popup_9c42a9e4d7bf5cf355c396f8d6602e4c)
+        ;
+
+        
+    
+    
+            var circle_marker_4a123ffe889e5e0d4066109b8d63f94d = L.circleMarker(
+                [37.900369475303854, -122.24098136964163],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_d820495785407079fb72fba2bd58a55c = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_d24410aab7f2a7e6583b54084bb2bf68 = $(`<div id="html_d24410aab7f2a7e6583b54084bb2bf68" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:53<br>     <b>Altitude:</b> 335.9 m<br>     <hr>     <b>Humidity:</b> 57.1% 🌤️<br>     <b>Temp:</b> 17.0°C<br>     <b>Pressure:</b> 1011.9 hPa<br>     <b>VOC/Gas:</b> 51033 Ω     </div>`)[0];
+                popup_d820495785407079fb72fba2bd58a55c.setContent(html_d24410aab7f2a7e6583b54084bb2bf68);
+            
+        
+
+        circle_marker_4a123ffe889e5e0d4066109b8d63f94d.bindPopup(popup_d820495785407079fb72fba2bd58a55c)
+        ;
+
+        
+    
+    
+            var circle_marker_bd3ad8242d1aeb6f0826073386ee27bf = L.circleMarker(
+                [37.90046752292993, -122.24105535983026],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_abed19b580cd68cbc66875d3d2b259e2 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_3825f037d9a6a88b967fbd7d4a8c0ee3 = $(`<div id="html_3825f037d9a6a88b967fbd7d4a8c0ee3" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:54<br>     <b>Altitude:</b> 338.9 m<br>     <hr>     <b>Humidity:</b> 56.1% 🌤️<br>     <b>Temp:</b> 17.8°C<br>     <b>Pressure:</b> 1011.9 hPa<br>     <b>VOC/Gas:</b> 50374 Ω     </div>`)[0];
+                popup_abed19b580cd68cbc66875d3d2b259e2.setContent(html_3825f037d9a6a88b967fbd7d4a8c0ee3);
+            
+        
+
+        circle_marker_bd3ad8242d1aeb6f0826073386ee27bf.bindPopup(popup_abed19b580cd68cbc66875d3d2b259e2)
+        ;
+
+        
+    
+    
+            var circle_marker_a250e6a91cf3d22da28f8421a62ae90a = L.circleMarker(
+                [37.900550992117765, -122.24096635380265],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_ea90062c41b4b8a61278fbb128db8de3 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_dbb2f6defa18fa61a66f28eac4ff019e = $(`<div id="html_dbb2f6defa18fa61a66f28eac4ff019e" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:55<br>     <b>Altitude:</b> 342.7 m<br>     <hr>     <b>Humidity:</b> 54.4% ☀️<br>     <b>Temp:</b> 17.3°C<br>     <b>Pressure:</b> 1011.5 hPa<br>     <b>VOC/Gas:</b> 49661 Ω     </div>`)[0];
+                popup_ea90062c41b4b8a61278fbb128db8de3.setContent(html_dbb2f6defa18fa61a66f28eac4ff019e);
+            
+        
+
+        circle_marker_a250e6a91cf3d22da28f8421a62ae90a.bindPopup(popup_ea90062c41b4b8a61278fbb128db8de3)
+        ;
+
+        
+    
+    
+            var circle_marker_108eec74bc6ab3c04dfbc09d175f1b1d = L.circleMarker(
+                [37.900573701632744, -122.24091315463826],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_67a07d16d69028b48a6593886e00f950 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_409e1b56673f94dab4b0b67480a379fd = $(`<div id="html_409e1b56673f94dab4b0b67480a379fd" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:56<br>     <b>Altitude:</b> 344.4 m<br>     <hr>     <b>Humidity:</b> 55.9% 🌤️<br>     <b>Temp:</b> 16.5°C<br>     <b>Pressure:</b> 1011.8 hPa<br>     <b>VOC/Gas:</b> 50650 Ω     </div>`)[0];
+                popup_67a07d16d69028b48a6593886e00f950.setContent(html_409e1b56673f94dab4b0b67480a379fd);
+            
+        
+
+        circle_marker_108eec74bc6ab3c04dfbc09d175f1b1d.bindPopup(popup_67a07d16d69028b48a6593886e00f950)
+        ;
+
+        
+    
+    
+            var circle_marker_967cc4b434bf3cfad5f0cacce446c653 = L.circleMarker(
+                [37.90069414060958, -122.24089412186078],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_9a31db93f97899e6371b77d60c3261c7 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_7de0432d430ea339ba17c084f65af5e4 = $(`<div id="html_7de0432d430ea339ba17c084f65af5e4" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:57<br>     <b>Altitude:</b> 349.5 m<br>     <hr>     <b>Humidity:</b> 54.8% ☀️<br>     <b>Temp:</b> 17.1°C<br>     <b>Pressure:</b> 1011.6 hPa<br>     <b>VOC/Gas:</b> 49780 Ω     </div>`)[0];
+                popup_9a31db93f97899e6371b77d60c3261c7.setContent(html_7de0432d430ea339ba17c084f65af5e4);
+            
+        
+
+        circle_marker_967cc4b434bf3cfad5f0cacce446c653.bindPopup(popup_9a31db93f97899e6371b77d60c3261c7)
+        ;
+
+        
+    
+    
+            var circle_marker_80f9c25849b9292621c667c2028a472e = L.circleMarker(
+                [37.900824110288625, -122.24069724319135],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_c904c70405454552c3bfb75c1614fe52 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_9614f57adfe14b47bc5efc7a75c6f6a6 = $(`<div id="html_9614f57adfe14b47bc5efc7a75c6f6a6" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:58<br>     <b>Altitude:</b> 349.8 m<br>     <hr>     <b>Humidity:</b> 55.1% 🌤️<br>     <b>Temp:</b> 16.8°C<br>     <b>Pressure:</b> 1011.8 hPa<br>     <b>VOC/Gas:</b> 50168 Ω     </div>`)[0];
+                popup_c904c70405454552c3bfb75c1614fe52.setContent(html_9614f57adfe14b47bc5efc7a75c6f6a6);
+            
+        
+
+        circle_marker_80f9c25849b9292621c667c2028a472e.bindPopup(popup_c904c70405454552c3bfb75c1614fe52)
+        ;
+
+        
+    
+    
+            var circle_marker_be3e392b4c99d0b6937f23ad0b54ebd0 = L.circleMarker(
+                [37.90095853586739, -122.24063021765417],
+                {"bubblingMouseEvents": true, "color": "#FF3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF3333", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+        var popup_5fa29cdd03f040017963e26ce272a4ba = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_c8e43e05d07f91cc2c69380bec43e546 = $(`<div id="html_c8e43e05d07f91cc2c69380bec43e546" style="width: 100.0%; height: 100.0%;">     <b>Location:</b> Mineral Springs Trail / Hillside<br>     <b>Time:</b> 2025-10-07 10:00:59<br>     <b>Altitude:</b> 357.0 m<br>     <hr>     <b>Humidity:</b> 54.4% ☀️<br>     <b>Temp:</b> 17.3°C<br>     <b>Pressure:</b> 1011.3 hPa<br>     <b>VOC/Gas:</b> 49475 Ω     </div>`)[0];
+                popup_5fa29cdd03f040017963e26ce272a4ba.setContent(html_c8e43e05d07f91cc2c69380bec43e546);
+            
+        
+
+        circle_marker_be3e392b4c99d0b6937f23ad0b54ebd0.bindPopup(popup_5fa29cdd03f040017963e26ce272a4ba)
+        ;
+
+        
+    
+    
+            var poly_line_ec7e97ebdb68185b5163f2cbf44efa7c = L.polyline(
+                [[37.89641986856612, -122.24432395871189], [37.89647900528247, -122.24424435220578], [37.89659373019173, -122.2442311048649], [37.89670958401495, -122.24418172286688], [37.89671659352679, -122.24403241726607], [37.89678939706478, -122.24396082673856], [37.896929474610296, -122.24399162821243], [37.89695873916379, -122.24390025470889], [37.896964881477274, -122.24389690238178], [37.89705480758586, -122.24391301508987], [37.89705803683434, -122.24382872421542], [37.89709588028568, -122.24373521746945], [37.89715726349987, -122.24377757708032], [37.89710014132546, -122.24365865956432], [37.89713381214053, -122.2438255961497], [37.8972137004745, -122.24360993576367], [37.89725562012079, -122.24360684197808], [37.89736933974318, -122.24358109754236], [37.89738300728049, -122.24351097323783], [37.89742846398275, -122.2435586456733], [37.897613300506904, -122.24340824280065], [37.89762030487939, -122.2433118395177], [37.897712290023485, -122.24318299750759], [37.89773886164574, -122.24320523120926], [37.89786425914393, -122.24313235062291], [37.89798336009515, -122.24301770342076], [37.89803153218224, -122.24284491323205], [37.898196435424786, -122.24277058902021], [37.898265617402174, -122.24270908003962], [37.89838964214999, -122.24255268536534], [37.89849123026386, -122.24247040637775], [37.89870449442468, -122.24232582479597], [37.898744832767385, -122.24231131246289], [37.898816652200225, -122.24219828763671], [37.89900288001593, -122.24211162536318], [37.89902850860046, -122.2420802838891], [37.899188475119814, -122.24191277261626], [37.899199182714455, -122.24184063394988], [37.89931603804588, -122.24178527044566], [37.89946250053091, -122.24173475567642], [37.8995634604946, -122.24173672309809], [37.89961413214572, -122.24163495479165], [37.899670536459716, -122.24158353319069], [37.89972622769934, -122.24156283133014], [37.899738356860375, -122.2414901747098], [37.899825098358136, -122.24142351362103], [37.89989019824168, -122.24131230180161], [37.90000521495873, -122.24136110579649], [37.90003181055779, -122.24131953946123], [37.9000047301288, -122.24129712869767], [37.900148587310255, -122.24134783558515], [37.90018478398416, -122.24120838022817], [37.90024269684805, -122.24115512863017], [37.900369475303854, -122.24098136964163], [37.90046752292993, -122.24105535983026], [37.900550992117765, -122.24096635380265], [37.900573701632744, -122.24091315463826], [37.90069414060958, -122.24089412186078], [37.900824110288625, -122.24069724319135], [37.90095853586739, -122.24063021765417]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.5, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+            var marker_0ac83b7953e193fb6135d4174a376873 = L.marker(
+                [37.89641986856612, -122.24432395871189],
+                {
+}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+            var icon_b162a03134a53fbfeadeeb823c62cc43 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "play",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_952e77af94d8cc923e734e7009f4543a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7d60cb1434d3e9a2e93b6cece773eb8c = $(`<div id="html_7d60cb1434d3e9a2e93b6cece773eb8c" style="width: 100.0%; height: 100.0%;"><b>START: Lake Anza Beach</b><br>Humid Lakeside<br>Alt: 231m<br>Humidity: 81.0%</div>`)[0];
+                popup_952e77af94d8cc923e734e7009f4543a.setContent(html_7d60cb1434d3e9a2e93b6cece773eb8c);
+            
+        
+
+        marker_0ac83b7953e193fb6135d4174a376873.bindPopup(popup_952e77af94d8cc923e734e7009f4543a)
+        ;
+
+        
+    
+    
+                marker_0ac83b7953e193fb6135d4174a376873.setIcon(icon_b162a03134a53fbfeadeeb823c62cc43);
+            
+    
+            var marker_245f67e8f37e51135a821543f46516e8 = L.marker(
+                [37.90095853586739, -122.24063021765417],
+                {
+}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+        
+    
+            var icon_f1efd83760b56898656f3c0c24485c72 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "stop",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f7b0aaf9cdfbea81b3db71597dcbaf9b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_518c0f6e2adbc3f77d93cb5e0e887ad6 = $(`<div id="html_518c0f6e2adbc3f77d93cb5e0e887ad6" style="width: 100.0%; height: 100.0%;"><b>END: Wildcat Canyon Road</b><br>Drier Hillside<br>Alt: 357m<br>Humidity: 54.4%</div>`)[0];
+                popup_f7b0aaf9cdfbea81b3db71597dcbaf9b.setContent(html_518c0f6e2adbc3f77d93cb5e0e887ad6);
+            
+        
+
+        marker_245f67e8f37e51135a821543f46516e8.bindPopup(popup_f7b0aaf9cdfbea81b3db71597dcbaf9b)
+        ;
+
+        
+    
+    
+                marker_245f67e8f37e51135a821543f46516e8.setIcon(icon_f1efd83760b56898656f3c0c24485c72);
+            
+    
+            var layer_control_f9aac96e6ef6221f4d06b32fc288a1c9_layers = {
+                base_layers : {
+                    "opentopomap" : tile_layer_287a3341d960066ca67103af71298271,
+                    "openstreetmap" : tile_layer_d230954f744b501ba264eb645c6cc7db,
+                },
+                overlays :  {
+                },
+            };
+            let layer_control_f9aac96e6ef6221f4d06b32fc288a1c9 = L.control.layers(
+                layer_control_f9aac96e6ef6221f4d06b32fc288a1c9_layers.base_layers,
+                layer_control_f9aac96e6ef6221f4d06b32fc288a1c9_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_f9db644f2a57dad366c01e7f4b556fbc);
+
+        
+</script>
+</html>

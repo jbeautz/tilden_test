@@ -17,6 +17,14 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 import numpy as np
 
+# Import terrain analysis module
+try:
+    from terrain_analysis import TerrainAnalyzer
+    TERRAIN_ANALYSIS_AVAILABLE = True
+except ImportError:
+    print("Warning: terrain_analysis module not found - advanced features disabled")
+    TERRAIN_ANALYSIS_AVAILABLE = False
+
 try:
     from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                                  QHBoxLayout, QPushButton, QLabel, QComboBox,
@@ -38,6 +46,14 @@ class DataViewer(QMainWindow):
         # Data storage
         self.data = None
         self.demo_mode = True
+        self.historical_data = []  # Store historical hikes for comparison
+        self.terrain_profiles = []  # Terrain type analysis
+        
+        # Initialize terrain analyzer
+        if TERRAIN_ANALYSIS_AVAILABLE:
+            self.terrain_analyzer = TerrainAnalyzer()
+        else:
+            self.terrain_analyzer = None
         
         # Setup UI
         self.setup_ui()
@@ -342,10 +358,143 @@ class DataViewer(QMainWindow):
             'gas': gas
         })
         
+        # Generate historical comparison data (3 previous hikes in similar areas)
+        self._generate_historical_data()
+        
+        # Perform terrain analysis
+        if self.terrain_analyzer:
+            self.data, self.terrain_profiles = self.terrain_analyzer.analyze_terrain_patterns(self.data)
+        
         self.update_map()
         self.update_graph()
         self.update_statistics()
         self.update_forage_analysis()
+    
+    def _generate_historical_data(self):
+        """Generate 3 historical hikes for comparison"""
+        self.historical_data = []
+        
+        # Historical Hike 1: Similar route, 2 weeks ago, slightly drier
+        hist1 = self._generate_historical_hike(
+            name="Lake Anza Loop (Sept 23)",
+            date_offset=-14,
+            humidity_offset=-5,
+            temp_offset=+2,
+            seed=100
+        )
+        self.historical_data.append(hist1)
+        
+        # Historical Hike 2: Wildcat Peak route, 1 month ago, wetter
+        hist2 = self._generate_historical_hike(
+            name="Wildcat Peak Trail (Sept 7)",
+            date_offset=-30,
+            humidity_offset=+8,
+            temp_offset=-1,
+            seed=200,
+            route_variation=0.0015  # Different path
+        )
+        self.historical_data.append(hist2)
+        
+        # Historical Hike 3: Inspiration Point, 2 months ago, similar conditions
+        hist3 = self._generate_historical_hike(
+            name="Inspiration Point (Aug 7)",
+            date_offset=-60,
+            humidity_offset=+1,
+            temp_offset=+3,
+            seed=300,
+            route_variation=0.002
+        )
+        self.historical_data.append(hist3)
+    
+    def _generate_historical_hike(self, name, date_offset, humidity_offset, temp_offset, seed, route_variation=0):
+        """Generate a single historical hike with variations"""
+        np.random.seed(seed)
+        n_points = 60
+        
+        from datetime import timedelta
+        base_date = datetime(2025, 10, 7, 10, 0, 0) + timedelta(days=date_offset)
+        times = pd.date_range(start=base_date, periods=n_points, freq='1s')
+        progress = np.linspace(0, 1, n_points)
+        
+        # Similar route with variation
+        lat_beach = 37.8964 + route_variation
+        lat_east_lake = 37.8972 + route_variation
+        lat_trailhead = 37.8980 + route_variation
+        lat_wildcat = 37.9010 + route_variation
+        
+        lats = np.zeros(n_points)
+        for i, p in enumerate(progress):
+            if p < 0.25:
+                segment_p = p / 0.25
+                lats[i] = lat_beach + (lat_east_lake - lat_beach) * segment_p
+            elif p < 0.4:
+                segment_p = (p - 0.25) / 0.15
+                lats[i] = lat_east_lake + (lat_trailhead - lat_east_lake) * segment_p
+            else:
+                segment_p = (p - 0.4) / 0.6
+                lats[i] = lat_trailhead + (lat_wildcat - lat_trailhead) * segment_p
+        
+        lats += 0.00015 * np.sin(progress * 12) + np.random.normal(0, 0.00004, n_points)
+        
+        lon_beach = -122.2445 - route_variation
+        lon_east_lake = -122.2435 - route_variation
+        lon_trailhead = -122.2430 - route_variation
+        lon_wildcat = -122.2405 - route_variation
+        
+        lons = np.zeros(n_points)
+        for i, p in enumerate(progress):
+            if p < 0.25:
+                segment_p = p / 0.25
+                lons[i] = lon_beach + (lon_east_lake - lon_beach) * segment_p
+            elif p < 0.4:
+                segment_p = (p - 0.25) / 0.15
+                lons[i] = lon_east_lake + (lon_trailhead - lon_east_lake) * segment_p
+            else:
+                segment_p = (p - 0.4) / 0.6
+                lons[i] = lon_trailhead + (lon_wildcat - lon_trailhead) * segment_p
+        
+        lons += 0.0002 * np.cos(progress * 10) + np.random.normal(0, 0.00005, n_points)
+        
+        alt_beach = 230
+        alt_trailhead = 250
+        alt_wildcat = 350
+        
+        alts = np.zeros(n_points)
+        for i, p in enumerate(progress):
+            if p < 0.4:
+                alts[i] = alt_beach + (alt_trailhead - alt_beach) * (p / 0.4)
+            else:
+                segment_p = (p - 0.4) / 0.6
+                alts[i] = alt_trailhead + (alt_wildcat - alt_trailhead) * segment_p
+        
+        alts += 3 * np.sin(progress * 8) + np.random.normal(0, 1.5, n_points)
+        
+        temps = (19.0 + temp_offset) - 1.5 * progress + 0.5 * np.sin(progress * 5) + np.random.normal(0, 0.3, n_points)
+        
+        humids = np.zeros(n_points)
+        for i, p in enumerate(progress):
+            if p < 0.3:
+                humids[i] = (80 + humidity_offset) - 5 * p
+            else:
+                segment_p = (p - 0.3) / 0.7
+                humids[i] = (75 + humidity_offset) - 20 * segment_p
+        
+        humids += 2 * np.cos(progress * 4) + np.random.normal(0, 1.2, n_points)
+        
+        press = 1013 - 1.5 * progress + 0.8 * np.sin(progress * 3) + np.random.normal(0, 0.4, n_points)
+        gas = 65000 - 15000 * (progress ** 1.3) + 2000 * np.sin(progress * 6) + np.random.normal(0, 500, n_points)
+        
+        return pd.DataFrame({
+            'name': [name] * n_points,
+            'timestamp': times,
+            'latitude': lats,
+            'longitude': lons,
+            'altitude': alts,
+            'temperature': temps,
+            'humidity': humids,
+            'pressure': press,
+            'gas': gas
+        })
     
     def load_csv_data(self):
         """Load real CSV data from log files"""
@@ -475,6 +624,9 @@ class DataViewer(QMainWindow):
                 popup=f'<b>END: Wildcat Canyon Road</b><br>Drier Hillside<br>Alt: {last["altitude"]:.0f}m<br>Humidity: {last["humidity"]:.1f}%',
                 icon=folium.Icon(color='red', icon='stop')
             ).add_to(m)
+        
+        # Add bioforage prediction zones using terrain analysis
+        self.add_forage_prediction_zones(m)
         
         # Add layer control
         folium.LayerControl().add_to(m)
@@ -611,7 +763,17 @@ class DataViewer(QMainWindow):
         stats_text += f"                 ({lat_range:.6f}° = ~{lat_range * 111:.1f} km)\n\n"
         stats_text += f"Longitude Range: {self.data['longitude'].min():.6f} to {self.data['longitude'].max():.6f}\n"
         stats_text += f"                 ({lon_range:.6f}° = ~{lon_range * 111:.1f} km)\n\n"
-        stats_text += f"Altitude Range:  {self.data['altitude'].min():.1f}m to {self.data['altitude'].max():.1f}m\n"
+        stats_text += f"Altitude Range:  {self.data['altitude'].min():.1f}m to {self.data['altitude'].max():.1f}m\n\n"
+        
+        # Add Fukuoka-style terrain analysis
+        if self.terrain_analyzer and len(self.terrain_profiles) > 0:
+            stats_text += "\n" + "═"*62 + "\n"
+            stats_text += self.terrain_analyzer.generate_fukuoka_insights(
+                self.data, 
+                self.terrain_profiles,
+                self.historical_data if len(self.historical_data) > 0 else None
+            )
+            stats_text += "\n" + "═"*62 + "\n"
         
         self.stats_text.setText(stats_text)
     
@@ -826,7 +988,7 @@ class DataViewer(QMainWindow):
                 forage_text += f"❌ NOT RECOMMENDED\n"
                 forage_text += f"   Average Suitability Score: {plan['avg_score']:.1f}/100 (threshold: 60)\n"
                 forage_text += f"   Reason: {plan['reason']}\n"
-                forage_text += f"   💡 Consider: May succeed in specific microclimates, but conservative approach\n"
+                forage_text += f"   💡 Consider: May succeed in specific microclimates, but conservative dispersal\n"
                 forage_text += f"              suggests waiting for more optimal conditions or different locations.\n"
         
         forage_text += f"\n\n{'='*80}\n"
@@ -839,14 +1001,257 @@ class DataViewer(QMainWindow):
         forage_text += f"   for nitrogen-loving species like Blue Wild Rye and California Brome.\n"
         
         self.forage_text.setText(forage_text)
-
-
-def main():
-    app = QApplication(sys.argv)
-    viewer = DataViewer()
-    viewer.show()
-    sys.exit(app.exec_())
-
-
-if __name__ == '__main__':
-    main()
+    
+    def add_forage_prediction_zones(self, folium_map):
+        """Add bioforage prediction zones to the map based on terrain analysis"""
+        if self.data is None or len(self.data) < 10:
+            return
+        
+        # Define native East Bay forage species with their optimal conditions
+        forage_species = {
+            'Purple Needlegrass': {
+                'humidity_range': (40, 60),
+                'altitude_range': (200, 450),
+                'voc_preference': 'low',  # Prefers well-drained, less organic soil
+                'color': '#9B59B6',  # Purple
+                'icon': '🌾'
+            },
+            'California Oatgrass': {
+                'humidity_range': (50, 70),
+                'altitude_range': (150, 400),
+                'voc_preference': 'medium',
+                'color': '#F39C12',  # Orange-gold
+                'icon': '🌿'
+            },
+            'Creeping Wildrye': {
+                'humidity_range': (60, 80),
+                'altitude_range': (200, 350),
+                'voc_preference': 'high',  # Tolerates rich soil near water
+                'color': '#3498DB',  # Blue
+                'icon': '🌱'
+            },
+            'Blue Wildrye': {
+                'humidity_range': (35, 55),
+                'altitude_range': (250, 500),
+                'voc_preference': 'low',  # Dry hillsides
+                'color': '#2ECC71',  # Green
+                'icon': '🍃'
+            },
+            'California Brome': {
+                'humidity_range': (45, 65),
+                'altitude_range': (180, 380),
+                'voc_preference': 'medium',
+                'color': '#E67E22',  # Burnt orange
+                'icon': '🌾'
+            }
+        }
+        
+        # Create a feature group for forage predictions (can be toggled on/off)
+        forage_layer = folium.FeatureGroup(name='🌱 Forage Prediction Zones', show=True)
+        
+        # Analyze terrain and create prediction zones for each species
+        for species_name, prefs in forage_species.items():
+            optimal_points = []
+            
+            # Find points that match this species' preferences
+            for idx, row in self.data.iterrows():
+                # Check humidity match
+                humidity_score = 0
+                if prefs['humidity_range'][0] <= row['humidity'] <= prefs['humidity_range'][1]:
+                    humidity_score = 1.0
+                elif abs(row['humidity'] - np.mean(prefs['humidity_range'])) < 15:
+                    humidity_score = 0.5
+                
+                # Check altitude match
+                altitude_score = 0
+                if prefs['altitude_range'][0] <= row['altitude'] <= prefs['altitude_range'][1]:
+                    altitude_score = 1.0
+                elif abs(row['altitude'] - np.mean(prefs['altitude_range'])) < 50:
+                    altitude_score = 0.5
+                
+                # Check VOC/organic matter preference
+                voc_score = 0
+                if prefs['voc_preference'] == 'high' and row['gas'] > 55000:
+                    voc_score = 1.0
+                elif prefs['voc_preference'] == 'medium' and 50000 < row['gas'] < 60000:
+                    voc_score = 1.0
+                elif prefs['voc_preference'] == 'low' and row['gas'] < 52000:
+                    voc_score = 1.0
+                else:
+                    voc_score = 0.3
+                
+                # Calculate overall suitability (need high scores in all areas)
+                suitability = (humidity_score + altitude_score + voc_score) / 3.0
+                
+                if suitability > 0.65:  # Threshold for "good" conditions
+                    optimal_points.append({
+                        'lat': row['latitude'],
+                        'lon': row['longitude'],
+                        'suitability': suitability,
+                        'altitude': row['altitude'],
+                        'humidity': row['humidity'],
+                        'gas': row['gas']
+                    })
+            
+            # Only add zones if we found suitable points (15% of trail as requested)
+            if len(optimal_points) >= 3:
+                # Sort by suitability and take top 15% of trail points
+                optimal_points.sort(key=lambda x: x['suitability'], reverse=True)
+                top_points = optimal_points[:max(3, len(optimal_points) // 2)]
+                
+                # Create circles around optimal zones
+                for point in top_points:
+                    # Size of zone based on suitability
+                    radius = 15 + (point['suitability'] * 25)  # 15-40 meter radius
+                    
+                    popup_html = f"""
+                    <div style='font-family: monospace; background: #000; color: {prefs['color']}; padding: 10px;'>
+                    <b>{prefs['icon']} {species_name}</b><br>
+                    <hr style='border-color: {prefs['color']};'>
+                    <b>SUITABILITY:</b> {point['suitability']*100:.0f}%<br>
+                    <b>Altitude:</b> {point['altitude']:.0f}m<br>
+                    <b>Humidity:</b> {point['humidity']:.1f}%<br>
+                    <b>Soil Organic:</b> {point['gas']:.0f}Ω<br>
+                    <hr style='border-color: {prefs['color']};'>
+                    <small>🐄 GRAZING RECOMMENDATION:</small><br>
+                    <small>Seed here for optimal germination</small>
+                    </div>
+                    """
+                    
+                    folium.Circle(
+                        location=[point['lat'], point['lon']],
+                        radius=radius,
+                        popup=folium.Popup(popup_html, max_width=300),
+                        color=prefs['color'],
+                        fill=True,
+                        fillColor=prefs['color'],
+                        fillOpacity=0.15,
+                        weight=2,
+                        opacity=0.6
+                    ).add_to(forage_layer)
+                    
+                    # Add small marker at center
+                    folium.CircleMarker(
+                        location=[point['lat'], point['lon']],
+                        radius=4,
+                        color=prefs['color'],
+                        fill=True,
+                        fillColor=prefs['color'],
+                        fillOpacity=0.8,
+                        popup=folium.Popup(f"{prefs['icon']} {species_name}", max_width=150)
+                    ).add_to(forage_layer)
+        
+        # Add the forage layer to the map
+        forage_layer.add_to(folium_map)
+        
+        # Use terrain analysis to predict similar microclimates beyond the trail
+        if TERRAIN_ANALYSIS_AVAILABLE and hasattr(self, 'terrain_analyzer'):
+            self.add_terrain_extrapolation_zones(folium_map, forage_species)
+    
+    def add_terrain_extrapolation_zones(self, folium_map, forage_species):
+        """Extrapolate forage predictions to similar terrain beyond surveyed trail"""
+        # Create prediction layer for extrapolated zones
+        extrapolation_layer = folium.FeatureGroup(name='🗺️ Terrain-Based Predictions', show=False)
+        
+        # Get bounds of current data
+        lat_min, lat_max = self.data['latitude'].min(), self.data['latitude'].max()
+        lon_min, lon_max = self.data['longitude'].min(), self.data['longitude'].max()
+        
+        # Expand search area by 50% in each direction
+        lat_range = lat_max - lat_min
+        lon_range = lon_max - lon_min
+        
+        expanded_lat_min = lat_min - lat_range * 0.5
+        expanded_lat_max = lat_max + lat_range * 0.5
+        expanded_lon_min = lon_min - lon_range * 0.5
+        expanded_lon_max = lon_max + lon_range * 0.5
+        
+        # Create a grid of prediction points across the expanded area
+        grid_resolution = 20  # Number of points per dimension
+        lat_grid = np.linspace(expanded_lat_min, expanded_lat_max, grid_resolution)
+        lon_grid = np.linspace(expanded_lon_min, expanded_lon_max, grid_resolution)
+        
+        # For each grid point, predict microclimate based on terrain similarity
+        terrain_clusters = {}
+        
+        # Cluster surveyed data by altitude bands (50m bands)
+        for idx, row in self.data.iterrows():
+            alt_band = int(row['altitude'] / 50) * 50
+            if alt_band not in terrain_clusters:
+                terrain_clusters[alt_band] = {
+                    'humidity_avg': [],
+                    'gas_avg': [],
+                    'count': 0
+                }
+            terrain_clusters[alt_band]['humidity_avg'].append(row['humidity'])
+            terrain_clusters[alt_band]['gas_avg'].append(row['gas'])
+            terrain_clusters[alt_band]['count'] += 1
+        
+        # Calculate averages for each altitude band
+        for band in terrain_clusters:
+            terrain_clusters[band]['humidity_avg'] = np.mean(terrain_clusters[band]['humidity_avg'])
+            terrain_clusters[band]['gas_avg'] = np.mean(terrain_clusters[band]['gas_avg'])
+        
+        # Now predict zones for each species in unexplored areas
+        prediction_points = []
+        
+        for i, lat in enumerate(lat_grid[::3]):  # Sample every 3rd point to reduce clutter
+            for j, lon in enumerate(lon_grid[::3]):
+                # Estimate altitude for this point (simple interpolation from nearby surveyed points)
+                distances = np.sqrt((self.data['latitude'] - lat)**2 + (self.data['longitude'] - lon)**2)
+                nearest_idx = distances.argmin()
+                estimated_altitude = self.data.iloc[nearest_idx]['altitude']
+                
+                # Find matching terrain cluster
+                alt_band = int(estimated_altitude / 50) * 50
+                if alt_band in terrain_clusters:
+                    predicted_humidity = terrain_clusters[alt_band]['humidity_avg']
+                    predicted_gas = terrain_clusters[alt_band]['gas_avg']
+                    
+                    # Check which species would thrive here
+                    best_species = None
+                    best_score = 0
+                    
+                    for species_name, prefs in forage_species.items():
+                        # Calculate suitability
+                        humidity_match = prefs['humidity_range'][0] <= predicted_humidity <= prefs['humidity_range'][1]
+                        altitude_match = prefs['altitude_range'][0] <= estimated_altitude <= prefs['altitude_range'][1]
+                        
+                        if humidity_match and altitude_match:
+                            score = 1.0 - abs(predicted_humidity - np.mean(prefs['humidity_range'])) / 30
+                            if score > best_score:
+                                best_score = score
+                                best_species = species_name
+                    
+                    if best_species and best_score > 0.6:
+                        prediction_points.append({
+                            'lat': lat,
+                            'lon': lon,
+                            'species': best_species,
+                            'score': best_score,
+                            'altitude': estimated_altitude
+                        })
+        
+        # Add prediction markers (subtle, small circles)
+        for point in prediction_points:
+            species_prefs = forage_species[point['species']]
+            
+            folium.CircleMarker(
+                location=[point['lat'], point['lon']],
+                radius=3,
+                color=species_prefs['color'],
+                fill=True,
+                fillColor=species_prefs['color'],
+                fillOpacity=0.3,
+                weight=1,
+                popup=folium.Popup(
+                    f"<b>PREDICTED:</b> {species_prefs['icon']} {point['species']}<br>"
+                    f"Est. Alt: {point['altitude']:.0f}m<br>"
+                    f"Confidence: {point['score']*100:.0f}%<br>"
+                    f"<small>Based on terrain similarity</small>",
+                    max_width=200
+                )
+            ).add_to(extrapolation_layer)
+        
+        # Add extrapolation layer to map (hidden by default - user can toggle on)
+        extrapolation_layer.add_to(folium_map)
