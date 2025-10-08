@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Soil Monitor
+Comment=Start Environmental Sensor Logger with GUI
+Exec=/home/pi/tilden_test/rake_test/start_monitor.sh
+Icon=/home/pi/tilden_test/rake_test/monitor_icon.png
+Terminal=true
+Categories=Utility;Science;
+StartupNotify=true
