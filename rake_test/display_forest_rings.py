@@ -76,11 +76,9 @@ class ForestRingsDisplay:
                     print(f"Testing {driver}...")
                     os.environ['SDL_VIDEODRIVER'] = driver
                     
-                    # Disable mouse for Pi drivers
-                    if driver in ['kmsdrm', 'fbcon', 'directfb']:
-                        os.environ['SDL_NOMOUSE'] = '1'
-                    else:
-                        os.environ.pop('SDL_NOMOUSE', None)
+                    # IMPORTANT: Don't disable mouse - we need it for touch input!
+                    # The touchscreen sends events as mouse events in pygame
+                    os.environ.pop('SDL_NOMOUSE', None)
                     
                     pygame.display.quit()
                     pygame.display.init()
@@ -125,6 +123,19 @@ class ForestRingsDisplay:
         
         # Clock for frame rate
         self.clock = pygame.time.Clock()
+        
+        # Initialize touch handler if available
+        self.touch_handler = None
+        if TOUCH_HANDLER_AVAILABLE:
+            try:
+                self.touch_handler = touch_handler.TouchHandler()
+                self.touch_handler.start()
+                print("Touch handler activated for Pi touchscreen")
+            except Exception as e:
+                print(f"Touch handler failed to start: {e}")
+        
+        # Show mouse cursor (important for touch feedback on Pi)
+        pygame.mouse.set_visible(True)
     
     def draw_tree_rings(self, surface, center_x, center_y, data_history, ring_color, current_value, unit, label, max_radius=70):
         """Draw tree rings with separate current reading display"""
@@ -337,7 +348,7 @@ def set_continuous_mode():
 
 def handle_events():
     """Handle pygame events and return actions for main.py"""
-    actions = {'quit': False}
+    actions = {'quit': False, 'touch': None}
     
     if _display and _display != "DISABLED":
         for event in pygame.event.get():
@@ -346,6 +357,11 @@ def handle_events():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     actions['quit'] = True
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                # Handle both mouse and touch input
+                pos = pygame.mouse.get_pos()
+                actions['touch'] = pos
+                print(f"Touch/Click detected at: {pos}")
     
     return actions
 
