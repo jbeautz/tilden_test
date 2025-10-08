@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Tilden Data Viewer
+Comment=View environmental sensor data on interactive maps
+Exec=/home/pi/tilden_test/rake_test/start_viewer.sh
+Icon=/home/pi/tilden_test/rake_test/viewer_icon.png
+Terminal=false
+Categories=Science;Education;DataVisualization;
+StartupNotify=true
