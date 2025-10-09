@@ -1,160 +1,359 @@
 #!/usr/bin/env python3
 """
-Generate 10 historical log files from different Tilden Regional Park trails
-These simulate real sensor data from various hikes with different microclimates
+Generate diverse historical trail logs for Tilden Regional Park
+Creates 10 different trails covering various microclimates
+Each trail represents a different date and terrain type
 """
 
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
-import os
 
-np.random.seed(42)
-
-# Define 10 different trail routes in Tilden Regional Park
-trails = {
-    "1_Nimitz_Way_South": {
-        "description": "Nimitz Way - South Section (Exposed ridge, dry)",
-        "start_lat": 37.8920, "start_lon": -122.2410, "start_alt": 380,
-        "end_lat": 37.8880, "end_lon": -122.2380, "end_alt": 420,
-        "humidity_base": 45, "temp_base": 17, "duration_min": 25
-    },
-    "2_Wildcat_Creek_Trail": {
-        "description": "Wildcat Creek Trail (Creek bed, very humid)",
-        "start_lat": 37.9020, "start_lon": -122.2350, "start_alt": 200,
-        "end_lat": 37.9070, "end_lon": -122.2320, "end_alt": 250,
-        "humidity_base": 78, "temp_base": 16, "duration_min": 30
-    },
-    "3_Seaview_Trail": {
-        "description": "Seaview Trail (Mid-elevation loop)",
-        "start_lat": 37.8990, "start_lon": -122.2480, "start_alt": 300,
-        "end_lat": 37.9030, "end_lon": -122.2500, "end_alt": 400,
-        "humidity_base": 55, "temp_base": 18, "duration_min": 35
-    },
-    "4_Big_Springs_Trail": {
-        "description": "Big Springs Trail (Spring-fed, moist)",
-        "start_lat": 37.8950, "start_lon": -122.2400, "start_alt": 280,
-        "end_lat": 37.8985, "end_lon": -122.2380, "end_alt": 320,
-        "humidity_base": 72, "temp_base": 15, "duration_min": 20
-    },
-    "5_Curran_Trail": {
-        "description": "Curran Trail (Shaded forest)",
-        "start_lat": 37.8930, "start_lon": -122.2520, "start_alt": 260,
-        "end_lat": 37.8970, "end_lon": -122.2550, "end_alt": 340,
-        "humidity_base": 65, "temp_base": 16, "duration_min": 28
-    },
-    "6_Pack_Rat_Trail": {
-        "description": "Pack Rat Trail (Sunny exposed hillside)",
-        "start_lat": 37.8960, "start_lon": -122.2360, "start_alt": 320,
-        "end_lat": 37.9000, "end_lon": -122.2340, "end_alt": 380,
-        "humidity_base": 42, "temp_base": 19, "duration_min": 22
-    },
-    "7_Laurel_Canyon_Trail": {
-        "description": "Laurel Canyon Trail (Deep canyon, humid)",
-        "start_lat": 37.8940, "start_lon": -122.2460, "start_alt": 240,
-        "end_lat": 37.8900, "end_lon": -122.2490, "end_alt": 220,
-        "humidity_base": 76, "temp_base": 15, "duration_min": 32
-    },
-    "8_Mezue_Trail": {
-        "description": "Mezue Trail (Ridge connector, moderate)",
-        "start_lat": 37.9010, "start_lon": -122.2420, "start_alt": 350,
-        "end_lat": 37.9050, "end_lon": -122.2450, "end_alt": 420,
-        "humidity_base": 52, "temp_base": 17, "duration_min": 26
-    },
-    "9_Quarry_Trail": {
-        "description": "Quarry Trail (Old quarry site, dry rocky)",
-        "start_lat": 37.8980, "start_lon": -122.2300, "start_alt": 340,
-        "end_lat": 37.9020, "end_lon": -122.2280, "end_alt": 380,
-        "humidity_base": 40, "temp_base": 20, "duration_min": 18
-    },
-    "10_Jewel_Lake_Loop": {
-        "description": "Jewel Lake Loop (Lake shore, humid)",
-        "start_lat": 37.8910, "start_lon": -122.2580, "start_alt": 220,
-        "end_lat": 37.8935, "end_lon": -122.2560, "end_alt": 230,
-        "humidity_base": 82, "temp_base": 14, "duration_min": 24
-    }
-}
-
-def generate_trail_log(trail_name, trail_config, date_offset_days):
-    """Generate a realistic log file for one trail"""
+def generate_trail_log(trail_config):
+    """Generate a single trail log based on configuration"""
+    np.random.seed(trail_config['seed'])
     
-    # Calculate number of data points (1Hz sampling)
-    n_points = trail_config['duration_min'] * 60
+    n_points = trail_config['duration']  # seconds at 1Hz
+    times = pd.date_range(
+        start=trail_config['date'],
+        periods=n_points,
+        freq='1s'
+    )
     
-    # Create timestamp
-    start_date = datetime(2025, 10, 1) + timedelta(days=date_offset_days)
-    times = pd.date_range(start=start_date, periods=n_points, freq='1s')
-    
-    # Progress along trail (0 to 1)
     progress = np.linspace(0, 1, n_points)
     
-    # Latitude (with realistic winding)
-    lat_change = trail_config['end_lat'] - trail_config['start_lat']
-    lats = trail_config['start_lat'] + lat_change * progress
-    lats += 0.0001 * np.sin(progress * 15) + np.random.normal(0, 0.00003, n_points)
+    # Generate GPS path
+    start_lat, start_lon = trail_config['start']
+    end_lat, end_lon = trail_config['end']
     
-    # Longitude (with realistic winding)
-    lon_change = trail_config['end_lon'] - trail_config['start_lon']
-    lons = trail_config['start_lon'] + lon_change * progress
-    lons += 0.0001 * np.cos(progress * 12) + np.random.normal(0, 0.00003, n_points)
+    # Create winding path with natural variation
+    lats = start_lat + (end_lat - start_lat) * progress
+    lats += trail_config['path_variance'] * np.sin(progress * trail_config['path_frequency'])
+    lats += np.random.normal(0, 0.00003, n_points)
     
-    # Altitude (smooth transitions with micro-variations)
-    alt_change = trail_config['end_alt'] - trail_config['start_alt']
-    alts = trail_config['start_alt'] + alt_change * (progress ** 0.9)
-    alts += 4 * np.sin(progress * 8) + np.random.normal(0, 1.5, n_points)
+    lons = start_lon + (end_lon - start_lon) * progress
+    lons += trail_config['path_variance'] * np.cos(progress * trail_config['path_frequency'] * 1.3)
+    lons += np.random.normal(0, 0.00004, n_points)
     
-    # Temperature (affected by altitude and time of day)
-    temps = trail_config['temp_base'] - (alt_change / 100) * progress
-    temps += 1.5 * np.sin(progress * 3) + np.random.normal(0, 0.4, n_points)
+    # Altitude profile
+    start_alt, end_alt = trail_config['altitude_range']
+    if trail_config['terrain_type'] == 'steep_climb':
+        alts = start_alt + (end_alt - start_alt) * (progress ** 1.5)
+    elif trail_config['terrain_type'] == 'steep_descent':
+        alts = start_alt + (end_alt - start_alt) * (progress ** 0.5)
+    elif trail_config['terrain_type'] == 'rolling':
+        alts = start_alt + (end_alt - start_alt) * progress + 30 * np.sin(progress * 8)
+    else:  # gradual
+        alts = start_alt + (end_alt - start_alt) * progress
     
-    # Humidity (characteristic of trail type, inversely correlated with temp)
-    humids = trail_config['humidity_base'] * np.ones(n_points)
-    humids += -5 * (temps - trail_config['temp_base']) / 5  # Temperature effect
-    humids += 3 * np.sin(progress * 5) + np.random.normal(0, 1.8, n_points)
+    alts += np.random.normal(0, 2, n_points)
+    
+    # Temperature - varies with altitude and exposure
+    base_temp = trail_config['base_temp']
+    temp_alt_factor = -0.0065  # °C per meter
+    altitude_effect = (alts - start_alt) * temp_alt_factor
+    temps = base_temp + altitude_effect + np.random.normal(0, 0.4, n_points)
+    
+    # Add time of day variation if specified
+    if trail_config.get('time_variation'):
+        hour_progress = progress * 2  # Assume 2 hour max hike
+        temps += 1.5 * np.sin(hour_progress * np.pi)  # Warming during day
+    
+    # Humidity - based on microclimate
+    base_humidity = trail_config['base_humidity']
+    humidity_trend = trail_config['humidity_trend']  # Change over trail
+    
+    humids = base_humidity + humidity_trend * progress
+    
+    # Add microclimate features
+    if trail_config['microclimate'] == 'creek_bed':
+        # High humidity with local variation near water features
+        humids += 5 * np.sin(progress * 15) + np.random.normal(0, 2, n_points)
+    elif trail_config['microclimate'] == 'exposed_ridge':
+        # Lower humidity, more variable
+        humids += np.random.normal(0, 3, n_points)
+    elif trail_config['microclimate'] == 'forest':
+        # Stable, moderate humidity
+        humids += np.random.normal(0, 1.5, n_points)
+    elif trail_config['microclimate'] == 'canyon':
+        # Protected, stable high humidity
+        humids += 2 * np.sin(progress * 5) + np.random.normal(0, 1, n_points)
+    else:
+        humids += np.random.normal(0, 2, n_points)
+    
     humids = np.clip(humids, 20, 95)  # Realistic bounds
     
-    # Pressure (decreases with altitude)
-    press = 1013 - (alts - trail_config['start_alt']) / 10
-    press += 0.8 * np.sin(progress * 4) + np.random.normal(0, 0.3, n_points)
+    # Pressure - decreases with altitude
+    base_pressure = 1013.25
+    pressure_alt_factor = -0.12  # hPa per meter
+    press = base_pressure + (alts - 200) * pressure_alt_factor / 10
+    press += np.random.normal(0, 0.5, n_points)
     
-    # VOC/Gas (higher in humid areas, lower in dry exposed areas)
-    # Correlates with organic matter and moisture
-    gas_base = 45000 + (humids - 50) * 250  # More humid = more organic = higher gas
-    gas = gas_base + 3000 * np.sin(progress * 7) + np.random.normal(0, 600, n_points)
-    gas = np.clip(gas, 35000, 70000)
+    # VOC/Gas - related to organic matter and humidity
+    base_gas = trail_config['base_gas']
+    gas_humidity_factor = trail_config['gas_humidity_factor']
+    
+    gas = base_gas + gas_humidity_factor * (humids - 60)
+    gas += trail_config['gas_variance'] * np.sin(progress * 12)
+    gas += np.random.normal(0, 800, n_points)
+    gas = np.clip(gas, 30000, 80000)
     
     # Create DataFrame
     df = pd.DataFrame({
         'timestamp': times,
-        'latitude': lats,
-        'longitude': lons,
-        'altitude': alts,
         'temperature': temps,
         'humidity': humids,
         'pressure': press,
-        'gas': gas
+        'gas': gas,
+        'latitude': lats,
+        'longitude': lons,
+        'altitude': alts
     })
     
-    # Save to CSV
-    filename = f"rake_log_{trail_name}_{start_date.strftime('%Y%m%d_%H%M%S')}.csv"
-    df.to_csv(filename, index=False)
-    print(f"✓ Generated: {filename} ({n_points} points, {trail_config['description']})")
-    return filename
+    return df
 
-# Generate all 10 trail logs
-print("Generating 10 historical trail logs for Tilden Regional Park...\n")
-print("=" * 80)
+# Trail configurations for Tilden Regional Park
+TRAILS = [
+    {
+        'name': 'Nimitz Way - South Section',
+        'date': '2025-10-01 09:00:00',
+        'duration': 1500,  # 25 minutes
+        'start': (37.8920, -122.2380),
+        'end': (37.9050, -122.2490),
+        'altitude_range': (350, 420),
+        'terrain_type': 'rolling',
+        'microclimate': 'exposed_ridge',
+        'base_temp': 19.0,
+        'base_humidity': 48,
+        'humidity_trend': -5,  # Gets drier
+        'base_gas': 48000,
+        'gas_humidity_factor': 200,
+        'gas_variance': 1500,
+        'path_variance': 0.0002,
+        'path_frequency': 10,
+        'seed': 101,
+        'description': 'Exposed ridge, dry'
+    },
+    {
+        'name': 'Wildcat Creek Trail',
+        'date': '2025-10-02 10:30:00',
+        'duration': 1800,  # 30 minutes
+        'start': (37.8980, -122.2290),
+        'end': (37.9120, -122.2350),
+        'altitude_range': (200, 260),
+        'terrain_type': 'gradual',
+        'microclimate': 'creek_bed',
+        'base_temp': 17.5,
+        'base_humidity': 85,
+        'humidity_trend': 2,  # Stays humid
+        'base_gas': 66000,
+        'gas_humidity_factor': 250,
+        'gas_variance': 2000,
+        'path_variance': 0.00015,
+        'path_frequency': 18,
+        'seed': 102,
+        'description': 'Creek bed, very humid'
+    },
+    {
+        'name': 'Seaview Trail',
+        'date': '2025-10-03 14:00:00',
+        'duration': 2100,  # 35 minutes
+        'start': (37.9000, -122.2420),
+        'end': (37.9080, -122.2550),
+        'altitude_range': (280, 380),
+        'terrain_type': 'rolling',
+        'microclimate': 'mixed',
+        'base_temp': 20.0,
+        'base_humidity': 58,
+        'humidity_trend': -8,
+        'base_gas': 54000,
+        'gas_humidity_factor': 220,
+        'gas_variance': 1800,
+        'path_variance': 0.00025,
+        'path_frequency': 12,
+        'time_variation': True,
+        'seed': 103,
+        'description': 'Mid-elevation loop'
+    },
+    {
+        'name': 'Big Springs Trail',
+        'date': '2025-10-04 08:15:00',
+        'duration': 1200,  # 20 minutes
+        'start': (37.8950, -122.2410),
+        'end': (37.9010, -122.2380),
+        'altitude_range': (240, 280),
+        'terrain_type': 'gradual',
+        'microclimate': 'creek_bed',
+        'base_temp': 16.5,
+        'base_humidity': 78,
+        'humidity_trend': 3,
+        'base_gas': 63000,
+        'gas_humidity_factor': 240,
+        'gas_variance': 1700,
+        'path_variance': 0.00012,
+        'path_frequency': 15,
+        'seed': 104,
+        'description': 'Spring-fed, moist'
+    },
+    {
+        'name': 'Curran Trail',
+        'date': '2025-10-05 11:45:00',
+        'duration': 1680,  # 28 minutes
+        'start': (37.8930, -122.2450),
+        'end': (37.9040, -122.2400),
+        'altitude_range': (260, 340),
+        'terrain_type': 'steep_climb',
+        'microclimate': 'forest',
+        'base_temp': 18.0,
+        'base_humidity': 68,
+        'humidity_trend': -6,
+        'base_gas': 58000,
+        'gas_humidity_factor': 210,
+        'gas_variance': 1600,
+        'path_variance': 0.00018,
+        'path_frequency': 14,
+        'seed': 105,
+        'description': 'Shaded forest'
+    },
+    {
+        'name': 'Pack Rat Trail',
+        'date': '2025-10-06 13:20:00',
+        'duration': 1320,  # 22 minutes
+        'start': (37.8970, -122.2480),
+        'end': (37.9060, -122.2440),
+        'altitude_range': (310, 400),
+        'terrain_type': 'steep_climb',
+        'microclimate': 'exposed_ridge',
+        'base_temp': 21.0,
+        'base_humidity': 45,
+        'humidity_trend': -7,
+        'base_gas': 46000,
+        'gas_humidity_factor': 190,
+        'gas_variance': 1400,
+        'path_variance': 0.00022,
+        'path_frequency': 11,
+        'time_variation': True,
+        'seed': 106,
+        'description': 'Sunny exposed hillside'
+    },
+    {
+        'name': 'Laurel Canyon Trail',
+        'date': '2025-10-07 09:45:00',
+        'duration': 1920,  # 32 minutes
+        'start': (37.8910, -122.2350),
+        'end': (37.9030, -122.2460),
+        'altitude_range': (220, 310),
+        'terrain_type': 'gradual',
+        'microclimate': 'canyon',
+        'base_temp': 17.0,
+        'base_humidity': 72,
+        'humidity_trend': 4,
+        'base_gas': 61000,
+        'gas_humidity_factor': 230,
+        'gas_variance': 1900,
+        'path_variance': 0.00014,
+        'path_frequency': 16,
+        'seed': 107,
+        'description': 'Deep canyon, humid'
+    },
+    {
+        'name': 'Mezue Trail',
+        'date': '2025-10-08 15:10:00',
+        'duration': 1560,  # 26 minutes
+        'start': (37.8990, -122.2500),
+        'end': (37.9090, -122.2420),
+        'altitude_range': (300, 370),
+        'terrain_type': 'rolling',
+        'microclimate': 'mixed',
+        'base_temp': 19.5,
+        'base_humidity': 56,
+        'humidity_trend': -4,
+        'base_gas': 52000,
+        'gas_humidity_factor': 205,
+        'gas_variance': 1650,
+        'path_variance': 0.0002,
+        'path_frequency': 13,
+        'time_variation': True,
+        'seed': 108,
+        'description': 'Ridge connector, moderate'
+    },
+    {
+        'name': 'Quarry Trail',
+        'date': '2025-10-09 12:00:00',
+        'duration': 1080,  # 18 minutes
+        'start': (37.8960, -122.2320),
+        'end': (37.9020, -122.2380),
+        'altitude_range': (340, 410),
+        'terrain_type': 'steep_climb',
+        'microclimate': 'exposed_ridge',
+        'base_temp': 20.5,
+        'base_humidity': 42,
+        'humidity_trend': -3,
+        'base_gas': 44000,
+        'gas_humidity_factor': 180,
+        'gas_variance': 1300,
+        'path_variance': 0.00028,
+        'path_frequency': 9,
+        'seed': 109,
+        'description': 'Old quarry site, dry rocky'
+    },
+    {
+        'name': 'Jewel Lake Loop',
+        'date': '2025-10-10 10:00:00',
+        'duration': 1440,  # 24 minutes
+        'start': (37.8940, -122.2530),
+        'end': (37.8990, -122.2510),
+        'altitude_range': (210, 240),
+        'terrain_type': 'gradual',
+        'microclimate': 'creek_bed',
+        'base_temp': 17.0,
+        'base_humidity': 82,
+        'humidity_trend': 1,
+        'base_gas': 65000,
+        'gas_humidity_factor': 245,
+        'gas_variance': 2100,
+        'path_variance': 0.0001,
+        'path_frequency': 20,
+        'seed': 110,
+        'description': 'Lake shore, humid'
+    }
+]
 
-generated_files = []
-for idx, (trail_name, config) in enumerate(trails.items()):
-    filename = generate_trail_log(trail_name, config, date_offset_days=idx)
-    generated_files.append(filename)
+def main():
+    print("Generating 10 historical trail logs for Tilden Regional Park...")
+    print()
+    print("=" * 80)
+    
+    total_points = 0
+    
+    for i, trail_config in enumerate(TRAILS, 1):
+        df = generate_trail_log(trail_config)
+        
+        # Create filename
+        date_str = trail_config['date'].replace(' ', '_').replace(':', '')[:15]
+        trail_name_safe = trail_config['name'].replace(' ', '_').replace('-', '_')
+        filename = f"rake_log_{i}_{trail_name_safe}_{date_str}.csv"
+        
+        # Save to CSV
+        df.to_csv(filename, index=False)
+        
+        total_points += len(df)
+        
+        print(f"✓ Generated: {filename} ({len(df)} points, {trail_config['description']})")
+    
+    print("=" * 80)
+    print()
+    print(f"✅ Successfully generated 10 historical log files!")
+    print()
+    print("These logs cover diverse microclimates:")
+    print("  🌊 Humid creek beds and lake shores (75-85% humidity)")
+    print("  🌲 Shaded forest trails (60-70% humidity)")
+    print("  ⛰️  Exposed ridges and hillsides (40-55% humidity)")
+    print("  🏔️  Various elevations (200-420m)")
+    print()
+    print(f"Total data points: {total_points:,}")
+    print()
+    print("Files can now be loaded in the data viewer for aggregate analysis!")
 
-print("=" * 80)
-print(f"\n✅ Successfully generated {len(generated_files)} historical log files!")
-print("\nThese logs cover diverse microclimates:")
-print("  🌊 Humid creek beds and lake shores (75-85% humidity)")
-print("  🌲 Shaded forest trails (60-70% humidity)")
-print("  ⛰️  Exposed ridges and hillsides (40-55% humidity)")
-print("  🏔️  Various elevations (200-420m)")
-print("\nFiles can now be loaded in the data viewer for aggregate analysis!")
+if __name__ == '__main__':
+    main()

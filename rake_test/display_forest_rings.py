@@ -24,23 +24,32 @@ _gui = None
 _recording = False
 _clock = None
 
-# Natural forest colors
+# ═══════════════════════════════════════════════════════════════════
+#                         POPPYWAVE COLOR SCHEME
+#    Golden poppies under ultraviolet skies - moody dusk energy
+# ═══════════════════════════════════════════════════════════════════
+
+def hex_to_rgb(hex_str):
+    """Convert hex color to RGB tuple"""
+    hex_str = hex_str.lstrip('#')
+    return tuple(int(hex_str[i:i+2], 16) for i in (0, 2, 4))
+
 COLORS = {
-    'bg': (15, 25, 20),           # Deep forest
-    'bg_light': (25, 35, 30),     # Lighter forest
-    'card': (35, 50, 40),         # Tree bark
-    'accent1': (100, 200, 120),   # Forest green
-    'accent2': (180, 140, 100),   # Warm brown
-    'accent3': (120, 160, 200),   # Sky blue
-    'text': (240, 250, 240),      # Light text
-    'text_dim': (180, 190, 180),  # Dimmer text
-    'gps': (255, 200, 100),       # Golden GPS
-    'ring_temp': (220, 100, 100), # Warm red rings
-    'ring_hum': (100, 150, 220),  # Cool blue rings
-    'ring_press': (120, 200, 120), # Green rings
-    'ring_gps': (200, 150, 220),  # Purple/violet rings for air quality
-    'reading_bg': (45, 60, 50),   # Reading background
-    'reading_border': (150, 180, 150), # Reading border
+    'bg': hex_to_rgb('#3B1F4E'),           # Smoky violet - moody dusk
+    'bg_light': hex_to_rgb('#4D2961'),     # Lighter violet
+    'card': hex_to_rgb('#533274'),         # Card background
+    'accent1': hex_to_rgb('#FFB400'),      # Electric saffron - poppy fire
+    'accent2': hex_to_rgb('#67E8F9'),      # Skywire cyan - cool tech shimmer
+    'accent3': hex_to_rgb('#E1C8FF'),      # Cloud lavender
+    'text': hex_to_rgb('#F3EBD3'),         # Pale sand
+    'text_dim': hex_to_rgb('#C0B49F'),     # Dimmer sand
+    'gps': hex_to_rgb('#FFB400'),          # Poppy gold for GPS
+    'ring_temp': hex_to_rgb('#FF8800'),    # Warm poppy-orange rings
+    'ring_hum': hex_to_rgb('#67E8F9'),     # Cyan rings
+    'ring_press': hex_to_rgb('#E1C8FF'),   # Lavender rings
+    'ring_gps': hex_to_rgb('#FFB400'),     # Poppy gold rings
+    'reading_bg': hex_to_rgb('#2E1A3D'),   # Darker violet
+    'reading_border': hex_to_rgb('#FFB400'), # Saffron border
 }
 
 class ForestRingsDisplay:
@@ -76,9 +85,11 @@ class ForestRingsDisplay:
                     print(f"Testing {driver}...")
                     os.environ['SDL_VIDEODRIVER'] = driver
                     
-                    # IMPORTANT: Don't disable mouse - we need it for touch input!
-                    # The touchscreen sends events as mouse events in pygame
-                    os.environ.pop('SDL_NOMOUSE', None)
+                    # Disable mouse for Pi drivers
+                    if driver in ['kmsdrm', 'fbcon', 'directfb']:
+                        os.environ['SDL_NOMOUSE'] = '1'
+                    else:
+                        os.environ.pop('SDL_NOMOUSE', None)
                     
                     pygame.display.quit()
                     pygame.display.init()
@@ -113,29 +124,17 @@ class ForestRingsDisplay:
         self.pressure_history = deque(maxlen=50)
         self.gas_history = deque(maxlen=50)
         
-        # GPS caching to prevent flashing
-        self.last_valid_gps = None
-        self.last_gps_time = 0
-        self.GPS_HOLD_TIME = 60  # Hold GPS display for 60 seconds
+        # Initialize with some base values so rings show immediately
+        self.temp_history.append(22.0)
+        self.humidity_history.append(65.0)
+        self.pressure_history.append(1013.0)
+        self.gas_history.append(50000.0)  # Typical VOC resistance in Ohms
         
         self.time = 0
         self.recording = True  # Always recording in continuous mode
         
         # Clock for frame rate
         self.clock = pygame.time.Clock()
-        
-        # Initialize touch handler if available
-        self.touch_handler = None
-        if TOUCH_HANDLER_AVAILABLE:
-            try:
-                self.touch_handler = touch_handler.TouchHandler()
-                self.touch_handler.start()
-                print("Touch handler activated for Pi touchscreen")
-            except Exception as e:
-                print(f"Touch handler failed to start: {e}")
-        
-        # Show mouse cursor (important for touch feedback on Pi)
-        pygame.mouse.set_visible(True)
     
     def draw_tree_rings(self, surface, center_x, center_y, data_history, ring_color, current_value, unit, label, max_radius=70):
         """Draw tree rings with separate current reading display"""
@@ -147,19 +146,15 @@ class ForestRingsDisplay:
         min_val = min(data_list)
         max_val = max(data_list)
         
-        actual_max_radius = 25  # Default for single value
-        
         if max_val == min_val:
             # Single value - draw a simple ring
             ring_radius = 25
-            actual_max_radius = ring_radius
             pygame.draw.circle(surface, ring_color, (center_x, center_y), ring_radius, 2)
         else:
             # Draw rings from oldest to newest (inside out)
             for i, value in enumerate(data_list):
                 normalized = (value - min_val) / (max_val - min_val)
                 ring_radius = int(10 + normalized * max_radius)
-                actual_max_radius = max(actual_max_radius, ring_radius)
                 
                 # Ring opacity based on age (newer = more opaque)
                 age_factor = i / len(data_list)
@@ -175,11 +170,10 @@ class ForestRingsDisplay:
                 # Blit ring
                 surface.blit(ring_surface, (center_x - ring_radius - 2, center_y - ring_radius - 2))
         
-        # Draw current reading in a separate box below - FIXED position at max_radius
-        # This ensures labels don't move as rings grow
-        reading_width, reading_height = 110, 50
+        # Draw current reading in a separate box below
+        reading_width, reading_height = 100, 45
         reading_x = center_x - reading_width // 2
-        reading_y = center_y + max_radius + 10  # Fixed position using max_radius parameter
+        reading_y = center_y + max_radius + 25
         
         # Reading background
         reading_rect = pygame.Rect(reading_x, reading_y, reading_width, reading_height)
@@ -188,13 +182,13 @@ class ForestRingsDisplay:
         
         # Label
         label_surface = self.font_small.render(label, True, COLORS['text_dim'])
-        label_rect = label_surface.get_rect(center=(center_x, reading_y + 14))
+        label_rect = label_surface.get_rect(center=(center_x, reading_y + 12))
         surface.blit(label_surface, label_rect)
         
         # Current value (large and clear)
         value_text = f"{current_value:.1f}{unit}"
         value_surface = self.font_medium.render(value_text, True, COLORS['text'])
-        value_rect = value_surface.get_rect(center=(center_x, reading_y + 32))
+        value_rect = value_surface.get_rect(center=(center_x, reading_y + 28))
         surface.blit(value_surface, value_rect)
     
     def update_data(self, sensor_data):
@@ -210,16 +204,6 @@ class ForestRingsDisplay:
     def render_frame(self, sensor_data, history_data):
         """Render the complete forest rings interface"""
         self.time += 0.05
-        current_time = time.time()
-        
-        # Update GPS cache if we have valid GPS data
-        if sensor_data and sensor_data.get('latitude') and sensor_data.get('longitude'):
-            self.last_valid_gps = {
-                'latitude': sensor_data['latitude'],
-                'longitude': sensor_data['longitude'],
-                'altitude': sensor_data.get('altitude', 0)
-            }
-            self.last_gps_time = current_time
         
         # Always update data (continuous monitoring)
         if sensor_data:
@@ -248,25 +232,18 @@ class ForestRingsDisplay:
         status_surface = self.font_medium.render(status, True, status_color)
         self.screen.blit(status_surface, (self.WIDTH - 130, 10))
         
-        # GPS Display - Use cached GPS if recent (within last 60 seconds)
-        time_since_gps = current_time - self.last_gps_time
-        show_gps = self.last_valid_gps and time_since_gps < self.GPS_HOLD_TIME
-        
-        if show_gps:
-            gps_data = self.last_valid_gps
+        # GPS Display (prominent and clean)
+        gps_data = sensor_data
+        if gps_data and gps_data.get('latitude') and gps_data.get('longitude'):
             gps_y = 70
             
-            # GPS container - slightly dimmed if stale
-            is_stale = time_since_gps > 5  # Consider stale after 5 seconds
-            border_color = COLORS['text_dim'] if is_stale else COLORS['gps']
-            
+            # GPS container
             gps_rect = pygame.Rect(40, gps_y - 5, 420, 80)
             pygame.draw.rect(self.screen, COLORS['card'], gps_rect, border_radius=10)
-            pygame.draw.rect(self.screen, border_color, gps_rect, 2, border_radius=10)
+            pygame.draw.rect(self.screen, COLORS['gps'], gps_rect, 2, border_radius=10)
             
-            # GPS Header with age indicator
-            header_text = "LOCATION" if not is_stale else f"LOCATION ({int(time_since_gps)}s ago)"
-            gps_header = self.font_large.render(header_text, True, border_color)
+            # GPS Header
+            gps_header = self.font_large.render("LOCATION", True, COLORS['gps'])
             self.screen.blit(gps_header, (50, gps_y + 5))
             
             # Coordinates (large and clear)
@@ -274,9 +251,8 @@ class ForestRingsDisplay:
             lon_text = f"Lon: {gps_data['longitude']:.7f}°"
             alt_text = f"Alt: {gps_data.get('altitude', 0):.1f}m"
             
-            text_color = COLORS['text_dim'] if is_stale else COLORS['text']
-            lat_surface = self.font_medium.render(lat_text, True, text_color)
-            lon_surface = self.font_medium.render(lon_text, True, text_color)
+            lat_surface = self.font_medium.render(lat_text, True, COLORS['text'])
+            lon_surface = self.font_medium.render(lon_text, True, COLORS['text'])
             alt_surface = self.font_small.render(alt_text, True, COLORS['accent3'])
             
             self.screen.blit(lat_surface, (50, gps_y + 25))
@@ -284,7 +260,7 @@ class ForestRingsDisplay:
             self.screen.blit(alt_surface, (350, gps_y + 35))
         
         # Tree Rings section
-        rings_y = 185
+        rings_y = 180
         
         # Section title
         rings_title = self.font_large.render("Environmental Data Tree Rings", True, COLORS['text'])
@@ -299,17 +275,17 @@ class ForestRingsDisplay:
         if current_gas is None:
             current_gas = 50000.0
         
-        # Draw tree rings in 2x2 grid layout - spread out more horizontally
+        # Draw tree rings in 2x2 grid layout
         # Top row: Temperature and Humidity
-        self.draw_tree_rings(self.screen, 170, rings_y + 30, self.temp_history, COLORS['ring_temp'], 
-                           current_temp, "°C", "Temperature", max_radius=65)
-        self.draw_tree_rings(self.screen, 630, rings_y + 30, self.humidity_history, COLORS['ring_hum'],
-                           current_hum, "%", "Humidity", max_radius=65)
+        self.draw_tree_rings(self.screen, 200, rings_y + 40, self.temp_history, COLORS['ring_temp'], 
+                           current_temp, "°C", "Temperature")
+        self.draw_tree_rings(self.screen, 600, rings_y + 40, self.humidity_history, COLORS['ring_hum'],
+                           current_hum, "%", "Humidity")
         # Bottom row: Pressure and VOC (Gas)
-        self.draw_tree_rings(self.screen, 170, rings_y + 165, self.pressure_history, COLORS['ring_press'],
-                           current_press, " hPa", "Pressure", max_radius=65)
-        self.draw_tree_rings(self.screen, 630, rings_y + 165, self.gas_history, COLORS['ring_gps'],
-                           current_gas/1000, " kΩ", "Air Quality", max_radius=65)
+        self.draw_tree_rings(self.screen, 200, rings_y + 160, self.pressure_history, COLORS['ring_press'],
+                           current_press, " hPa", "Pressure")
+        self.draw_tree_rings(self.screen, 600, rings_y + 160, self.gas_history, COLORS['ring_gps'],
+                           current_gas/1000, " kΩ", "Air Quality")
         
         # Instructions at bottom
         inst1 = self.font_small.render("Tree rings grow as sensor data changes over time", True, COLORS['text_dim'])
@@ -348,7 +324,7 @@ def set_continuous_mode():
 
 def handle_events():
     """Handle pygame events and return actions for main.py"""
-    actions = {'quit': False, 'touch': None}
+    actions = {'quit': False}
     
     if _display and _display != "DISABLED":
         for event in pygame.event.get():
@@ -357,11 +333,6 @@ def handle_events():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     actions['quit'] = True
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                # Handle both mouse and touch input
-                pos = pygame.mouse.get_pos()
-                actions['touch'] = pos
-                print(f"Touch/Click detected at: {pos}")
     
     return actions
 

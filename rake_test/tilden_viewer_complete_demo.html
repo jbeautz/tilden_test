@@ -1,0 +1,1625 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🌿⚡ Tilden Data Viewer - Complete Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #00FFFF;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #00FFFF;
+            box-shadow: 0 0 20px #00FFFF;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00FFFF, 0 0 20px #FF00FF;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #FF00FF;
+            font-size: 1.2em;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #1a1a1a;
+            border-bottom: 2px solid #00FFFF;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            border-right: 1px solid #333;
+            background: #0a0a0a;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background: #1a1a1a;
+            box-shadow: 0 0 15px #00FFFF;
+        }
+        
+        .tab.active {
+            background: #000;
+            border-bottom: 3px solid #00FFFF;
+            box-shadow: 0 0 20px #00FFFF;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            min-height: 600px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .map-container {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #00FFFF;
+            box-shadow: 0 0 20px #00FFFF;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: #1a1a1a;
+            border: 2px solid #00FFFF;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+        
+        .stat-card h3 {
+            color: #FF00FF;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px #FF00FF;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .stat-label {
+            color: #00FFFF;
+        }
+        
+        .stat-value {
+            color: #FFFF00;
+            font-weight: bold;
+        }
+        
+        .insight-box {
+            background: #0a0a0a;
+            border-left: 4px solid #00FF00;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+        
+        .insight-box h4 {
+            color: #00FF00;
+            margin-bottom: 10px;
+        }
+        
+        .forage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .forage-card {
+            background: #1a1a1a;
+            border: 2px solid;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 10px;
+        }
+        
+        .animal-art {
+            text-align: center;
+            font-size: 3em;
+            margin: 20px 0;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .feature-list li:before {
+            content: "⚡ ";
+            color: #00FFFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌿⚡ TILDEN DATA VIEWER ⚡🌿</h1>
+        <p class="subtitle">NATURE • CYBERPUNK • ANALYSIS SUITE</p>
+        <div class="animal-art">🐄 🐑 🌱</div>
+    </div>
+    
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('map')">📡 TOPO.MAP</div>
+        <div class="tab" onclick="showTab('stats')">📈 SYS.STATS</div>
+        <div class="tab" onclick="showTab('forage')">🌱 FORAGE.PROTOCOL</div>
+        <div class="tab" onclick="showTab('features')">⚡ FEATURES</div>
+    </div>
+    
+    <div id="map" class="tab-content active">
+        <h2 style="margin-bottom: 20px;">📡 Interactive Topographic Map</h2>
+        <div class="map-container">
+            <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_cc6d2967f56ea7bd8953d53c28bc2c17 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+
+            &lt;style&gt;html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            &lt;/style&gt;
+
+            &lt;style&gt;#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            &lt;/style&gt;
+
+            &lt;script&gt;
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            &lt;/script&gt;
+
+        
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_cc6d2967f56ea7bd8953d53c28bc2c17&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_cc6d2967f56ea7bd8953d53c28bc2c17 = L.map(
+                &quot;map_cc6d2967f56ea7bd8953d53c28bc2c17&quot;,
+                {
+                    center: [37.8985377676351, -122.24254745382056],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 15,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+
+            
+
+        
+    
+            var tile_layer_7419e97313ca83c96b67b9112ce9ab99 = L.tileLayer(
+                &quot;https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 17,
+  &quot;maxNativeZoom&quot;: 17,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;Map data: \u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors, \u003ca href=\&quot;http://viewfinderpanoramas.org\&quot;\u003eSRTM\u003c/a\u003e | Map style: \u0026copy; \u003ca href=\&quot;https://opentopomap.org\&quot;\u003eOpenTopoMap\u003c/a\u003e (\u003ca href=\&quot;https://creativecommons.org/licenses/by-sa/3.0/\&quot;\u003eCC-BY-SA\u003c/a\u003e)&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_7419e97313ca83c96b67b9112ce9ab99.addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+        
+    
+            var poly_line_0d1978bdec82175c3d21f61bf2b50fbe = L.polyline(
+                [[37.89641986856612, -122.24432395871189], [37.89647900528247, -122.24424435220578], [37.89659373019173, -122.2442311048649], [37.89670958401495, -122.24418172286688], [37.89671659352679, -122.24403241726607], [37.89678939706478, -122.24396082673856], [37.896929474610296, -122.24399162821243], [37.89695873916379, -122.24390025470889], [37.896964881477274, -122.24389690238178], [37.89705480758586, -122.24391301508987], [37.89705803683434, -122.24382872421542], [37.89709588028568, -122.24373521746945], [37.89715726349987, -122.24377757708032], [37.89710014132546, -122.24365865956432], [37.89713381214053, -122.2438255961497], [37.8972137004745, -122.24360993576367], [37.89725562012079, -122.24360684197808], [37.89736933974318, -122.24358109754236], [37.89738300728049, -122.24351097323783], [37.89742846398275, -122.2435586456733], [37.897613300506904, -122.24340824280065], [37.89762030487939, -122.2433118395177], [37.897712290023485, -122.24318299750759], [37.89773886164574, -122.24320523120926], [37.89786425914393, -122.24313235062291], [37.89798336009515, -122.24301770342076], [37.89803153218224, -122.24284491323205], [37.898196435424786, -122.24277058902021], [37.898265617402174, -122.24270908003962], [37.89838964214999, -122.24255268536534], [37.89849123026386, -122.24247040637775], [37.89870449442468, -122.24232582479597], [37.898744832767385, -122.24231131246289], [37.898816652200225, -122.24219828763671], [37.89900288001593, -122.24211162536318], [37.89902850860046, -122.2420802838891], [37.899188475119814, -122.24191277261626], [37.899199182714455, -122.24184063394988], [37.89931603804588, -122.24178527044566], [37.89946250053091, -122.24173475567642], [37.8995634604946, -122.24173672309809], [37.89961413214572, -122.24163495479165], [37.899670536459716, -122.24158353319069], [37.89972622769934, -122.24156283133014], [37.899738356860375, -122.2414901747098], [37.899825098358136, -122.24142351362103], [37.89989019824168, -122.24131230180161], [37.90000521495873, -122.24136110579649], [37.90003181055779, -122.24131953946123], [37.9000047301288, -122.24129712869767], [37.900148587310255, -122.24134783558515], [37.90018478398416, -122.24120838022817], [37.90024269684805, -122.24115512863017], [37.900369475303854, -122.24098136964163], [37.90046752292993, -122.24105535983026], [37.900550992117765, -122.24096635380265], [37.900573701632744, -122.24091315463826], [37.90069414060958, -122.24089412186078], [37.900824110288625, -122.24069724319135], [37.90095853586739, -122.24063021765417]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#00FFFF&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: false, &quot;fillColor&quot;: &quot;#00FFFF&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 0.8, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+        
+    
+        var popup_8d607ca1c6adc9d7d4da58c2d9c3c719 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_4be76fcc112b8c1a1faa930a894ca8ac = $(`&lt;div id=&quot;html_4be76fcc112b8c1a1faa930a894ca8ac&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Lake Anza → Wildcat Canyon Trail&lt;/div&gt;`)[0];
+                popup_8d607ca1c6adc9d7d4da58c2d9c3c719.setContent(html_4be76fcc112b8c1a1faa930a894ca8ac);
+            
+        
+
+        poly_line_0d1978bdec82175c3d21f61bf2b50fbe.bindPopup(popup_8d607ca1c6adc9d7d4da58c2d9c3c719)
+        ;
+
+        
+    
+    
+            var feature_group_93609f74f915529fa370f1cdc0d06333 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_4f2363799733e495b7effbe2c2a65782 = L.circle(
+                [37.89972622769934, -122.24156283133014],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#9B59B6&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#9B59B6&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_ac594bd3877dfce0710bbe8c20904d60 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_4c4e5e852aedbb7efe401a7a0ea0033c = $(`&lt;div id=&quot;html_4c4e5e852aedbb7efe401a7a0ea0033c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 Purple Needlegrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 59.3%&lt;/div&gt;`)[0];
+                popup_ac594bd3877dfce0710bbe8c20904d60.setContent(html_4c4e5e852aedbb7efe401a7a0ea0033c);
+            
+        
+
+        circle_4f2363799733e495b7effbe2c2a65782.bindPopup(popup_ac594bd3877dfce0710bbe8c20904d60)
+        ;
+
+        
+    
+    
+            var circle_1b17ffc34a990391f45843e66230f059 = L.circle(
+                [37.899825098358136, -122.24142351362103],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#9B59B6&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#9B59B6&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_216688ffa2e713590402f6ab18a393e2 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_b7be3710593abdd665c6e465a7ecdea7 = $(`&lt;div id=&quot;html_b7be3710593abdd665c6e465a7ecdea7&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 Purple Needlegrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 57.4%&lt;/div&gt;`)[0];
+                popup_216688ffa2e713590402f6ab18a393e2.setContent(html_b7be3710593abdd665c6e465a7ecdea7);
+            
+        
+
+        circle_1b17ffc34a990391f45843e66230f059.bindPopup(popup_216688ffa2e713590402f6ab18a393e2)
+        ;
+
+        
+    
+    
+            var circle_3ea7aa885428c0db8de9121e4dd276f1 = L.circle(
+                [37.89989019824168, -122.24131230180161],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#9B59B6&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#9B59B6&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_ba5ef11108d719ef65f34503352efbee = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_6cb15fce8b0d1fa89262896c2b83d492 = $(`&lt;div id=&quot;html_6cb15fce8b0d1fa89262896c2b83d492&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 Purple Needlegrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 59.1%&lt;/div&gt;`)[0];
+                popup_ba5ef11108d719ef65f34503352efbee.setContent(html_6cb15fce8b0d1fa89262896c2b83d492);
+            
+        
+
+        circle_3ea7aa885428c0db8de9121e4dd276f1.bindPopup(popup_ba5ef11108d719ef65f34503352efbee)
+        ;
+
+        
+    
+    
+            var circle_ec1c7b96a58e19c377cdcac23886edf4 = L.circle(
+                [37.90000521495873, -122.24136110579649],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#9B59B6&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#9B59B6&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_32a3a7b613984697c8234ba2b3022c17 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_be73197a2407cc7a63cf1ecb0b8b3726 = $(`&lt;div id=&quot;html_be73197a2407cc7a63cf1ecb0b8b3726&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 Purple Needlegrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 59.5%&lt;/div&gt;`)[0];
+                popup_32a3a7b613984697c8234ba2b3022c17.setContent(html_be73197a2407cc7a63cf1ecb0b8b3726);
+            
+        
+
+        circle_ec1c7b96a58e19c377cdcac23886edf4.bindPopup(popup_32a3a7b613984697c8234ba2b3022c17)
+        ;
+
+        
+    
+    
+            var circle_67a84558cb7c9ea6d443fceccc0533eb = L.circle(
+                [37.90003181055779, -122.24131953946123],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#9B59B6&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#9B59B6&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_2fbd4eb60c7fc7c3a40946fe60041b93 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_cf2a29ea6356d6d9c6bb80ebe194f60a = $(`&lt;div id=&quot;html_cf2a29ea6356d6d9c6bb80ebe194f60a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 Purple Needlegrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 58.7%&lt;/div&gt;`)[0];
+                popup_2fbd4eb60c7fc7c3a40946fe60041b93.setContent(html_cf2a29ea6356d6d9c6bb80ebe194f60a);
+            
+        
+
+        circle_67a84558cb7c9ea6d443fceccc0533eb.bindPopup(popup_2fbd4eb60c7fc7c3a40946fe60041b93)
+        ;
+
+        
+    
+    
+            var circle_aebe30be3771e9a7f6e39e8a23078242 = L.circle(
+                [37.897712290023485, -122.24318299750759],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#F39C12&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#F39C12&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_4bc9b186c49c90241c0c334fe9a649f5 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_70208676ea31869b065d085964269c40 = $(`&lt;div id=&quot;html_70208676ea31869b065d085964269c40&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌿 California Oatgrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 69.2%&lt;/div&gt;`)[0];
+                popup_4bc9b186c49c90241c0c334fe9a649f5.setContent(html_70208676ea31869b065d085964269c40);
+            
+        
+
+        circle_aebe30be3771e9a7f6e39e8a23078242.bindPopup(popup_4bc9b186c49c90241c0c334fe9a649f5)
+        ;
+
+        
+    
+    
+            var circle_d4a5c71440d5150349be12194e55d26b = L.circle(
+                [37.89798336009515, -122.24301770342076],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#F39C12&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#F39C12&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_ab7647a8e85b8e3223a67fcd60d27c06 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_7eca67f061facf33494a4a69db069a77 = $(`&lt;div id=&quot;html_7eca67f061facf33494a4a69db069a77&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌿 California Oatgrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 69.7%&lt;/div&gt;`)[0];
+                popup_ab7647a8e85b8e3223a67fcd60d27c06.setContent(html_7eca67f061facf33494a4a69db069a77);
+            
+        
+
+        circle_d4a5c71440d5150349be12194e55d26b.bindPopup(popup_ab7647a8e85b8e3223a67fcd60d27c06)
+        ;
+
+        
+    
+    
+            var circle_ccbe437f019424aab9a1a4288b3a8436 = L.circle(
+                [37.898196435424786, -122.24277058902021],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#F39C12&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#F39C12&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_70a35e263efbba57cb20169c3f8e4352 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_e9ff62fb23f805c80dca719bb35a1db8 = $(`&lt;div id=&quot;html_e9ff62fb23f805c80dca719bb35a1db8&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌿 California Oatgrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 68.3%&lt;/div&gt;`)[0];
+                popup_70a35e263efbba57cb20169c3f8e4352.setContent(html_e9ff62fb23f805c80dca719bb35a1db8);
+            
+        
+
+        circle_ccbe437f019424aab9a1a4288b3a8436.bindPopup(popup_70a35e263efbba57cb20169c3f8e4352)
+        ;
+
+        
+    
+    
+            var circle_f9173eed8e28e1f38c54234a7b11bff7 = L.circle(
+                [37.898265617402174, -122.24270908003962],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#F39C12&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#F39C12&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_cee389588c03d5a09137b1d335bdda4f = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_abed606d50bbba4c3f8ac2c10aa76ca6 = $(`&lt;div id=&quot;html_abed606d50bbba4c3f8ac2c10aa76ca6&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌿 California Oatgrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 68.8%&lt;/div&gt;`)[0];
+                popup_cee389588c03d5a09137b1d335bdda4f.setContent(html_abed606d50bbba4c3f8ac2c10aa76ca6);
+            
+        
+
+        circle_f9173eed8e28e1f38c54234a7b11bff7.bindPopup(popup_cee389588c03d5a09137b1d335bdda4f)
+        ;
+
+        
+    
+    
+            var circle_240db4b1f2f8df55345ab1342bc004bd = L.circle(
+                [37.89838964214999, -122.24255268536534],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#F39C12&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#F39C12&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_b89a9a17b6424ecbe1fca891b9104e13 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_b70e5a2099fbe7b3e3b2d06d5963a593 = $(`&lt;div id=&quot;html_b70e5a2099fbe7b3e3b2d06d5963a593&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌿 California Oatgrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 68.9%&lt;/div&gt;`)[0];
+                popup_b89a9a17b6424ecbe1fca891b9104e13.setContent(html_b70e5a2099fbe7b3e3b2d06d5963a593);
+            
+        
+
+        circle_240db4b1f2f8df55345ab1342bc004bd.bindPopup(popup_b89a9a17b6424ecbe1fca891b9104e13)
+        ;
+
+        
+    
+    
+            var circle_656c6b9b29deae62916e8f9f7ecf10a3 = L.circle(
+                [37.89849123026386, -122.24247040637775],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#F39C12&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#F39C12&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_8f06b923e8284006b732d571815fd00d = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_6b2b07738915f840a5a2e5fea9e06dcc = $(`&lt;div id=&quot;html_6b2b07738915f840a5a2e5fea9e06dcc&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌿 California Oatgrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 69.9%&lt;/div&gt;`)[0];
+                popup_8f06b923e8284006b732d571815fd00d.setContent(html_6b2b07738915f840a5a2e5fea9e06dcc);
+            
+        
+
+        circle_656c6b9b29deae62916e8f9f7ecf10a3.bindPopup(popup_8f06b923e8284006b732d571815fd00d)
+        ;
+
+        
+    
+    
+            var circle_15f7c98251609e6927d8bd1ad1edfc3b = L.circle(
+                [37.89870449442468, -122.24232582479597],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#F39C12&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#F39C12&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_ea1eaafbde3b39c5b16af14c6c8ae921 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_68de807c9c02b446961b67a4429c1cad = $(`&lt;div id=&quot;html_68de807c9c02b446961b67a4429c1cad&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌿 California Oatgrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 65.8%&lt;/div&gt;`)[0];
+                popup_ea1eaafbde3b39c5b16af14c6c8ae921.setContent(html_68de807c9c02b446961b67a4429c1cad);
+            
+        
+
+        circle_15f7c98251609e6927d8bd1ad1edfc3b.bindPopup(popup_ea1eaafbde3b39c5b16af14c6c8ae921)
+        ;
+
+        
+    
+    
+            var circle_6c73a586de412795c496ed85f4095b2a = L.circle(
+                [37.898744832767385, -122.24231131246289],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#F39C12&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#F39C12&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_13d7137ee165fd66e3a4394e0fa8fb05 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_b03efdd12c458ecf45c90a6b4a499bae = $(`&lt;div id=&quot;html_b03efdd12c458ecf45c90a6b4a499bae&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌿 California Oatgrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 68.3%&lt;/div&gt;`)[0];
+                popup_13d7137ee165fd66e3a4394e0fa8fb05.setContent(html_b03efdd12c458ecf45c90a6b4a499bae);
+            
+        
+
+        circle_6c73a586de412795c496ed85f4095b2a.bindPopup(popup_13d7137ee165fd66e3a4394e0fa8fb05)
+        ;
+
+        
+    
+    
+            var circle_3994d7bfe3819d47064dc4037185cab4 = L.circle(
+                [37.898816652200225, -122.24219828763671],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#F39C12&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#F39C12&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_4b5b0b9820e18a72b07cb37b3945363d = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_c2c29be855b12c1ee99fcb43191028ef = $(`&lt;div id=&quot;html_c2c29be855b12c1ee99fcb43191028ef&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌿 California Oatgrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 66.4%&lt;/div&gt;`)[0];
+                popup_4b5b0b9820e18a72b07cb37b3945363d.setContent(html_c2c29be855b12c1ee99fcb43191028ef);
+            
+        
+
+        circle_3994d7bfe3819d47064dc4037185cab4.bindPopup(popup_4b5b0b9820e18a72b07cb37b3945363d)
+        ;
+
+        
+    
+    
+            var circle_a04266d33c5e3179fe6fd49b26cd4c75 = L.circle(
+                [37.89900288001593, -122.24211162536318],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#F39C12&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#F39C12&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_dbb9d5b4ecc656cd73e387df2591917e = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_d010bd7b304d24702b4b5f04c200a9eb = $(`&lt;div id=&quot;html_d010bd7b304d24702b4b5f04c200a9eb&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌿 California Oatgrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 64.6%&lt;/div&gt;`)[0];
+                popup_dbb9d5b4ecc656cd73e387df2591917e.setContent(html_d010bd7b304d24702b4b5f04c200a9eb);
+            
+        
+
+        circle_a04266d33c5e3179fe6fd49b26cd4c75.bindPopup(popup_dbb9d5b4ecc656cd73e387df2591917e)
+        ;
+
+        
+    
+    
+            var circle_0b6fead9cd4f9ab9fcfc4b93e872b042 = L.circle(
+                [37.89902850860046, -122.2420802838891],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#F39C12&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#F39C12&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_97ba642a1561ccc622a1e83a78544219 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_dffec3cbac2cffbee7c2baf19b0dc5e6 = $(`&lt;div id=&quot;html_dffec3cbac2cffbee7c2baf19b0dc5e6&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌿 California Oatgrass&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 65.7%&lt;/div&gt;`)[0];
+                popup_97ba642a1561ccc622a1e83a78544219.setContent(html_dffec3cbac2cffbee7c2baf19b0dc5e6);
+            
+        
+
+        circle_0b6fead9cd4f9ab9fcfc4b93e872b042.bindPopup(popup_97ba642a1561ccc622a1e83a78544219)
+        ;
+
+        
+    
+    
+            var circle_08f6d07f9055c09e9d4204856336d330 = L.circle(
+                [37.89705803683434, -122.24382872421542],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3498DB&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3498DB&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_007ba47939df512c8041b46c7e6dead9 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_47fcc355384b986ace9e23dc69bad48b = $(`&lt;div id=&quot;html_47fcc355384b986ace9e23dc69bad48b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌱 Creeping Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 79.2%&lt;/div&gt;`)[0];
+                popup_007ba47939df512c8041b46c7e6dead9.setContent(html_47fcc355384b986ace9e23dc69bad48b);
+            
+        
+
+        circle_08f6d07f9055c09e9d4204856336d330.bindPopup(popup_007ba47939df512c8041b46c7e6dead9)
+        ;
+
+        
+    
+    
+            var circle_abe9d6ec7990a974c7c16e8738e44ed8 = L.circle(
+                [37.89713381214053, -122.2438255961497],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3498DB&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3498DB&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_6d7aaea244f4b60f1f8136422891b7b6 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_9bc45e5a9fd9e3ba6418a3ca37051a88 = $(`&lt;div id=&quot;html_9bc45e5a9fd9e3ba6418a3ca37051a88&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌱 Creeping Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 78.2%&lt;/div&gt;`)[0];
+                popup_6d7aaea244f4b60f1f8136422891b7b6.setContent(html_9bc45e5a9fd9e3ba6418a3ca37051a88);
+            
+        
+
+        circle_abe9d6ec7990a974c7c16e8738e44ed8.bindPopup(popup_6d7aaea244f4b60f1f8136422891b7b6)
+        ;
+
+        
+    
+    
+            var circle_c4d98b886817050944def89eec1a6e14 = L.circle(
+                [37.8972137004745, -122.24360993576367],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3498DB&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3498DB&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_5948893dddddad3faa53b8cd82757f02 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_253af4c2b852728f9dfb5c4898a7f76d = $(`&lt;div id=&quot;html_253af4c2b852728f9dfb5c4898a7f76d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌱 Creeping Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 79.2%&lt;/div&gt;`)[0];
+                popup_5948893dddddad3faa53b8cd82757f02.setContent(html_253af4c2b852728f9dfb5c4898a7f76d);
+            
+        
+
+        circle_c4d98b886817050944def89eec1a6e14.bindPopup(popup_5948893dddddad3faa53b8cd82757f02)
+        ;
+
+        
+    
+    
+            var circle_6f078c1710c6b8f4f1c2b79a86841823 = L.circle(
+                [37.89736933974318, -122.24358109754236],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3498DB&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3498DB&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_74af2a9e9d497fad26602149c50dc1dd = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_895ff2443c96c2261a3d2c07b59d9638 = $(`&lt;div id=&quot;html_895ff2443c96c2261a3d2c07b59d9638&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌱 Creeping Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 78.5%&lt;/div&gt;`)[0];
+                popup_74af2a9e9d497fad26602149c50dc1dd.setContent(html_895ff2443c96c2261a3d2c07b59d9638);
+            
+        
+
+        circle_6f078c1710c6b8f4f1c2b79a86841823.bindPopup(popup_74af2a9e9d497fad26602149c50dc1dd)
+        ;
+
+        
+    
+    
+            var circle_48d17a15e1e506ed552aa44e883c0a11 = L.circle(
+                [37.89738300728049, -122.24351097323783],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3498DB&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3498DB&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_304de9ea09871c76688b86696949cbd4 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_08c655b064f5a0f1d7c5fee27d663e36 = $(`&lt;div id=&quot;html_08c655b064f5a0f1d7c5fee27d663e36&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌱 Creeping Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 76.1%&lt;/div&gt;`)[0];
+                popup_304de9ea09871c76688b86696949cbd4.setContent(html_08c655b064f5a0f1d7c5fee27d663e36);
+            
+        
+
+        circle_48d17a15e1e506ed552aa44e883c0a11.bindPopup(popup_304de9ea09871c76688b86696949cbd4)
+        ;
+
+        
+    
+    
+            var circle_6d2c70d94361bd740a79406b7ea39243 = L.circle(
+                [37.89742846398275, -122.2435586456733],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3498DB&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3498DB&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_6344fafbc5d6353466df34b8277b7d52 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_f80bd6f1d60c15ad43807cf2e5098959 = $(`&lt;div id=&quot;html_f80bd6f1d60c15ad43807cf2e5098959&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌱 Creeping Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 75.9%&lt;/div&gt;`)[0];
+                popup_6344fafbc5d6353466df34b8277b7d52.setContent(html_f80bd6f1d60c15ad43807cf2e5098959);
+            
+        
+
+        circle_6d2c70d94361bd740a79406b7ea39243.bindPopup(popup_6344fafbc5d6353466df34b8277b7d52)
+        ;
+
+        
+    
+    
+            var circle_7ad559b630a9987ec88f38152dbd82de = L.circle(
+                [37.897613300506904, -122.24340824280065],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3498DB&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3498DB&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_c57f5ae5a19325a1bc2a5d0b9d889347 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_adce0f9631fe02fbe8a34c8cfefcfc8e = $(`&lt;div id=&quot;html_adce0f9631fe02fbe8a34c8cfefcfc8e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌱 Creeping Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 73.2%&lt;/div&gt;`)[0];
+                popup_c57f5ae5a19325a1bc2a5d0b9d889347.setContent(html_adce0f9631fe02fbe8a34c8cfefcfc8e);
+            
+        
+
+        circle_7ad559b630a9987ec88f38152dbd82de.bindPopup(popup_c57f5ae5a19325a1bc2a5d0b9d889347)
+        ;
+
+        
+    
+    
+            var circle_e6e093b522a615278fd21bb1ded66cad = L.circle(
+                [37.89762030487939, -122.2433118395177],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3498DB&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3498DB&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_26d138b9101e68bc2e724c8985022baf = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_de2e92573bba8459283853cab1336ae4 = $(`&lt;div id=&quot;html_de2e92573bba8459283853cab1336ae4&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌱 Creeping Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 73.6%&lt;/div&gt;`)[0];
+                popup_26d138b9101e68bc2e724c8985022baf.setContent(html_de2e92573bba8459283853cab1336ae4);
+            
+        
+
+        circle_e6e093b522a615278fd21bb1ded66cad.bindPopup(popup_26d138b9101e68bc2e724c8985022baf)
+        ;
+
+        
+    
+    
+            var circle_9e7087866191749f1501ffb8fb890108 = L.circle(
+                [37.897712290023485, -122.24318299750759],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3498DB&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3498DB&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_6fe140ce6eccb30691f16c55873afce1 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_9ab1455fe5464182f91953af147002d1 = $(`&lt;div id=&quot;html_9ab1455fe5464182f91953af147002d1&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌱 Creeping Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 69.2%&lt;/div&gt;`)[0];
+                popup_6fe140ce6eccb30691f16c55873afce1.setContent(html_9ab1455fe5464182f91953af147002d1);
+            
+        
+
+        circle_9e7087866191749f1501ffb8fb890108.bindPopup(popup_6fe140ce6eccb30691f16c55873afce1)
+        ;
+
+        
+    
+    
+            var circle_3385dfc9a3966f6c4444c14600995793 = L.circle(
+                [37.89773886164574, -122.24320523120926],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3498DB&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3498DB&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_4721465d4c4885940510b2a31e2f963f = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_d81f65f612779a62fb52cc4e0d911566 = $(`&lt;div id=&quot;html_d81f65f612779a62fb52cc4e0d911566&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌱 Creeping Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 71.2%&lt;/div&gt;`)[0];
+                popup_4721465d4c4885940510b2a31e2f963f.setContent(html_d81f65f612779a62fb52cc4e0d911566);
+            
+        
+
+        circle_3385dfc9a3966f6c4444c14600995793.bindPopup(popup_4721465d4c4885940510b2a31e2f963f)
+        ;
+
+        
+    
+    
+            var circle_314e0cb20b5d0caf998726c36575f6cb = L.circle(
+                [37.900550992117765, -122.24096635380265],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#2ECC71&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#2ECC71&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_217e9444342b38acdc3c2b764ed951fa = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_fb882ef206b50e4d4dae3255b86fda04 = $(`&lt;div id=&quot;html_fb882ef206b50e4d4dae3255b86fda04&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🍃 Blue Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 54.4%&lt;/div&gt;`)[0];
+                popup_217e9444342b38acdc3c2b764ed951fa.setContent(html_fb882ef206b50e4d4dae3255b86fda04);
+            
+        
+
+        circle_314e0cb20b5d0caf998726c36575f6cb.bindPopup(popup_217e9444342b38acdc3c2b764ed951fa)
+        ;
+
+        
+    
+    
+            var circle_edf82feee74aea9dfbd85edd9f4ee1d2 = L.circle(
+                [37.90069414060958, -122.24089412186078],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#2ECC71&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#2ECC71&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_c6928905500d703d9a493dac49d54069 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_e01cdb815817788d3319711bbba890b1 = $(`&lt;div id=&quot;html_e01cdb815817788d3319711bbba890b1&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🍃 Blue Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 54.8%&lt;/div&gt;`)[0];
+                popup_c6928905500d703d9a493dac49d54069.setContent(html_e01cdb815817788d3319711bbba890b1);
+            
+        
+
+        circle_edf82feee74aea9dfbd85edd9f4ee1d2.bindPopup(popup_c6928905500d703d9a493dac49d54069)
+        ;
+
+        
+    
+    
+            var circle_3da57651489d6b31a523b0a378a3c29e = L.circle(
+                [37.90095853586739, -122.24063021765417],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#2ECC71&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#2ECC71&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_5f568eb344baa630ca8e63aebcd5f4e0 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_3059e844b419bb1ff529e229aa453094 = $(`&lt;div id=&quot;html_3059e844b419bb1ff529e229aa453094&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🍃 Blue Wildrye&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 54.4%&lt;/div&gt;`)[0];
+                popup_5f568eb344baa630ca8e63aebcd5f4e0.setContent(html_3059e844b419bb1ff529e229aa453094);
+            
+        
+
+        circle_3da57651489d6b31a523b0a378a3c29e.bindPopup(popup_5f568eb344baa630ca8e63aebcd5f4e0)
+        ;
+
+        
+    
+    
+            var circle_30f2c68dc02e7f6989055a08cb9c3682 = L.circle(
+                [37.89900288001593, -122.24211162536318],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#E67E22&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#E67E22&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_79b062aeb05a5cab976c1bfe9408c697 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_1e5ddd94740c23c5683652f21a6cc07c = $(`&lt;div id=&quot;html_1e5ddd94740c23c5683652f21a6cc07c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 California Brome&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 64.6%&lt;/div&gt;`)[0];
+                popup_79b062aeb05a5cab976c1bfe9408c697.setContent(html_1e5ddd94740c23c5683652f21a6cc07c);
+            
+        
+
+        circle_30f2c68dc02e7f6989055a08cb9c3682.bindPopup(popup_79b062aeb05a5cab976c1bfe9408c697)
+        ;
+
+        
+    
+    
+            var circle_793128f1f94ccde41fdc134e06b29a36 = L.circle(
+                [37.899188475119814, -122.24191277261626],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#E67E22&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#E67E22&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_b58cb716f0bef00569b014fc4106fb36 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_a582b1d863d1fb9b38dec5407ecdb490 = $(`&lt;div id=&quot;html_a582b1d863d1fb9b38dec5407ecdb490&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 California Brome&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 64.8%&lt;/div&gt;`)[0];
+                popup_b58cb716f0bef00569b014fc4106fb36.setContent(html_a582b1d863d1fb9b38dec5407ecdb490);
+            
+        
+
+        circle_793128f1f94ccde41fdc134e06b29a36.bindPopup(popup_b58cb716f0bef00569b014fc4106fb36)
+        ;
+
+        
+    
+    
+            var circle_e09c5c683ee31d55c6a87596a214492f = L.circle(
+                [37.899199182714455, -122.24184063394988],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#E67E22&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#E67E22&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_4da9de6997e7e542ec6e1da1daad0e05 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_ccfa10cc947623061df74b922bd8cdcd = $(`&lt;div id=&quot;html_ccfa10cc947623061df74b922bd8cdcd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 California Brome&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 63.3%&lt;/div&gt;`)[0];
+                popup_4da9de6997e7e542ec6e1da1daad0e05.setContent(html_ccfa10cc947623061df74b922bd8cdcd);
+            
+        
+
+        circle_e09c5c683ee31d55c6a87596a214492f.bindPopup(popup_4da9de6997e7e542ec6e1da1daad0e05)
+        ;
+
+        
+    
+    
+            var circle_d05022cf1225a0c63091225d494ed80a = L.circle(
+                [37.89931603804588, -122.24178527044566],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#E67E22&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#E67E22&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_b7dcb50b80d46e6608b3f5af6633da45 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_28f6c920c805a28fec33edda83c577c8 = $(`&lt;div id=&quot;html_28f6c920c805a28fec33edda83c577c8&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 California Brome&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 63.6%&lt;/div&gt;`)[0];
+                popup_b7dcb50b80d46e6608b3f5af6633da45.setContent(html_28f6c920c805a28fec33edda83c577c8);
+            
+        
+
+        circle_d05022cf1225a0c63091225d494ed80a.bindPopup(popup_b7dcb50b80d46e6608b3f5af6633da45)
+        ;
+
+        
+    
+    
+            var circle_934deeebc6599c8b6ce051eadc024191 = L.circle(
+                [37.89946250053091, -122.24173475567642],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#E67E22&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#E67E22&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_f67ae3ea26f2721200f833dd49a393ca = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_039b1517cc0b13b5f703060ad47fa15b = $(`&lt;div id=&quot;html_039b1517cc0b13b5f703060ad47fa15b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 California Brome&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 62.5%&lt;/div&gt;`)[0];
+                popup_f67ae3ea26f2721200f833dd49a393ca.setContent(html_039b1517cc0b13b5f703060ad47fa15b);
+            
+        
+
+        circle_934deeebc6599c8b6ce051eadc024191.bindPopup(popup_f67ae3ea26f2721200f833dd49a393ca)
+        ;
+
+        
+    
+    
+            var circle_4fb3e985a9de8ef6b0250d251d7d5e42 = L.circle(
+                [37.8995634604946, -122.24173672309809],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#E67E22&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#E67E22&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_a711003d30177563215917d076a50fb1 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_95ca6226bc4bdeb5abf5f8e4ac29a186 = $(`&lt;div id=&quot;html_95ca6226bc4bdeb5abf5f8e4ac29a186&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 California Brome&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 62.5%&lt;/div&gt;`)[0];
+                popup_a711003d30177563215917d076a50fb1.setContent(html_95ca6226bc4bdeb5abf5f8e4ac29a186);
+            
+        
+
+        circle_4fb3e985a9de8ef6b0250d251d7d5e42.bindPopup(popup_a711003d30177563215917d076a50fb1)
+        ;
+
+        
+    
+    
+            var circle_6555dc88650b2d5d9a84049a4626c021 = L.circle(
+                [37.89961413214572, -122.24163495479165],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#E67E22&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#E67E22&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_3817c80c5953f18deaf9a8f47e7bf28b = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_48b1c34e008efbc32a91c13149a89e81 = $(`&lt;div id=&quot;html_48b1c34e008efbc32a91c13149a89e81&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 California Brome&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 62.6%&lt;/div&gt;`)[0];
+                popup_3817c80c5953f18deaf9a8f47e7bf28b.setContent(html_48b1c34e008efbc32a91c13149a89e81);
+            
+        
+
+        circle_6555dc88650b2d5d9a84049a4626c021.bindPopup(popup_3817c80c5953f18deaf9a8f47e7bf28b)
+        ;
+
+        
+    
+    
+            var circle_3247716d80173b5c521b289f714102b1 = L.circle(
+                [37.899670536459716, -122.24158353319069],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#E67E22&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#E67E22&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 25, &quot;stroke&quot;: true, &quot;weight&quot;: 2}
+            ).addTo(feature_group_93609f74f915529fa370f1cdc0d06333);
+        
+    
+        var popup_0a7fc252a949fb4d7b989b3aa6ccc2f3 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_a70607c0b8fcfe1bd48fa96e0cb9513c = $(`&lt;div id=&quot;html_a70607c0b8fcfe1bd48fa96e0cb9513c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;🌾 California Brome&lt;br&gt;Suitability: HIGH&lt;br&gt;Humidity: 63.2%&lt;/div&gt;`)[0];
+                popup_0a7fc252a949fb4d7b989b3aa6ccc2f3.setContent(html_a70607c0b8fcfe1bd48fa96e0cb9513c);
+            
+        
+
+        circle_3247716d80173b5c521b289f714102b1.bindPopup(popup_0a7fc252a949fb4d7b989b3aa6ccc2f3)
+        ;
+
+        
+    
+    
+            feature_group_93609f74f915529fa370f1cdc0d06333.addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+        
+    
+            var circle_marker_c85d7f49d91b5e0549f58049627b5065 = L.circleMarker(
+                [37.89641986856612, -122.24432395871189],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;blue&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;blue&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 5, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+        
+    
+        var popup_d13081e27d389c166026faaf092c5ab0 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_afd6967e1dfa495caa6744300de37a93 = $(`&lt;div id=&quot;html_afd6967e1dfa495caa6744300de37a93&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;         &lt;b&gt;Lake Anza Area&lt;/b&gt;&lt;br&gt;         Time: 2025-10-07 10:00:00&lt;br&gt;         Alt: 231m&lt;br&gt;         Temp: 19.2°C&lt;br&gt;         Humidity: 81.0%&lt;br&gt;         Pressure: 1012.7 hPa&lt;br&gt;         VOC: 65260Ω         &lt;/div&gt;`)[0];
+                popup_d13081e27d389c166026faaf092c5ab0.setContent(html_afd6967e1dfa495caa6744300de37a93);
+            
+        
+
+        circle_marker_c85d7f49d91b5e0549f58049627b5065.bindPopup(popup_d13081e27d389c166026faaf092c5ab0)
+        ;
+
+        
+    
+    
+            var circle_marker_f7eb0182f849adfbc3196f2c87927824 = L.circleMarker(
+                [37.89705803683434, -122.24382872421542],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;blue&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;blue&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 5, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+        
+    
+        var popup_14eaf2667e083abfb03db289467b36b0 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_431f280caecee433eb8c6dddbefe03af = $(`&lt;div id=&quot;html_431f280caecee433eb8c6dddbefe03af&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;         &lt;b&gt;Lake Anza Area&lt;/b&gt;&lt;br&gt;         Time: 2025-10-07 10:00:10&lt;br&gt;         Alt: 239m&lt;br&gt;         Temp: 19.0°C&lt;br&gt;         Humidity: 79.2%&lt;br&gt;         Pressure: 1013.0 hPa&lt;br&gt;         VOC: 65221Ω         &lt;/div&gt;`)[0];
+                popup_14eaf2667e083abfb03db289467b36b0.setContent(html_431f280caecee433eb8c6dddbefe03af);
+            
+        
+
+        circle_marker_f7eb0182f849adfbc3196f2c87927824.bindPopup(popup_14eaf2667e083abfb03db289467b36b0)
+        ;
+
+        
+    
+    
+            var circle_marker_263cdd7fdf11177e48ce33ddb1375f51 = L.circleMarker(
+                [37.897613300506904, -122.24340824280065],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 5, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+        
+    
+        var popup_a740e386a8f34dfb529fd2c14f5c76fc = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_7beba0a48738735c6bf45a053f53a4b4 = $(`&lt;div id=&quot;html_7beba0a48738735c6bf45a053f53a4b4&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;         &lt;b&gt;Mid-Trail&lt;/b&gt;&lt;br&gt;         Time: 2025-10-07 10:00:20&lt;br&gt;         Alt: 249m&lt;br&gt;         Temp: 19.1°C&lt;br&gt;         Humidity: 73.2%&lt;br&gt;         Pressure: 1013.2 hPa&lt;br&gt;         VOC: 62694Ω         &lt;/div&gt;`)[0];
+                popup_a740e386a8f34dfb529fd2c14f5c76fc.setContent(html_7beba0a48738735c6bf45a053f53a4b4);
+            
+        
+
+        circle_marker_263cdd7fdf11177e48ce33ddb1375f51.bindPopup(popup_a740e386a8f34dfb529fd2c14f5c76fc)
+        ;
+
+        
+    
+    
+            var circle_marker_37eca6bfd8b22c1b4bbfe908f3e046a8 = L.circleMarker(
+                [37.89849123026386, -122.24247040637775],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;green&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 5, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+        
+    
+        var popup_0ee8d3dce514f1ee01fbba88acebbc6b = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_ac3e6f58266f8697a66783cc8901660f = $(`&lt;div id=&quot;html_ac3e6f58266f8697a66783cc8901660f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;         &lt;b&gt;Mid-Trail&lt;/b&gt;&lt;br&gt;         Time: 2025-10-07 10:00:30&lt;br&gt;         Alt: 266m&lt;br&gt;         Temp: 18.7°C&lt;br&gt;         Humidity: 69.9%&lt;br&gt;         Pressure: 1013.0 hPa&lt;br&gt;         VOC: 58506Ω         &lt;/div&gt;`)[0];
+                popup_0ee8d3dce514f1ee01fbba88acebbc6b.setContent(html_ac3e6f58266f8697a66783cc8901660f);
+            
+        
+
+        circle_marker_37eca6bfd8b22c1b4bbfe908f3e046a8.bindPopup(popup_0ee8d3dce514f1ee01fbba88acebbc6b)
+        ;
+
+        
+    
+    
+            var circle_marker_7cebb5a43ae62f80d5c348b0aaaae65f = L.circleMarker(
+                [37.8995634604946, -122.24173672309809],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 5, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+        
+    
+        var popup_08c032ce1e419dadcf49e1d804176736 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_bedde8de24c068eb94cced289b26032a = $(`&lt;div id=&quot;html_bedde8de24c068eb94cced289b26032a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;         &lt;b&gt;Wildcat Canyon Area&lt;/b&gt;&lt;br&gt;         Time: 2025-10-07 10:00:40&lt;br&gt;         Alt: 293m&lt;br&gt;         Temp: 18.6°C&lt;br&gt;         Humidity: 62.5%&lt;br&gt;         Pressure: 1012.4 hPa&lt;br&gt;         VOC: 53554Ω         &lt;/div&gt;`)[0];
+                popup_08c032ce1e419dadcf49e1d804176736.setContent(html_bedde8de24c068eb94cced289b26032a);
+            
+        
+
+        circle_marker_7cebb5a43ae62f80d5c348b0aaaae65f.bindPopup(popup_08c032ce1e419dadcf49e1d804176736)
+        ;
+
+        
+    
+    
+            var circle_marker_885f1e290ef36afe78fa3107f025d531 = L.circleMarker(
+                [37.900148587310255, -122.24134783558515],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;orange&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;orange&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 5, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+        
+    
+        var popup_17c3c272b8b309dda746d61f3217050c = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_22acbd8ba42c37d8a5bf4ebbb526131c = $(`&lt;div id=&quot;html_22acbd8ba42c37d8a5bf4ebbb526131c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;         &lt;b&gt;Wildcat Canyon Area&lt;/b&gt;&lt;br&gt;         Time: 2025-10-07 10:00:50&lt;br&gt;         Alt: 325m&lt;br&gt;         Temp: 17.1°C&lt;br&gt;         Humidity: 57.2%&lt;br&gt;         Pressure: 1012.3 hPa&lt;br&gt;         VOC: 51397Ω         &lt;/div&gt;`)[0];
+                popup_17c3c272b8b309dda746d61f3217050c.setContent(html_22acbd8ba42c37d8a5bf4ebbb526131c);
+            
+        
+
+        circle_marker_885f1e290ef36afe78fa3107f025d531.bindPopup(popup_17c3c272b8b309dda746d61f3217050c)
+        ;
+
+        
+    
+    
+            var marker_d6f20010e527aeba8b2adf1ae663fb31 = L.marker(
+                [37.89641986856612, -122.24432395871189],
+                {
+}
+            ).addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+        
+    
+            var icon_4e78da785d6c3472b1d5940bf0996e1c = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;green&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;play&quot;,
+  &quot;prefix&quot;: &quot;glyphicon&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_db7b7675655a7b6fef4d11f4f8529e57 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_ad1ae748ccf6ad47313338fb6f98dacc = $(`&lt;div id=&quot;html_ad1ae748ccf6ad47313338fb6f98dacc&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;START: Lake Anza Beach&lt;/b&gt;&lt;br&gt;Humid lakeside&lt;/div&gt;`)[0];
+                popup_db7b7675655a7b6fef4d11f4f8529e57.setContent(html_ad1ae748ccf6ad47313338fb6f98dacc);
+            
+        
+
+        marker_d6f20010e527aeba8b2adf1ae663fb31.bindPopup(popup_db7b7675655a7b6fef4d11f4f8529e57)
+        ;
+
+        
+    
+    
+                marker_d6f20010e527aeba8b2adf1ae663fb31.setIcon(icon_4e78da785d6c3472b1d5940bf0996e1c);
+            
+    
+            var marker_987bd66911fe0a96bf2d781d66fa3f3e = L.marker(
+                [37.90095853586739, -122.24063021765417],
+                {
+}
+            ).addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+        
+    
+            var icon_c049610a8982fae5578a1f161c4b2526 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;red&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;stop&quot;,
+  &quot;prefix&quot;: &quot;glyphicon&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_f0ffcdc5ee9d68ca8c9b30ad5c0fc3d6 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_566d04a836daed90fe24c9455ae56ada = $(`&lt;div id=&quot;html_566d04a836daed90fe24c9455ae56ada&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;END: Wildcat Canyon Rd&lt;/b&gt;&lt;br&gt;Drier hillside&lt;/div&gt;`)[0];
+                popup_f0ffcdc5ee9d68ca8c9b30ad5c0fc3d6.setContent(html_566d04a836daed90fe24c9455ae56ada);
+            
+        
+
+        marker_987bd66911fe0a96bf2d781d66fa3f3e.bindPopup(popup_f0ffcdc5ee9d68ca8c9b30ad5c0fc3d6)
+        ;
+
+        
+    
+    
+                marker_987bd66911fe0a96bf2d781d66fa3f3e.setIcon(icon_c049610a8982fae5578a1f161c4b2526);
+            
+    
+            var layer_control_3130ccb8c5b1266809acad7fcfbed92b_layers = {
+                base_layers : {
+                    &quot;opentopomap&quot; : tile_layer_7419e97313ca83c96b67b9112ce9ab99,
+                },
+                overlays :  {
+                    &quot;\ud83c\udf31 Forage Zones&quot; : feature_group_93609f74f915529fa370f1cdc0d06333,
+                },
+            };
+            let layer_control_3130ccb8c5b1266809acad7fcfbed92b = L.control.layers(
+                layer_control_3130ccb8c5b1266809acad7fcfbed92b_layers.base_layers,
+                layer_control_3130ccb8c5b1266809acad7fcfbed92b_layers.overlays,
+                {
+  &quot;position&quot;: &quot;topright&quot;,
+  &quot;collapsed&quot;: true,
+  &quot;autoZIndex&quot;: true,
+}
+            ).addTo(map_cc6d2967f56ea7bd8953d53c28bc2c17);
+
+        
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
+        </div>
+        <div class="insight-box">
+            <h4>🗺️ MAP FEATURES:</h4>
+            <ul class="feature-list">
+                <li>Trail: Lake Anza Beach → Mineral Springs Trail → Wildcat Canyon Rd</li>
+                <li>60 sensor readings at 1Hz (1 minute hike)</li>
+                <li>🌱 Forage Zones: Toggle layer to see optimal seeding locations</li>
+                <li>Color coding: Blue (humid) → Green (moderate) → Orange (dry)</li>
+                <li>Click markers for detailed sensor readings</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div id="stats" class="tab-content">
+        <h2 style="margin-bottom: 20px;">📈 Statistical Analysis</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>🌡️ Temperature</h3>
+                <div class="stat-row">
+                    <span class="stat-label">Average:</span>
+                    <span class="stat-value">18.3°C</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Min:</span>
+                    <span class="stat-value">16.5°C</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Max:</span>
+                    <span class="stat-value">19.7°C</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>💧 Humidity</h3>
+                <div class="stat-row">
+                    <span class="stat-label">Average:</span>
+                    <span class="stat-value">68.8%</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Min:</span>
+                    <span class="stat-value">54.4%</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Max:</span>
+                    <span class="stat-value">83.2%</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>⛰️ Altitude</h3>
+                <div class="stat-row">
+                    <span class="stat-label">Start:</span>
+                    <span class="stat-value">231m</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">End:</span>
+                    <span class="stat-value">357m</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Gain:</span>
+                    <span class="stat-value">126m</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>🌫️ VOC/Gas</h3>
+                <div class="stat-row">
+                    <span class="stat-label">Average:</span>
+                    <span class="stat-value">58534Ω</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Organic Matter:</span>
+                    <span class="stat-value">HIGH</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Soil Quality:</span>
+                    <span class="stat-value">GOOD</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="insight-box">
+            <h4>🌾 Fukuoka Natural Farming Insights:</h4>
+            <p style="line-height: 1.8; margin-top: 10px;">
+                <strong>"The land reveals itself through moisture patterns."</strong><br>
+                High humidity near Lake Anza (80%) indicates water-loving grasses thrive here.
+                As we climb toward Wildcat Canyon (55%), the terrain calls for drought-tolerant natives.
+                The 120m elevation gain brings 5°C cooling and 25% humidity drop - nature's zones are clear.
+            </p>
+            <p style="line-height: 1.8; margin-top: 15px;">
+                <strong>"Observe before intervening."</strong><br>
+                60 data points reveal the microclimate story. Cattle would prefer the middle path
+                (60-70% humidity) where forage diversity peaks. Patience in observation prevents waste in action.
+            </p>
+        </div>
+    </div>
+    
+    <div id="forage" class="tab-content">
+        <h2 style="margin-bottom: 20px;">🌱 Native Forage Species Recommendations</h2>
+        <div class="forage-grid">
+            <div class="forage-card" style="border-color: #9B59B6; box-shadow: 0 0 10px #9B59B6;">
+                <h3>🌾 Purple Needlegrass</h3>
+                <p><strong>Stipa pulchra</strong></p>
+                <p style="margin-top: 10px;">Optimal: 40-60% humidity, 250-450m</p>
+                <p style="color: #00FF00; margin-top: 10px;">✓ Found 5 suitable zones</p>
+                <p style="margin-top: 5px;">Cattle: High protein, year-round</p>
+            </div>
+            
+            <div class="forage-card" style="border-color: #F39C12; box-shadow: 0 0 10px #F39C12;">
+                <h3>🌿 California Oatgrass</h3>
+                <p><strong>Danthonia californica</strong></p>
+                <p style="margin-top: 10px;">Optimal: 50-70% humidity, 150-400m</p>
+                <p style="color: #00FF00; margin-top: 10px;">✓ Found 8 suitable zones</p>
+                <p style="margin-top: 5px;">Cattle: Early spring grazing</p>
+            </div>
+            
+            <div class="forage-card" style="border-color: #3498DB; box-shadow: 0 0 10px #3498DB;">
+                <h3>🌱 Creeping Wildrye</h3>
+                <p><strong>Leymus triticoides</strong></p>
+                <p style="margin-top: 10px;">Optimal: 60-80% humidity, 200-350m</p>
+                <p style="color: #00FF00; margin-top: 10px;">✓ Found 6 suitable zones</p>
+                <p style="margin-top: 5px;">Cattle: Summer forage</p>
+            </div>
+            
+            <div class="forage-card" style="border-color: #2ECC71; box-shadow: 0 0 10px #2ECC71;">
+                <h3>🍃 Blue Wildrye</h3>
+                <p><strong>Elymus glaucus</strong></p>
+                <p style="margin-top: 10px;">Optimal: 35-55% humidity, 250-500m</p>
+                <p style="color: #00FF00; margin-top: 10px;">✓ Found 4 suitable zones</p>
+                <p style="margin-top: 5px;">Cattle: Spring/fall forage</p>
+            </div>
+            
+            <div class="forage-card" style="border-color: #E67E22; box-shadow: 0 0 10px #E67E22;">
+                <h3>🌾 California Brome</h3>
+                <p><strong>Bromus carinatus</strong></p>
+                <p style="margin-top: 10px;">Optimal: 45-65% humidity, 180-380m</p>
+                <p style="color: #00FF00; margin-top: 10px;">✓ Found 7 suitable zones</p>
+                <p style="margin-top: 5px;">Cattle: Quick establishment</p>
+            </div>
+        </div>
+        
+        <div class="insight-box">
+            <h4>🐄 Seeding Strategy:</h4>
+            <ul class="feature-list">
+                <li>Conservative approach: Only seed where conditions are ideal (>65% suitability)</li>
+                <li>Top 15% of trail marked for each species</li>
+                <li>Zones based on: Humidity match + Altitude match + Soil organic matter (VOC)</li>
+                <li>Best results: Spring seeding after first rains</li>
+                <li>Expected germination: 65-85% in optimal zones</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div id="features" class="tab-content">
+        <h2 style="margin-bottom: 20px;">⚡ System Features</h2>
+        
+        <div class="stat-card">
+            <h3>🎯 Real-Time Data Collection</h3>
+            <ul class="feature-list">
+                <li>BME680 sensor: Temperature, Humidity, Pressure, VOC/Gas</li>
+                <li>GPS tracking: Coordinates + Altitude</li>
+                <li>1Hz continuous logging from power-on to power-off</li>
+                <li>Touch-enabled Raspberry Pi display</li>
+                <li>Beautiful tree ring visualization</li>
+            </ul>
+        </div>
+        
+        <div class="stat-card">
+            <h3>🗺️ Analysis Suite</h3>
+            <ul class="feature-list">
+                <li>Interactive topographic maps (OpenTopoMap)</li>
+                <li>Terrain-based microclimate analysis</li>
+                <li>Multi-log aggregate view (16,620+ data points)</li>
+                <li>Forage prediction zones with confidence scores</li>
+                <li>Fukuoka natural farming insights</li>
+                <li>Statistical analysis and graphing</li>
+            </ul>
+        </div>
+        
+        <div class="stat-card">
+            <h3>🌱 Bioforage Intelligence</h3>
+            <ul class="feature-list">
+                <li>5 native East Bay species recommendations</li>
+                <li>Suitability scoring: Humidity + Altitude + VOC</li>
+                <li>Conservative seeding (top 15% of trail)</li>
+                <li>Terrain extrapolation beyond surveyed areas</li>
+                <li>Cattle grazing optimization</li>
+            </ul>
+        </div>
+        
+        <div class="insight-box">
+            <h4>📊 Historical Data Coverage:</h4>
+            <p style="margin-top: 10px;">10 trails covering entire Tilden Regional Park:</p>
+            <ul class="feature-list">
+                <li>Nimitz Way (exposed ridge, 48% humidity)</li>
+                <li>Wildcat Creek Trail (creek bed, 85% humidity)</li>
+                <li>Jewel Lake Loop (lake shore, 82% humidity)</li>
+                <li>Big Springs Trail (spring-fed, 78% humidity)</li>
+                <li>Plus 6 more diverse microclimates</li>
+            </ul>
+        </div>
+        
+        <div class="animal-art">🐄🐑🌾🌿🌱</div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            // Show selected tab
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+    </script>
+</body>
+</html>
