@@ -177,9 +177,13 @@ class DataViewer(QMainWindow):
         # Top control panel - Cyberpunk style
         control_panel = QHBoxLayout()
         
-        self.load_btn = QPushButton("⚡ LOAD DATA")
+        self.load_btn = QPushButton("⚡ LOAD FILES")
         self.load_btn.clicked.connect(self.load_csv_data)
         control_panel.addWidget(self.load_btn)
+        
+        self.load_all_btn = QPushButton("📊 LOAD ALL LOGS")
+        self.load_all_btn.clicked.connect(self.load_all_historical_logs)
+        control_panel.addWidget(self.load_all_btn)
         
         self.demo_btn = QPushButton("� DEMO MODE")
         self.demo_btn.clicked.connect(self.load_demo_data)
@@ -530,6 +534,176 @@ class DataViewer(QMainWindow):
             
         except Exception as e:
             self.status_label.setText(f"⚠️ ERROR • UPLINK FAILED: {e}")
+    
+    def load_all_historical_logs(self):
+        """Load all historical log files from the current directory for aggregate analysis"""
+        try:
+            # Find all rake_log CSV files in current directory
+            log_files = glob.glob('rake_log_*.csv')
+            
+            if not log_files:
+                self.status_label.setText("⚠️ NO LOG FILES FOUND • Generate them first")
+                return
+            
+            self.status_label.setText(f"⚙️ LOADING {len(log_files)} LOG FILES...")
+            
+            # Store each trail as a separate dataset for colored display
+            self.trail_datasets = []
+            all_data = []
+            
+            for file_path in sorted(log_files):
+                df = pd.read_csv(file_path, comment='#')
+                df['timestamp'] = pd.to_datetime(df['timestamp'])
+                
+                # Extract trail name from filename
+                trail_name = file_path.replace('rake_log_', '').replace('.csv', '')
+                df['trail_name'] = trail_name
+                
+                # Filter out rows without GPS
+                df = df[df['latitude'].notna() & df['longitude'].notna()]
+                
+                if len(df) > 0:
+                    self.trail_datasets.append({
+                        'name': trail_name,
+                        'data': df,
+                        'color': self.get_trail_color(len(self.trail_datasets))
+                    })
+                    all_data.append(df)
+            
+            if not all_data:
+                self.status_label.setText("⚠️ NO VALID DATA • Check log files")
+                return
+            
+            # Combine all data
+            self.data = pd.concat(all_data, ignore_index=True)
+            self.data = self.data.sort_values('timestamp')
+            
+            self.demo_mode = False
+            total_points = len(self.data)
+            total_trails = len(self.trail_datasets)
+            
+            self.status_label.setText(
+                f"⬢ AGGREGATE LOADED • {total_trails} TRAILS • {total_points} POINTS • "
+                f"🌍 TERRAIN ANALYSIS ACTIVE"
+            )
+            
+            # Update all views with aggregate data
+            self.update_map_with_multiple_trails()
+            self.update_graph()
+            self.update_statistics()
+            self.update_forage_analysis()
+            
+        except Exception as e:
+            self.status_label.setText(f"⚠️ ERROR • LOADING FAILED: {e}")
+            print(f"Error loading logs: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def get_trail_color(self, index):
+        """Get a distinct color for each trail"""
+        colors = [
+            '#FF00FF',  # Magenta
+            '#00FFFF',  # Cyan
+            '#FFFF00',  # Yellow
+            '#FF6600',  # Orange
+            '#00FF00',  # Green
+            '#FF0099',  # Pink
+            '#0099FF',  # Blue
+            '#99FF00',  # Lime
+            '#FF3366',  # Red-pink
+            '#66FF99',  # Mint
+            '#9933FF',  # Purple
+            '#FFCC00',  # Gold
+        ]
+        return colors[index % len(colors)]
+    
+    def update_map_with_multiple_trails(self):
+        """Create map showing all trails with different colors and aggregate predictions"""
+        if not hasattr(self, 'trail_datasets') or len(self.trail_datasets) == 0:
+            self.update_map()  # Fall back to regular map
+            return
+        
+        # Calculate center from all data
+        center_lat = self.data['latitude'].mean()
+        center_lon = self.data['longitude'].mean()
+        
+        # Create map
+        m = folium.Map(
+            location=[center_lat, center_lon],
+            zoom_start=14,  # Zoom out to see all trails
+            tiles='OpenTopoMap',
+            control_scale=True
+        )
+        
+        # Add alternative tile layers
+        folium.TileLayer('OpenStreetMap').add_to(m)
+        folium.TileLayer(
+            tiles='https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg',
+            attr='Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.',
+            name='Terrain',
+            overlay=False,
+            control=True
+        ).add_to(m)
+        
+        # Add each trail as a separate layer
+        for trail_info in self.trail_datasets:
+            trail_name = trail_info['name']
+            trail_data = trail_info['data']
+            trail_color = trail_info['color']
+            
+            # Create feature group for this trail
+            trail_layer = folium.FeatureGroup(name=f"🥾 {trail_name}", show=True)
+            
+            # Add path line for trail
+            points = list(zip(trail_data['latitude'], trail_data['longitude']))
+            folium.PolyLine(
+                points,
+                color=trail_color,
+                weight=3,
+                opacity=0.7,
+                popup=f"<b>{trail_name}</b><br>{len(trail_data)} data points"
+            ).add_to(trail_layer)
+            
+            # Add start/end markers for each trail
+            first = trail_data.iloc[0]
+            last = trail_data.iloc[-1]
+            
+            folium.CircleMarker(
+                [first['latitude'], first['longitude']],
+                radius=8,
+                color=trail_color,
+                fill=True,
+                fillColor=trail_color,
+                fillOpacity=0.8,
+                popup=f"<b>START:</b> {trail_name}<br>Alt: {first['altitude']:.0f}m<br>Humid: {first['humidity']:.1f}%"
+            ).add_to(trail_layer)
+            
+            folium.CircleMarker(
+                [last['latitude'], last['longitude']],
+                radius=8,
+                color=trail_color,
+                fill=True,
+                fillColor='white',
+                fillOpacity=0.6,
+                popup=f"<b>END:</b> {trail_name}<br>Alt: {last['altitude']:.0f}m<br>Humid: {last['humidity']:.1f}%"
+            ).add_to(trail_layer)
+            
+            trail_layer.add_to(m)
+        
+        # Add aggregate bioforage prediction zones using ALL data
+        self.add_forage_prediction_zones(m)
+        
+        # Add aggregate heat map layer showing data density
+        heat_data = [[row['latitude'], row['longitude']] for _, row in self.data.iterrows()]
+        plugins.HeatMap(heat_data, name='🔥 Data Density Heatmap', show=False, radius=15, blur=20).add_to(m)
+        
+        # Add layer control
+        folium.LayerControl().add_to(m)
+        
+        # Save and display
+        map_file = '/tmp/tilden_aggregate_map.html'
+        m.save(map_file)
+        self.map_view.setUrl(QUrl.fromLocalFile(map_file))
     
     def update_map(self):
         """Create and display interactive map"""
